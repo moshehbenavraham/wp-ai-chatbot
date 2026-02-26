@@ -1,0 +1,2 @@
+# Ignore Windows alternate data stream artifacts copied into Linux.
+*:Zone.Identifier
