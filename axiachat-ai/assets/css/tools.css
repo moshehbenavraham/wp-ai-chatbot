@@ -1,0 +1,8 @@
+#aichat-tools-builder .aichat-block-title{font-weight:600;margin-bottom:6px;border-left:4px solid #0d6efd;padding-left:8px;font-size:13px;letter-spacing:.5px;color:#0d2c4d;text-transform:uppercase}
+#aichat-tools-builder .card{background:#fff;border-radius:6px}
+#aichat-tools-builder .condition-row,#aichat-tools-builder .action-row{background:#f8f9fb;padding:6px 8px;border-radius:4px}
+#aichat-tools-builder .condition-row:not(:last-child),#aichat-tools-builder .action-row:not(:last-child){margin-bottom:6px}
+#aichat-tools-builder .aichat-add-condition,.aichat-add-action{margin-top:4px}
+#aichat-tools-panel-header{display:flex;gap:12px;align-items:center;margin-bottom:16px}
+#aichat-tools-panel-header h2{margin:0;font-size:20px}
+#aichat-tools-save{min-width:120px}

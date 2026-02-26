@@ -1,0 +1,1167 @@
+/* MXChat Actions Manager Styles (formerly Intents) */
+#wpcontent {
+    padding-left: 0px;
+}
+
+.auto-fold #wpcontent {
+    padding-left: 0px;
+}
+
+/* Base Styles & Layout */
+.mxchat-wrapper {
+    width: 100%; /* Add 40px to account for left and right padding */
+    padding: 0px;
+    margin: 0px;
+    background-color: #f8f9ff;
+    min-height: 100vh;
+}
+
+.mxchat-hero {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 30px 0;
+}
+
+.mxchat-main-title {
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.mxchat-gradient-text {
+    background: linear-gradient(90deg, #7873f5, #fa73e6);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.mxchat-hero-subtitle {
+    font-size: 16px;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Actions Header Styles */
+.mxchat-actions-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 0 35px;
+}
+
+.mxchat-actions-filters {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex: 1;
+}
+
+.mxchat-search-form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+}
+
+.mxchat-search-group {
+    position: relative;
+    flex: 1;
+}
+
+.mxchat-search-group .dashicons {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+}
+
+.mxchat-search-input {
+    padding: 10px 15px 10px 40px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    width: 100%;
+}
+
+.mxchat-action-filter {
+    min-width: 180px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+/* Cards Grid Layout */
+.mxchat-actions-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding: 25px;
+}
+
+.mxchat-category-section {
+    margin-bottom: 20px;
+}
+
+.mxchat-category-title {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 15px;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.mxchat-category-title .dashicons {
+    color: #7873f5;
+}
+
+.mxchat-cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 20px;
+    padding: 10px;
+}
+
+/* Action Card Styling */
+.mxchat-action-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.mxchat-action-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
+}
+
+.mxchat-card-header {
+    padding: 20px;
+    background: #f9f9f9;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mxchat-card-title {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.mxchat-card-body {
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.mxchat-card-description {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.mxchat-card-phrases {
+    margin-bottom: 15px;
+}
+
+.mxchat-phrases-preview {
+    font-size: 13px;
+    color: #666;
+    margin-top: 5px;
+    padding: 10px;
+    background: #f9f9f9;
+    border-radius: 4px;
+    border-left: 3px solid #7873f5;
+}
+
+.mxchat-card-footer {
+    padding: 15px 20px;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+/* Toggle Switch */
+.mxchat-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.mxchat-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.mxchat-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+
+.mxchat-slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+}
+
+.mxchat-switch input:checked + .mxchat-slider {
+    background: linear-gradient(90deg, #7873f5, #fa73e6);
+}
+
+.mxchat-switch input:focus + .mxchat-slider {
+    box-shadow: 0 0 1px #7873f5;
+}
+
+.mxchat-switch input:checked + .mxchat-slider:before {
+    transform: translateX(26px);
+}
+
+.mxchat-slider.round {
+    border-radius: 34px;
+}
+
+.mxchat-slider.round:before {
+    border-radius: 50%;
+}
+
+/* Threshold Styling */
+.mxchat-threshold-control {
+    margin-top: 5px;
+}
+
+.mxchat-threshold-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.mxchat-threshold-value {
+    background: rgba(120, 115, 245, 0.1);
+    padding: 3px 8px;
+    border-radius: 4px;
+    color: #7873f5;
+    font-weight: 500;
+}
+
+.mxchat-threshold-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+}
+
+.mxchat-slider-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    position: relative;
+}
+
+.mxchat-threshold-slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(120, 115, 245, 0.1);
+    outline: none;
+    margin: 10px 0;
+}
+
+.mxchat-threshold-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #fa73e6, #7873f5);
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.mxchat-threshold-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #fa73e6, #7873f5);
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.mxchat-threshold-output {
+    min-width: 60px;
+    display: none;
+}
+
+.mxchat-threshold-save {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #7873f5;
+}
+
+.mxchat-threshold-save:hover {
+    color: #fa73e6;
+}
+
+.mxchat-threshold-hint {
+    font-size: 12px;
+    color: #777;
+    margin-top: 5px;
+}
+
+/* New Action Card */
+.mxchat-new-action-card {
+    background: rgba(120, 115, 245, 0.05);
+    border: 2px dashed rgba(120, 115, 245, 0.2);
+    box-shadow: none;
+}
+
+.mxchat-new-action-card:hover {
+    background: rgba(120, 115, 245, 0.08);
+    border-color: rgba(120, 115, 245, 0.3);
+    box-shadow: none;
+}
+
+.mxchat-card-new-action {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.mxchat-new-action-button {
+    background: none;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    color: #7873f5;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 15px;
+}
+
+.mxchat-new-action-button:hover {
+    transform: scale(1.05);
+}
+
+.mxchat-new-action-button .dashicons {
+    font-size: 30px;
+    width: 30px;
+    height: 30px;
+    color: #7873f5;
+}
+
+/* Buttons */
+.mxchat-button-primary {
+    background: linear-gradient(135deg, #7873f5, #fa73e6);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.mxchat-button-primary:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.mxchat-button-secondary {
+    background: #f5f5f5;
+    color: #333;
+    border: 1px solid #ddd;
+    padding: 9px 18px;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.mxchat-button-secondary:hover {
+    background: #eee;
+}
+
+.mxchat-button-text {
+    background: none;
+    border: none;
+    color: #666;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.mxchat-button-text:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: #333;
+}
+
+.mxchat-delete-button {
+    color: #ff4d4d;
+}
+
+.mxchat-delete-button:hover {
+    background: rgba(255, 77, 77, 0.1);
+    color: #ff4d4d;
+}
+
+/* Form Action Styling */
+.mxchat-form-action {
+    border-left: 4px solid #4caf50;
+}
+
+.mxchat-form-action .mxchat-card-header {
+    background: rgba(76, 175, 80, 0.05);
+}
+
+
+/* Empty State */
+.mxchat-no-actions {
+    display: flex;
+    justify-content: center;
+    padding: 60px 0;
+}
+
+.mxchat-empty-state {
+    text-align: center;
+    max-width: 500px;
+    padding: 40px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.mxchat-empty-state .dashicons {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    color: #7873f5;
+    margin-bottom: 20px;
+}
+
+.mxchat-empty-state h2 {
+    margin-bottom: 15px;
+    font-size: 24px;
+}
+
+.mxchat-empty-state p {
+    margin-bottom: 25px;
+    color: #666;
+}
+
+/* Loading Spinner */
+.mxchat-action-loading {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.95);
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(120, 115, 245, 0.15);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 100001;
+    min-width: 200px;
+    text-align: center;
+}
+
+.mxchat-action-loading-spinner {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #7873f5;
+    border-right-color: #7873f5;
+    animation: mxchatActionSpin 0.8s linear infinite;
+    margin-bottom: 15px;
+}
+
+.mxchat-action-loading-text {
+    color: #333;
+    font-weight: 500;
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+}
+
+@keyframes mxchatActionSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Form Elements */
+.mxchat-form-group {
+    margin-bottom: 25px;
+}
+
+.mxchat-form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #333;
+}
+
+.mxchat-intent-input,
+.mxchat-intent-select,
+.mxchat-intent-textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid rgba(120, 115, 245, 0.2);
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.mxchat-intent-textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.mxchat-intent-input:focus,
+.mxchat-intent-select:focus,
+.mxchat-intent-textarea:focus {
+    border-color: #7873f5;
+    box-shadow: 0 0 0 3px rgba(120, 115, 245, 0.1);
+    outline: none;
+}
+
+/* Modal slider */
+.modal-slider {
+    margin: 20px 0 10px;
+}
+
+/* Pagination */
+.mxchat-pagination {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.mxchat-pagination .page-numbers {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    margin: 0 5px;
+    border-radius: 8px;
+    background: white;
+    border: 1px solid #ddd;
+    text-decoration: none;
+    font-weight: 500;
+    color: #333;
+    transition: all 0.2s ease;
+}
+
+.mxchat-pagination .page-numbers.current {
+    background: #7873f5;
+    color: white;
+    border-color: #7873f5;
+}
+
+.mxchat-pagination .page-numbers:hover:not(.current) {
+    background: #f5f5f5;
+}
+
+.mxchat-pagination .prev,
+.mxchat-pagination .next {
+    width: auto;
+    padding: 0 15px;
+}
+
+/* Responsive Adjustments */
+@media screen and (max-width: 782px) {
+    .mxchat-cards-container {
+        grid-template-columns: 1fr;
+    }
+    .mxchat-card-header {
+        flex-direction: row;
+    }
+    
+    .mxchat-actions-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+    
+    .mxchat-actions-filters,
+    .mxchat-search-form {
+        width: 100%;
+        flex-direction: column;
+    }
+    
+    .mxchat-action-filter,
+    .mxchat-search-input {
+        width: 100%;
+    }
+    
+    .mxchat-modal-actions {
+        flex-direction: column-reverse;
+    }
+    
+    .mxchat-modal-actions button {
+        width: 100%;
+    }
+    
+    .mxchat-card-footer {
+        flex-direction: column;
+    }
+    
+    .mxchat-card-footer button,
+    .mxchat-card-footer a {
+        justify-content: center;
+    }
+    
+    .mxchat-search-group {
+        width: 100%;
+    }
+    .mxchat-button-secondary {
+        width: 100%;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Modal Styles with Improved Scrolling */
+.mxchat-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 100000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    padding: 30px 0;
+}
+
+.mxchat-modal.active {
+    display: flex;
+    align-items: flex-start; /* Changed from center to allow scrolling from top */
+    justify-content: center;
+    opacity: 1;
+}
+
+/* Enhanced Modal Content with Styled Scrollbar */
+.mxchat-modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 1000px;
+    position: relative;
+    transform: translateY(-20px);
+    transition: transform 0.3s ease;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    margin: auto; /* Center horizontally */
+    max-height: 80vh; /* Use viewport height for better responsiveness */
+    overflow-y: auto;
+    overflow-x: hidden; /* Prevent horizontal scrollbar */
+    
+    /* Styled scrollbar - Webkit browsers (Chrome, Safari, Edge) */
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
+    
+    &::-webkit-scrollbar-track {
+        background: transparent;
+        margin: 4px 0; /* Add some margin to prevent touching edges */
+    }
+    
+    &::-webkit-scrollbar-thumb {
+        background: rgba(120, 115, 245, 0.3);
+        border-radius: 4px;
+        transition: background 0.2s ease;
+    }
+    
+    &::-webkit-scrollbar-thumb:hover {
+        background: rgba(120, 115, 245, 0.5);
+    }
+    
+    /* Firefox scrollbar styling */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(120, 115, 245, 0.3) transparent;
+}
+
+/* When using older CSS syntax for broader compatibility */
+.mxchat-modal-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.mxchat-modal-content::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 4px 0;
+}
+
+.mxchat-modal-content::-webkit-scrollbar-thumb {
+    background: rgba(120, 115, 245, 0.3);
+    border-radius: 4px;
+}
+
+.mxchat-modal-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(120, 115, 245, 0.5);
+}
+
+.mxchat-modal.active .mxchat-modal-content {
+    transform: translateY(0);
+}
+
+.mxchat-modal-header {
+    margin: -30px -30px 30px -30px;
+    padding: 20px 30px;
+    border-bottom: 1px solid rgba(120, 115, 245, 0.1);
+}
+
+.mxchat-modal-close {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    font-size: 24px;
+    color: #666;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    z-index: 1; /* Ensure it's above other content */
+}
+
+.mxchat-modal-close:hover {
+    background: rgba(120, 115, 245, 0.1);
+    color: #7873f5;
+}
+
+.mxchat-modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(120, 115, 245, 0.1);
+}
+
+/* Action Types Grid - Remove fixed height */
+.mxchat-action-types-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px; 
+    /* Removed max-height and overflow-y to let the modal container handle scrolling */
+    padding-right: 5px;
+}
+
+/* Add these rules to your CSS */
+.mxchat-action-type-card[data-pro="false"] {
+    order: 1; /* Lower numbers displayed first */
+}
+.mxchat-action-type-card[data-pro="true"] {
+    order: 2;
+}
+
+/* Step-Based Modal Styles */
+.mxchat-action-step {
+    display: none;
+}
+
+.mxchat-action-step.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.mxchat-step-indicator {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(120, 115, 245, 0.1);
+}
+
+.mxchat-step-number {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7873f5, #fa73e6);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    margin-right: 12px;
+    font-size: 14px;
+}
+
+.mxchat-step-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+}
+
+.mxchat-selected-action {
+    background: #f8f9ff;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 25px;
+    animation: fadeIn 0.3s ease;
+}
+
+.mxchat-back-button {
+    background: none;
+    border: none;
+    color: #7873f5;
+    padding: 0;
+    margin-bottom: 15px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.2s ease;
+}
+
+.mxchat-back-button:hover {
+    color: #fa73e6;
+    transform: translateX(-3px);
+}
+
+.mxchat-back-button .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+
+.mxchat-selected-action-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.mxchat-selected-action-details h3 {
+    margin: 0 0 5px 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.mxchat-selected-action-details p {
+    margin: 0;
+    font-size: 13px;
+    color: #666;
+}
+
+/* Action Type Selector Styles */
+.mxchat-action-type-selector {
+    background: #f8f9ff;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: inset 0 0 0 1px rgba(120, 115, 245, 0.1);
+}
+
+.mxchat-action-type-search {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.mxchat-action-type-search .dashicons {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+}
+
+.mxchat-action-type-search-input {
+    width: 100%;
+    padding: 10px 15px 10px 40px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    padding-left: 40px !important;
+}
+
+.mxchat-action-type-categories {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.mxchat-category-button {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    padding: 6px 15px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.mxchat-category-button:hover {
+    background: #f5f5f5;
+}
+
+.mxchat-category-button.active {
+    background: #7873f5;
+    color: white;
+    border-color: #7873f5;
+}
+
+.mxchat-action-type-card {
+    display: flex;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #eee;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    align-items: center;
+    gap: 15px;
+}
+
+.mxchat-action-type-card:hover {
+    background: #f9f9ff;
+    border-color: rgba(120, 115, 245, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.mxchat-action-type-card.selected {
+    background: rgba(120, 115, 245, 0.05);
+    border-color: #7873f5;
+    box-shadow: 0 0 0 2px rgba(120, 115, 245, 0.2);
+}
+
+.mxchat-action-type-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: rgba(120, 115, 245, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.mxchat-action-type-icon .dashicons {
+    color: #7873f5;
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+}
+
+.mxchat-action-type-icon.pro-feature {
+    background: linear-gradient(135deg, #7873f5, #fa73e6);
+}
+
+.mxchat-action-type-icon.pro-feature .dashicons {
+    color: white;
+}
+
+.mxchat-action-type-info {
+    flex: 1;
+}
+
+.mxchat-action-type-info h4 {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.mxchat-action-type-info p {
+    margin: 0;
+    font-size: 12px;
+    color: #666;
+    line-height: 1.4;
+}
+
+.mxchat-pro-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #7873f5, #fa73e6);
+    color: white;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 10px;
+    margin-top: 5px;
+    font-weight: 600;
+}
+
+/* Animation for step transitions */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animation for new cards entering the view */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.mxchat-action-type-card {
+    animation: fadeInUp 0.3s ease forwards;
+}
+
+/* Pro Feature Notice */
+.mxchat-pro-notice {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 100002;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.mxchat-pro-notice.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.mxchat-pro-notice-content {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    transform: translateY(-20px);
+    transition: transform 0.3s ease;
+}
+
+.mxchat-pro-notice.active .mxchat-pro-notice-content {
+    transform: translateY(0);
+}
+
+.mxchat-pro-notice-icon {
+    font-size: 36px;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.mxchat-pro-notice h3 {
+    margin: 0 0 10px 0;
+    font-size: 20px;
+    background: linear-gradient(135deg, #7873f5, #fa73e6);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
+
+.mxchat-pro-notice p {
+    margin: 0 0 20px 0;
+    color: #666;
+}
+
+.mxchat-pro-notice-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+/* Media queries for smaller screens */
+@media screen and (max-width: 782px) {
+    .mxchat-modal-content {
+        width: 90%;
+        padding: 10px;
+    }
+    
+    .mxchat-modal-close {
+        top: 10px;
+    }
+    
+    .mxchat-modal-header {
+        margin: -20px -20px 20px -20px;
+        padding: 15px 20px;
+    }
+    
+    .mxchat-action-types-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+    }
+    
+    .mxchat-action-type-categories {
+        overflow-x: auto;
+        padding-bottom: 10px;
+        flex-wrap: nowrap;
+    }
+}

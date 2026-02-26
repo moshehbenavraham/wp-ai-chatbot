@@ -1,0 +1,2483 @@
+# Copyright (C) 2025 MxChat
+# This file is distributed under the same license as the MxChat package.
+msgid ""
+msgstr ""
+"Project-Id-Version: MxChat 1.6.3\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/TranslateTest\n"
+"POT-Creation-Date: 2025-01-29 15:29:52+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2025-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: includes/class-mxchat-admin.php:57
+msgid "inactive"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:58
+msgid "active"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:68
+msgid ""
+"[EXAMPLE INSTRUCTIONS] You are an AI Chatbot assistant for this website. The primary subject you should focus on is [insert proper subject here]. Your main goal is to assist visitors with questions related to this specific topic. Here are some key things to keep in mind:\n"
+"        - Your name is [Chatbot Name].\n"
+"        - Stay focused on topics related to [insert proper subject here]. If a visitor asks about an unrelated topic, politely redirect the conversation to how you can assist them with this subject.\n"
+"        - Do not make up links to pages. Only use specific links you see in your knowledgebase.\n"
+"        - Keep your responses short, concise, and to the point. Provide clear and direct answers suitable for a chatbot interaction.\n"
+"        - Provide answers based on the knowledge available to you. If you do not have an answer to a specific question, let the visitor know that you don’t have the information."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:74
+msgid "gpt-4o"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:75 includes/class-mxchat-admin.php:138
+msgid "100"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:77 includes/class-mxchat-admin.php:3304
+#: includes/class-mxchat-admin.php:5137
+#: includes/class-mxchat-integrator.php:627 includes/class-mxchat-public.php:44
+#: includes/class-mxchat-public.php:116
+msgid "Rate limit exceeded. Please try again later."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:79
+msgid ""
+"<h2>Welcome to Our Chat!</h2>\n"
+"<p>Let's get started. Enter your email to begin chatting with us.</p>"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:80 includes/class-mxchat-public.php:184
+msgid "Start Chat"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:81 includes/class-mxchat-admin.php:153
+msgid "MxChat"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:82 includes/class-mxchat-admin.php:3763
+#: includes/class-mxchat-public.php:46 includes/class-mxchat-public.php:105
+msgid "Hello! How can I assist you today?"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:83 includes/class-mxchat-admin.php:3781
+#: includes/class-mxchat-admin.php:3788 includes/class-mxchat-public.php:115
+msgid "How can I assist?"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:84 includes/class-mxchat-admin.php:97
+#: includes/class-mxchat-admin.php:119
+msgid "off"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:85 includes/class-mxchat-admin.php:86
+#: includes/class-mxchat-admin.php:87 includes/class-mxchat-admin.php:90
+#: includes/class-mxchat-admin.php:95
+msgid "#fff"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:88 includes/class-mxchat-admin.php:89
+#: includes/class-mxchat-admin.php:91 includes/class-mxchat-admin.php:92
+#: includes/class-mxchat-admin.php:93 includes/class-mxchat-admin.php:94
+#: includes/class-mxchat-admin.php:122
+msgid "#212121"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:96
+msgid "0"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:98 includes/class-mxchat-admin.php:3597
+#: includes/class-mxchat-admin.php:5136
+msgid "Hey there! Ask me anything!"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:103 includes/class-mxchat-admin.php:3567
+#: includes/class-mxchat-admin.php:5140
+#: includes/class-mxchat-integrator.php:1161
+msgid "Would you like to join our mailing list? Please provide your email below."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:104 includes/class-mxchat-admin.php:3580
+#: includes/class-mxchat-admin.php:5141
+msgid "Thank you for providing your email! You've been added to our list."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:108 includes/class-mxchat-admin.php:4760
+#: includes/class-mxchat-admin.php:5142
+#: includes/class-mxchat-integrator.php:1952
+msgid "Please provide the URL to the PDF you'd like to discuss."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:109 includes/class-mxchat-admin.php:4791
+#: includes/class-mxchat-admin.php:5143
+#: includes/class-mxchat-integrator.php:1953
+#: includes/class-mxchat-integrator.php:2153
+msgid "I've processed the PDF. What questions do you have about it?"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:110 includes/class-mxchat-admin.php:4822
+#: includes/class-mxchat-admin.php:5144
+#: includes/class-mxchat-integrator.php:811
+#: includes/class-mxchat-integrator.php:1954
+#: includes/class-mxchat-integrator.php:2164
+msgid "Sorry, I couldn't process the PDF. Please ensure it's a valid file."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:117 includes/class-mxchat-admin.php:121
+msgid "#ffffff"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:118
+msgid "#333333"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:120
+msgid "#767676"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:152
+msgid "MxChat Settings"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:164
+msgid "Prompts"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:165
+msgid "Knowledge"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:174
+msgid "Chat Transcripts"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:175
+msgid "Transcripts"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:184
+msgid "MxChat Intents"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:185
+msgid "Intents"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:194 includes/class-mxchat-admin.php:195
+msgid "Pro Upgrade"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:205
+msgid "Unauthorized"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:211
+msgid "Invalid field name"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:291
+msgid "Setting saved"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:293
+msgid "Update failed or no changes"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:302 includes/class-mxchat-admin.php:313
+msgid "Dismiss this notice."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:331
+msgid "For a limited time, get lifetime access and save $20 on MxChat Pro!"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:332
+msgid "Upgrade to Pro today"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:339
+msgid "Pro users get exclusive access to"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:339
+msgid "MxChat AI Agents"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:339
+msgid "– our groundbreaking platform to test, refine, and deploy your chatbot with confidence. Take your AI assistant to the next level!"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:344 includes/class-mxchat-admin.php:1898
+msgid "Chatbot"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:345
+msgid "Integrations"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:346
+msgid "Theme"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:347
+msgid "FAQ"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:359 includes/class-mxchat-admin.php:2739
+msgid "WooCommerce Settings"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:367 includes/class-mxchat-admin.php:2747
+msgid "Loops Settings"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:376 includes/class-mxchat-admin.php:2813
+msgid "Brave Search Settings"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:385 includes/class-mxchat-admin.php:2869
+msgid "Toolbar Settings & Intents"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:395 includes/class-mxchat-admin.php:2918
+msgid "Live Agent Settings"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:396
+msgid "Visit our"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:396
+msgid "documentation page"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:396
+msgid "to set up live agent transfer via Slack."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:413
+msgid "If you’re having trouble with setup or getting the responses you need, we encourage you to review our"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:414 includes/class-mxchat-admin.php:2037
+msgid "documentation"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:414 includes/class-mxchat-admin.php:457
+msgid "or"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:415
+msgid "create a support ticket"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:418
+msgid "If you like our plugin, please consider"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:418
+msgid "leaving us a review"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:422
+msgid "How does the Claude API integration work?"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:424
+msgid "The Claude API, provided by Anthropic, allows for intelligent, context-aware chatbot responses in MxChat. To use it, you will need both an OpenAI API key and a Claude API key. This is necessary because the system utilizes OpenAI for vector embedding in the Retrieval-Augmented Generation (RAG) process, as Claude does not currently offer an embedding API."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:427
+msgid "When using the Claude API, your custom content is sent to Claude for generating responses, while the embeddings are processed through OpenAI. This ensures your chatbot provides accurate and engaging responses while maintaining knowledge relevant to your website."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:430
+msgid "You can obtain your Claude API key by signing up on the"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:430
+msgid "Anthropic API page"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:435
+msgid "How does the X.AI API integration work?"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:437
+msgid "The X.AI API, released on 10.21.24, is currently in beta. To use it, you will need both an OpenAI API key and an X.AI API key. This is because OpenAI handles vector embeddings in the Retrieval-Augmented Generation (RAG) process, as X.AI does not yet provide an embedding API."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:440
+msgid "Custom content is sent to the X.AI API for generating responses, while OpenAI processes the embeddings. This allows the chatbot to provide advanced responses while maintaining context from your website. You can get your X.AI API key from the"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:440
+msgid "X.AI API documentation"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:445
+msgid "Do I need an OpenAI API key to use the chatbot?"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:447
+msgid "Yes, you will need an OpenAI API key to power the chatbot. You can obtain an API key by signing up on the"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:447
+msgid "OpenAI platform"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:447
+msgid "After signing up, you must add credits to your account—typically, $5 in credits is sufficient to get started."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:450
+msgid "Once you have your API key, simply enter it in the chatbot's settings to enable functionality. The chatbot relies on OpenAI’s models for generating responses, so having sufficient credits in your OpenAI account is essential for smooth operation."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:455
+msgid "How do I add the chatbot to my site?"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:457
+msgid "You can add the chatbot using the shortcode"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:457
+msgid "For initial testing and styling, it's best to use the shortcode on a draft or non-public page. Once you’re ready to go live, enable the “Append Chat Widget to Body” option in the settings for site-wide integration (recommended) or add shortcode to the footer."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:462
+msgid "How does the chatbot use my content to generate responses?"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:464
+msgid "The chatbot uses AI and vector embeddings to connect users with relevant information. When you submit content, it converts it into a mathematical format. When a user asks a question, the bot matches it to your stored content and generates a response based on relevance. For example, submitting \"Our phone number is 910-123-4567\" allows the bot to retrieve this information when asked about contact details. To ensure related information is provided together, submit it in one entry."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:469
+msgid "Why does the chatbot sometimes make up links or information?"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:471
+msgid "Occasionally, the chatbot may generate inaccurate links or information, known as \"hallucinations.\" To minimize this, you can add system instructions to guide its behavior. For example, include an instruction like: \"Only provide links you directly have access to or retrieve from the knowledge base. Do not make up links or information that you do not have direct access to.\" This helps the bot stay aligned with your content."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:476
+msgid "How do intents work in MxChat?"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:478
+msgid "Intents allow MxChat to recognize user requests and trigger specific actions, such as capturing emails or displaying product information. This helps provide a more interactive and responsive experience. For a detailed explanation of each intent, please refer to our"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:478
+msgid "Intents Documentation"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:483
+msgid "How does the Complianz integration work?"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:485
+msgid "The Pro version offers direct integration with the Complianz GDPR plugin, making it easy to stay compliant with GDPR. If Complianz is enabled on your website, users must accept consent before the chatbot widget appears. The chatbot will only display once the user has accepted, ensuring compliance with data privacy regulations."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:490
+msgid "How does the WooCommerce integration work?"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:492
+msgid "With WooCommerce integration, the chatbot automatically embeds new products and updates existing ones. For already-published products, you can click update or submit the product sitemap. The “Order History Access” setting allows the bot to access users' order history (requires login) and assist with order inquiries. To enable the “Add to Cart” feature, add this system instruction: “After discussing a product, ask if the user wants to add it to their cart. The user must say 'Add to cart' exactly.” Currently, this feature supports English only, with more languages coming soon."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:497
+msgid "Why isn't my chatbot responding as expected?"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:499
+msgid "AI chatbots can sometimes behave in unexpected ways, especially if you're new to configuring AI for specific tasks. We're committed to helping you get the most out of your chatbot experience. While we’re working on comprehensive guides and video tutorials, our team is here to assist you directly. If your chatbot isn't delivering the responses you need, please don’t hesitate to"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:499
+msgid "contact us"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:499
+msgid "for personalized support."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:502
+msgid "We’re dedicated to your success and ready to guide you in aligning the AI's behavior to meet your goals."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:507
+msgid "What is Loops, and how do I get an API key?"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:509
+msgid "Loops is a powerful SaaS email service that helps you automate and enhance your email marketing campaigns, making it easy to reach and engage with your audience. To integrate Loops with MxChat, you’ll need an API key from Loops. You can obtain this key by logging into your Loops account and navigating to the API settings. Visit the"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:509
+msgid "Loops website"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:509
+msgid "to get started or to sign up for an account."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:536
+msgid "Total Chats"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:543
+msgid "Total Messages"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:550
+msgid "Unique Users"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:559
+msgid "Search transcripts..."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:568
+msgid "Select All"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:572
+msgid "Delete Selected"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:593
+msgid "All knowledge has been deleted successfully."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:627 includes/class-mxchat-admin.php:638
+msgid "Submit Content"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:631
+msgid "Article Content:"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:635
+msgid "Article URL (Optional):"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:636
+msgid "Enter related URL for the content"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:642
+msgid "Submitting content, please wait..."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:649
+msgid "Content Import Settings"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:661
+msgid "Note: Auto-sync will only work for newly published content. Existing posts and pages must be imported manually using the import options below."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:673
+msgid "Auto-sync Posts"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:686
+msgid "Auto-sync Pages"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:690
+msgid "Save Settings"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:722
+msgid "Import content from various sources:"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:725
+msgid "Sitemap URL:"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:725
+msgid "Add all pages from your sitemap"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:726
+msgid "PDF URL:"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:726
+msgid "Import content from an online PDF"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:727
+msgid "Single URL:"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:727
+msgid "Import from any webpage"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:740
+msgid "Enter URL (Sitemap, PDF, or webpage)"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:742
+msgid "URL Input"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:746
+msgid "Import"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:757
+msgid "Loading information into database, please wait..."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:763
+msgid "PDF Processing Status (Refresh page for update)"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:767
+msgid "Progress: %1$d of %2$d pages (%3$d%%)"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:777 includes/class-mxchat-admin.php:810
+msgid "Status: %s"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:785 includes/class-mxchat-admin.php:818
+msgid "Last update: %s"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:796
+msgid "Sitemap Processing Status (Refresh page for update)"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:800
+msgid "Progress: %1$d of %2$d URLs (%3$d%%)"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:833
+msgid "Stop Processing"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:850
+msgid "items"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:862
+msgid "&laquo; Previous"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:863
+msgid "Next &raquo;"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:877
+msgid "Are you sure you want to delete all prompts? This action cannot be undone."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:881
+msgid "Delete All Knowledge"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:894
+msgid "Search Knowledge"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:899
+msgid "Search"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:909
+msgid "ID"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:910
+msgid "Article Content"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:911
+msgid "URL"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:912 includes/class-mxchat-admin.php:2109
+msgid "Actions"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:935 includes/class-mxchat-integrator.php:118
+msgid "N/A"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:945 includes/class-mxchat-admin.php:2143
+msgid "Edit"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:951 includes/class-mxchat-admin.php:2135
+msgid "Save"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:959 includes/class-mxchat-admin.php:2152
+msgid "Delete"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:967
+msgid "No prompts found."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:981 includes/class-mxchat-admin.php:1011
+#: includes/class-mxchat-admin.php:1231
+msgid "Nonce verification failed."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:986
+msgid "You do not have sufficient permissions to delete all prompts."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1016
+msgid "You do not have sufficient permissions to delete prompts."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1022
+msgid "Invalid prompt ID."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1037
+msgid "default_api_key"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1041
+msgid "text-embedding-ada-002"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1046
+msgid "application/json"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1059
+msgid "You do not have sufficient permissions."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1083
+msgid "Selected chat sessions have been deleted."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1085
+msgid "No chat sessions selected for deletion."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1098
+msgid "Permission denied."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1134
+msgid "Database update failed."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1137
+msgid "Embedding generation failed."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1140
+msgid "Invalid data."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1273
+msgid "Error inserting content into the database. Please try again."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1275
+msgid "Content successfully submitted!"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1280
+msgid "Embedding generation failed. Please ensure your API key is correct and try again."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1325
+msgid "Failed to save PDF file"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1333
+msgid "Invalid PDF: no pages found"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1357 includes/class-mxchat-admin.php:1663
+msgid "scheduled"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1467 includes/class-mxchat-admin.php:1753
+msgid "ago"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1473 includes/class-mxchat-admin.php:1759
+#: includes/class-mxchat-admin.php:3198
+msgid "Unauthorized access"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1482
+msgid "Please provide a valid URL."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1493
+msgid "Failed to fetch URL"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1496
+msgid "Failed to fetch the URL: %s"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1510
+msgid "Empty response received from URL."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1528
+msgid "PDF processing has started in the background. You can check the progress in the Knowledge Base section."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1533
+msgid "Failed to start PDF processing. Please try again."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1551
+msgid "Invalid sitemap XML. Please provide a valid sitemap."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1567
+msgid "Sitemap processing has started in the background. You can check the progress in the Knowledge Base section."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1572
+msgid "Failed to start sitemap processing. Please try again."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1587
+msgid "No valid content found on the provided URL."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1602
+msgid "URL content successfully submitted!"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1607
+msgid "Failed to generate embedding for the URL content. Please check your API key and try again."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1625
+msgid "Invalid XML object provided"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1639
+msgid "No valid URLs found in sitemap"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1787
+msgid "Processing has been stopped successfully."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1819
+msgid "You do not have sufficient permissions to view this page."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1833
+msgid "No chat history available."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1876
+msgid "Session ID:"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1882
+msgid "Email:"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1904
+msgid "User"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1908
+msgid "Agent"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1912
+msgid "Unknown"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1950
+msgid "MxChat Pro: Activation"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1960 includes/class-mxchat-public.php:178
+msgid "Email Address"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1966
+msgid "Activation Key"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1973
+msgid "Activate License"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1979
+msgid "License Status:"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1979
+msgid "Active"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1979
+msgid "Inactive"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:1999
+msgid "Intent updated successfully."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2033
+msgid "Add New Intent"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2035
+msgid "We highly encourage users to quickly read our "
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2039
+msgid " to better understand intents. Some intents require setup in the Integration tab. If your intent is not triggering lower similarity threshold test."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2043
+msgid "Intent Label (For your reference only)"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2045
+msgid "Example Email Capture: Newsletter Signup"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2048 includes/class-mxchat-admin.php:2175
+msgid "Phrases (comma-separated)"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2050
+msgid "Example Email Capture: sign me up, subscribe me, I want to join, add me to the newsletter, send me updates, keep me informed"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2053 includes/class-mxchat-admin.php:2107
+msgid "Callback Function"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2055
+msgid "Select a Callback"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2077
+msgid "Add Intent"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2081
+msgid "Saving intent, please wait..."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2089
+msgid "Search Intents"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2091
+msgid "All Callbacks"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2097
+msgid "Filter"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2105
+msgid "Intent Label"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2106
+msgid "Phrases"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2108 includes/class-mxchat-admin.php:2528
+msgid "Similarity Threshold"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2147
+msgid "Are you sure you want to delete this intent?"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2160
+msgid "No intents found."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2169
+msgid "Edit Intent Phrases"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2179
+msgid "Update Phrases"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2199
+msgid "Security check failed."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2203
+msgid "You do not have permission to perform this action."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2209
+msgid "Invalid intent ID."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2214
+msgid "Phrases cannot be empty."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2221 includes/class-mxchat-admin.php:2334
+msgid "Please enter at least one valid phrase."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2231 includes/class-mxchat-admin.php:2343
+msgid "Error generating embedding for phrase: "
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2236 includes/class-mxchat-admin.php:2363
+msgid "No valid embeddings generated. Please check your phrases."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2259
+msgid "Failed to update intent."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2276 includes/class-mxchat-admin.php:2303
+#: includes/class-mxchat-admin.php:2478
+msgid "Unauthorized user"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2317
+msgid "Invalid input. Please ensure all fields are filled out."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2323
+msgid "Invalid callback function selected."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2328
+msgid "This callback function is available in the Pro version only."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2360
+msgid "Database error: "
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2378
+msgid "Email Capture"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2380 includes/class-mxchat-admin.php:2430
+#: includes/class-mxchat-admin.php:2435
+msgid "Customer Engagement"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2383
+msgid "Show Product Card"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2385 includes/class-mxchat-admin.php:2390
+#: includes/class-mxchat-admin.php:2410 includes/class-mxchat-admin.php:2415
+#: includes/class-mxchat-admin.php:2425
+msgid "WooCommerce Features"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2388
+msgid "Order History"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2393
+msgid "Generate Image"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2395 includes/class-mxchat-admin.php:2420
+#: includes/class-mxchat-admin.php:2443
+msgid "Other Features"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2398
+msgid "Brave Web Search"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2400 includes/class-mxchat-admin.php:2405
+msgid "Search Features"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2403
+msgid "Brave Image Search"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2408
+msgid "Add to Cart"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2413
+msgid "Proceed to Checkout"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2418
+msgid "Chat with PDF"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2423
+msgid "Product Recommendations"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2428
+msgid "Live Agent"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2433
+msgid "Back to Chatbot"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2520
+msgid "Chatbot Settings"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2536
+msgid "Auto-Display Chatbot"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2546
+msgid "OpenAI API Key"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2554
+msgid "X.AI API Key"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2562
+msgid "Claude API Key"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2570
+msgid "DeepSeek API Key"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2578
+msgid "AI Instructions (Behavior)"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2586
+msgid "Model"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2594
+msgid "Top Bar Title"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2602
+msgid "Require Email Before Chat"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2610
+msgid "Require Email Chat Content"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2618
+msgid "Require Email Chat Button Text"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2626
+msgid "Introductory Message"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2634
+msgid "Input Copy"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2642
+msgid "Rate Limit for Logged-out Users"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2650
+msgid "Rate Limits by User Role"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2658
+msgid "Rate Limit Message"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2666
+msgid "Chat Teaser Pop-up"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2674
+msgid "Toggle Privacy Notice"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2682
+msgid "Enable Complianz"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2690
+msgid "Open Links in a New Tab"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2698
+msgid "Enable Chat Persistence"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2706
+msgid "Popular Question 1"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2714
+msgid "Popular Question 2"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2722
+msgid "Popular Question 3"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2730
+msgid "Additional Popular Questions"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2755
+msgid "Automatically Embed Products"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2763
+msgid "WooCommerce Consumer Key"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2771
+msgid "WooCommerce Consumer Secret"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2780
+msgid "Loops API Key"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2788
+msgid "Loops Mailing List"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2796
+msgid "Triggered Phrase Response"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2804
+msgid "Email Capture Response"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2820
+msgid "Brave API Key"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2828
+msgid "Number of Images to Return"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2836
+msgid "Safe Search"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2844
+msgid "Number of News Articles"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2852
+msgid "Country"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2860
+msgid "Language"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2876
+msgid "Show Chat Toolbar"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2884
+msgid "Intent Trigger Text"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2892
+msgid "Success Text"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2900
+msgid "Error Text"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2909
+msgid "Maximum Document Pages"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2926
+msgid "Live Agent Status"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2934
+msgid "Notification Message"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2942
+msgid "Away Message"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2950
+msgid "Slack Webhook URL"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2958
+msgid "Slack Secret Key"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2967
+msgid "Slack Bot OAuth Token"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2976
+msgid "Theme Settings"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2983
+msgid "Close Button & Title Color"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2991
+msgid "Chatbot Background Color"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:2999
+msgid "User Message Background Color"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3007
+msgid "User Message Font Color"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3015
+msgid "Bot Message Background Color"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3023
+msgid "Bot Message Font Color"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3031
+msgid "Top Bar Background Color"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3039
+msgid "Send Button Color"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3047
+msgid "Chat Input Font Color"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3055
+msgid "Floating Widget Background Color"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3063
+msgid "Chatbot Icon Color"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3071
+msgid "Custom Chatbot Icon (PNG)"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3079
+msgid "Title Bar Icon (PNG)"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3087
+msgid "Live Agent Background Color"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3095
+msgid "Live Agent Font Color"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3104
+msgid "Mode Indicator Background Color"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3113
+msgid "Mode Indicator Font Color"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3121
+msgid "Toolbar Icon Color"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3130
+msgid "Frequently Asked Questions (FAQ)"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3143
+msgid "Automatically sync posts to knowledge base"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3154
+msgid "Automatically sync pages to knowledge base"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3176
+msgid "Sync settings updated successfully."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3184
+msgid "1"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3192
+msgid "Invalid security token"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3206
+msgid "Email or License Key is missing"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3225
+msgid "Activation failed due to a server error: "
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3236
+msgid "License activated successfully"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3238
+msgid "Activation failed"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3264
+msgid "Set the maximum number of messages a logged-out user can send within a 24-hour period."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3295
+msgid "Set the maximum number of messages users in each role can send within a 24-hour period."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3313
+msgid "This message will be displayed when a user exceeds the rate limit."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3345
+msgid "Automatically syncs new product additions, updates, and removals to the knowledge base. For existing products, submit your product sitemap in the Knowledge Base section to add them initially."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3351 includes/class-mxchat-admin.php:3402
+#: includes/class-mxchat-admin.php:3428 includes/class-mxchat-admin.php:3470
+#: includes/class-mxchat-admin.php:3508 includes/class-mxchat-admin.php:3819
+#: includes/class-mxchat-admin.php:3846 includes/class-mxchat-admin.php:3873
+#: includes/class-mxchat-admin.php:3900 includes/class-mxchat-admin.php:3927
+#: includes/class-mxchat-admin.php:3954 includes/class-mxchat-admin.php:3981
+#: includes/class-mxchat-admin.php:4008 includes/class-mxchat-admin.php:4035
+#: includes/class-mxchat-admin.php:4062 includes/class-mxchat-admin.php:4089
+#: includes/class-mxchat-admin.php:4116 includes/class-mxchat-admin.php:4143
+#: includes/class-mxchat-admin.php:4170 includes/class-mxchat-admin.php:4197
+#: includes/class-mxchat-admin.php:4235 includes/class-mxchat-admin.php:4274
+#: includes/class-mxchat-admin.php:4301 includes/class-mxchat-admin.php:4390
+#: includes/class-mxchat-admin.php:4448 includes/class-mxchat-admin.php:4503
+#: includes/class-mxchat-admin.php:4539 includes/class-mxchat-admin.php:4617
+#: includes/class-mxchat-admin.php:4747 includes/class-mxchat-admin.php:4781
+#: includes/class-mxchat-admin.php:4812 includes/class-mxchat-admin.php:4843
+#: includes/class-mxchat-admin.php:4874 includes/class-mxchat-admin.php:4901
+#: includes/class-mxchat-admin.php:4926 includes/class-mxchat-admin.php:4949
+#: includes/class-mxchat-admin.php:4973 includes/class-mxchat-admin.php:5029
+#: includes/class-mxchat-admin.php:5050
+msgid "Pro Only"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3379 includes/class-mxchat-admin.php:3397
+#: includes/class-mxchat-admin.php:3423 includes/class-mxchat-admin.php:3440
+#: includes/class-mxchat-admin.php:3502 includes/class-mxchat-admin.php:3524
+#: includes/class-mxchat-admin.php:4634 includes/class-mxchat-admin.php:4968
+#: includes/class-mxchat-admin.php:5024 includes/class-mxchat-admin.php:5045
+msgid "Show"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3380
+msgid "The OpenAI API key is required even when using other models as it is used for vector embedding functionality."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3465
+msgid "Enter your WooCommerce consumer key for integration."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3526
+msgid "Enter your Loops API Key here. (See FAQ for details)"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3560
+msgid "No lists found. Please verify your API Key."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3563
+msgid "Enter a valid Loops API Key to load mailing lists."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3576
+msgid "Enter the chatbot response when a trigger keyword is detected, prompting the user to share their email."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3589
+msgid "Enter the message to send when a user provides their email."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3605
+msgid "Set the message displayed to users before they start a chat. Use this to provide a friendly greeting or instructions."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3622
+msgid "Provide system-level instructions for the AI to guide its behavior. Be clear and concise for better results."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3629 includes/class-mxchat-admin.php:3663
+#: includes/class-mxchat-admin.php:3664
+msgid "X.AI Models"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3630
+msgid "grok-beta (Early Beta)"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3631
+msgid "Grok 2"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3633
+msgid "DeepSeek Models"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3634
+msgid "DeepSeek-V3"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3636 includes/class-mxchat-admin.php:3663
+#: includes/class-mxchat-admin.php:3664
+msgid "Claude Models"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3637
+msgid "Claude 3.5 Sonnet (Most Intelligent)"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3638
+msgid "Claude 3 Opus (Highly Complex Tasks)"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3639
+msgid "Claude 3 Sonnet (Balanced)"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3640
+msgid "Claude 3 Haiku (Fastest)"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3642
+msgid "OpenAI Models"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3643
+msgid "GPT-4o (Recommended)"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3644
+msgid "GPT-4o Mini (Fast and Lightweight)"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3645
+msgid "GPT-4 Turbo (High-Performance)"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3646
+msgid "GPT-4 (High Intelligence)"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3647
+msgid "GPT-3.5 Turbo (Affordable and Fast)"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3664
+msgid " (Pro Only)"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3677
+msgid "Select the AI model to use for your chatbot. Pro-only models are marked accordingly."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3690
+msgid "Enter the title text that will appear on the top bar of the chatbot."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3710
+msgid "Enable to require email before a user chats. Their email will appear at the top of the transcript."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3733
+msgid "You may enter HTML here, such as &lt;h2&gt;Welcome&lt;/h2&gt; or &lt;p&gt;Let's get started&lt;/p&gt;."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3734
+msgid "Email form will show for users who are not logged in or have not provided an email within 24h."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3752
+msgid "Enter the text you want on the submit button, e.g. \"Start Chat\"."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3770
+msgid "Enter your message. Line breaks will be preserved."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:3792
+msgid "This is the placeholder text for the chat input field."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4219 includes/class-mxchat-admin.php:4258
+msgid "Enter PNG URL"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4226
+msgid "Custom Icon Preview"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4230 includes/class-mxchat-admin.php:4269
+msgid "Upload your PNG icon and paste the URL here. Recommended size: 48x48 pixels."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4265
+msgid "Title Icon Preview"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4321
+msgid "Show chatbot automatically on all pages. When disabled, you can place the chatbot manually using shortcode [mxchat_chatbot floating=\"yes\"]."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4339 includes/class-mxchat-public.php:119
+msgid "By chatting, you agree to our <a href=\"https://example.com/privacy-policy\" target=\"_blank\">privacy policy</a>."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4349
+msgid "Enable this option to display a privacy notice below the chat widget."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4356
+msgid "Enter the privacy policy text. You can include HTML links."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4384
+msgid "Enable this option to apply Complianz consent logic to the chatbot (must have Complianz Plugin)."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4415
+msgid "Enable to open links in a new tab (default is to open in the same tab)."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4442
+msgid "Enable to keep chat history when users navigate tabs or return to the site within 24 hours."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4468
+msgid "Enter Popular Question 1"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4472
+msgid "This will be the first popular question in the chatbot."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4493
+msgid "Enter Popular Question 2"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4498
+msgid "This will be the second popular question in the chatbot."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4529
+msgid "Enter Popular Question 3"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4534
+msgid "This will be the third popular question in the chatbot."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4575
+msgid "Enter Additional Popular Question %d"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4578 includes/class-mxchat-admin.php:4597
+msgid "Remove question"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4580 includes/class-mxchat-admin.php:4599
+msgid "Remove"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4595
+msgid "Enter Additional Popular Question 4"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4607
+msgid "Add question"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4609
+msgid "Add Question"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4612
+msgid "You can add more popular questions beyond the default three here."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4636
+msgid "Enter your Brave Search API Key here. (See FAQ for details)"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4649
+msgid "Select the number of images to return (1-6)."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4661
+msgid "Strict"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4666
+msgid "Off"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4670
+msgid "Set the Safe Search level for image searches. Brave Search only supports \"Strict\" and \"Off\" options."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4684
+msgid "Select the number of news articles to retrieve (1-10)."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4697
+msgid "Enter the country code (e.g., \"us\" for United States)."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4710
+msgid "Enter the language code (e.g., \"en\" for English)."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4719
+msgid "Configure the intent settings for the Chat with PDF feature."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4753
+msgid "Enable to display the chat toolbar, adding two icons below the chatbot input field for uploading PDF and Word documents (default is hidden)."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4770
+msgid "Enter trigger text"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4776
+msgid "Text displayed when the intent is triggered."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4801
+msgid "Enter success text"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4807
+msgid "Text displayed when the intent is successful."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4832
+msgid "Enter error text"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4838
+msgid "Text displayed when an error occurs during the intent."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4869
+msgid "Set the maximum number of document pages users can upload for processing. (1-69 pages)"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4896
+msgid "Online"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4896
+msgid "Offline"
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4914
+msgid "Sorry, live agents are currently unavailable. I can continue helping you as an AI assistant."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4922
+msgid "Message shown when live agents are offline."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4937
+msgid "Live agent has been notified."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4945
+msgid "Message shown when live transfer activated."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:4969
+msgid "Enter your Slack webhook URL for live agent notifications."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:5008
+msgid "Set the similarity threshold (recommended: 75) to balance accuracy; too high might limit your bot's ability to find relevant knowledge."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:5025
+msgid "Secret key for validating Slack requests. Keep this secure."
+msgstr ""
+
+#: includes/class-mxchat-admin.php:5046
+msgid "Your Slack Bot OAuth Token (starts with xoxb-). Keep this secure."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:116
+msgid "Short Description:"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:117
+#: includes/class-mxchat-integrator.php:2278
+msgid "Price:"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:118
+msgid "Sale Price:"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:119
+msgid "SKU:"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:143
+#: includes/class-mxchat-integrator.php:2172
+#: includes/class-mxchat-integrator.php:2600
+#: includes/class-mxchat-word-handler.php:193
+msgid "Session ID missing."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:298
+msgid ""
+"event: error\n"
+"data: "
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:298
+msgid "Missing session_id"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:312
+msgid ""
+"event: newMessages\n"
+"data: "
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:315
+msgid ""
+"event: keepAlive\n"
+"data: "
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:411
+msgid "[ERROR] Invalid nonce in mxchat_handle_save_email_and_response"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:412
+msgid "Invalid nonce."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:423
+msgid "Session ID or email is missing."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:456
+msgid "Thanks for providing your email! You can continue chatting now."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:467
+msgid "Invalid nonce"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:473
+msgid "No session ID provided"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:493
+msgid "No email found"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:500
+msgid "Checking rate limit for user ID: "
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:503
+msgid "No user ID provided, using logged-out limit: "
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:509
+msgid "No user data or roles found, using logged-out limit: "
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:513
+msgid "User roles: "
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:514
+msgid "Available role rate limits: "
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:518
+msgid "Checking limit for role: "
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:521
+msgid "Found limit for role "
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:521
+msgid ": "
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:524
+msgid "Returning unlimited for role: "
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:529
+msgid "Current max limit: "
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:531
+msgid "No limit found for role: "
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:536
+msgid "Final rate limit: "
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:655
+msgid "Session ID is missing."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:662
+msgid "No message received."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:680
+msgid "Thank you! Your coupon is on the way!"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:720
+msgid "Switched to AI chat mode"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:734
+msgid "Message sent to live agent."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:738
+msgid "Failed to send message to agent"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:776
+#: includes/class-mxchat-integrator.php:2131
+msgid "The provided PDF exceeds the maximum allowed limit of %d pages. Please provide a smaller document."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:852
+msgid "Error processing your message."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1019
+msgid "I can't access order information right now. The order system seems to be unavailable."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1026
+msgid "I don't see any orders associated with your account. Are you logged in?"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1031
+msgid "User asked about their orders:"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1032
+msgid "Order information:"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1038
+msgid "Order #"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1038
+msgid "on"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1039
+msgid "Items:"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1042
+msgid ""
+"\n"
+"Provide a natural, conversational response focusing on the specific information the user asked about. "
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1043
+msgid "If they ask about a specific order or detail, provide just that information. "
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1044
+msgid "If they ask about license keys or sensitive information, inform them to check their email or contact support."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1094
+msgid "You are a knowledgeable product assistant. "
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1101
+msgid "Product details:\n"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1103
+msgid "Price: "
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1108
+msgid ""
+"\n"
+"Instructions:\n"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1109
+msgid "1. Address the user's specific question or concern about the product\n"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1110
+msgid "2. Incorporate relevant information from our knowledge base if provided\n"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1111
+msgid "3. Highlight key product features that relate to their query\n"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1112
+msgid "4. Include a natural suggestion to check out the product\n"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1113
+msgid "5. Keep the response conversational and helpful\n"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1174
+msgid "Create an image of "
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1187
+msgid "Generated Image"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1189
+msgid "Here is the image I generated:"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1191
+msgid "I'm sorry, but I couldn't generate an image based on your request."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1234
+msgid "Error generating image: "
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1243
+msgid "Failed to generate image."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1265
+msgid "I apologize, but could you please rephrase your search request?"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1277
+msgid "Search functionality is temporarily unavailable. Please try again later."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1313
+msgid "I encountered an error while searching. Please try again."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1322
+msgid "I received an invalid response from the search service."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1345
+msgid "I couldn't find any relevant results for \"%s\". Would you like to try different search terms?"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1363
+msgid "Here are the most relevant results for \"%s\":"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1410
+msgid "Site icon"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1432
+msgid "Thumbnail image"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1460
+msgid "I'm sorry, I couldn't interpret your search query. Please specify what you'd like to see images of."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1481
+msgid "API key is not configured. Please set it in the Brave Search Settings."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1529
+#: includes/class-mxchat-integrator.php:1575
+msgid "I'm sorry, I couldn't retrieve any images based on your request."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1546
+msgid "Image"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1581
+msgid "Interpret the user's request to provide only the essential keywords or phrases for image searching. Remove conversational language, politeness, or extra context. Return a concise search query that doesn't lose any of the original meaning."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1651
+msgid "woocommerce_not_available"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1684
+msgid "no_product_context"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1685
+msgid "request_product_name"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1697
+msgid "product_not_found"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1717
+msgid "view_cart"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1718
+msgid "checkout"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1719
+msgid "continue_shopping"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1727
+msgid "add_to_cart_failed"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1748
+msgid "I couldn't find any relevant products based on your query. Could you please be more specific about the product you're looking for?"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1803
+msgid "I couldn't find any relevant products based on your query. Try to be more specific"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1827
+msgid "INTENT CONTEXT:\n"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1832
+msgid "Action: Successfully added product to cart\n"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1833
+msgid "Product: %s\n"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1834
+msgid "Available actions: "
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1835
+msgid "Cart URL: %s\n"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1836
+msgid ""
+"\n"
+"Please inform the user of the successful addition and their available options."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1838
+msgid "Action: Failed to add product to cart\n"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1839
+msgid "Reason: %s\n"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1842
+msgid ""
+"\n"
+"Please inform the user that shopping features are not available."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1845
+msgid ""
+"\n"
+"Please ask the user to specify which product they want to add."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1848
+msgid ""
+"\n"
+"Please inform the user that the product couldn't be found and ask them to try again."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1851
+msgid ""
+"\n"
+"Please apologize to the user and suggest they try again or ask for assistance."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1864
+msgid "I apologize, but the checkout feature isn't available at the moment."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1870
+msgid "Your cart is empty at the moment. Would you like to see our products?"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1881
+msgid "I'm having trouble accessing the checkout page. Please try again in a moment."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1887
+msgid "You have %d item%s in your cart totaling %s. I'll redirect you to checkout now."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1889
+msgid "s"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:1916
+msgid "MxChat AI Chatbot"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2023
+#: includes/class-mxchat-word-handler.php:107
+msgid "too_many_pages"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2037
+msgid "Page "
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2099
+#: includes/class-mxchat-word-handler.php:22
+msgid "Missing required parameters."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2109
+msgid "Invalid file type. Only PDF files are allowed."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2118
+#: includes/class-mxchat-word-handler.php:46
+msgid "Failed to upload file."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2141
+msgid "The uploaded PDF appears to be empty or contains unsupported content."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2186
+msgid "PDF removed successfully."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2204
+msgid "API key is not set."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2211
+msgid "You are a helpful assistant that provides concise and personalized product recommendations. Someone has asked you for some recommendations please respond very concisely appropriate for an AI chatbot."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2239
+msgid "Error communicating with AI API."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2250
+msgid "No response received from AI."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2278
+msgid "Product:"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2283
+msgid "Based on the following list of products, generate a unique, friendly, and personalized response to a user. "
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2284
+msgid "If some products aren't exactly what the user asked for but share similar styles or patterns, acknowledge this and explain why you're suggesting them. "
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2285
+msgid "For each product, provide a brief justification that clearly explains why it's relevant, especially if it's a different type of product than requested. "
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2286
+msgid "Please number your responses to match the product numbers."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2287
+msgid "Products:"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2288
+msgid "Please ensure that the number of each product matches the order in which the products are listed."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2401
+msgid "AI-powered personalized recommendations"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2405
+msgid "As a shopping assistant, analyze this user's context and generate a specific product search suggestion. "
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2409
+msgid "Their recent orders include:\n"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2416
+msgid ""
+"\n"
+"They currently have in their cart:\n"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2422
+msgid ""
+"\n"
+"Based on their question and history, suggest a specific search query that would help find the most relevant products. "
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2423
+msgid "Respond with ONLY the search query, nothing else."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2439
+msgid "I couldn't find any product recommendations for you right now. Please try again later!"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2469
+#: includes/class-mxchat-integrator.php:2528
+msgid "An unexpected error occurred while generating recommendations. Please try again later."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2780
+msgid "📩 New Chat Message"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2789
+msgid "*User ID:*\\n`%s`"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2793
+msgid "*Session ID:*\\n`%s`"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2801
+msgid "*Message:*\\n%s"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2811
+msgid "✍️ Reply"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2854
+msgid "Bot token not configured"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2868
+msgid "Reply to User"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2872
+msgid "Send"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2876
+msgid "Cancel"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2884
+msgid "Reply to session: %s"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2892
+msgid "Type your message here..."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2937
+msgid "Agent response error: No command text received"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2939
+msgid "Command text is required. Format: /reply session_id message"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2948
+msgid "Invalid format. Use: /reply session_id message"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2963
+msgid "Failed to save message"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:2986
+msgid "You are now chatting with the AI chatbot."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:3253
+msgid "I'm sorry, I couldn't find relevant information on that topic."
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:3272
+msgid "Claude API key is not configured"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:3283
+msgid "X.AI API key is not configured"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:3294
+msgid "DeepSeek API key is not configured"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:3305
+#: includes/class-mxchat-integrator.php:3317
+msgid "OpenAI API key is not configured"
+msgstr ""
+
+#: includes/class-mxchat-integrator.php:3329
+msgid "An error occurred: %s"
+msgstr ""
+
+#: includes/class-mxchat-public.php:31
+msgid ""
+"[EXAMPLE INSTRUCTIONS] You are an AI Chatbot assistant for this website. The primary subject you should focus on is [insert proper subject here]. Your main goal is to assist visitors with questions related to this specific topic. Here are some key things to keep in mind:\n"
+"                - Your name is [Chatbot Name]. Always introduce yourself as this name when appropriate.\n"
+"                - Stay focused on topics related to [insert proper subject here]. If a visitor asks about an unrelated topic, politely redirect the conversation to how you can assist them with this subject. If there is an exception topic (e.g., \"parking\") that you should assist with, you may do so if instructed.\n"
+"                - When appropriate, highlight the benefits of [insert proper subject here]. Offer to guide visitors to relevant pages or provide them with more information.\n"
+"                - If a visitor asks for a purchase link or further information, provide them with this link: [Insert Purchase Link Here]. Always ensure that the link is relevant and directly related to the website's offerings.\n"
+"                - Keep your responses short, concise, and to the point. Provide clear and direct answers suitable for a chatbot interaction.\n"
+"                - If you reference specific content, provide a hyperlink to the relevant page using hypertext. Avoid including links that do not directly relate to the content or answer the visitor's query.\n"
+"                - Provide answers based on the knowledge available to you. If you do not have an answer to a specific question, let the visitor know that you don’t have the information and suggest where they might find it or offer to help with something else."
+msgstr ""
+
+#: includes/class-mxchat-public.php:45 includes/class-mxchat-public.php:106
+msgid "MxChat: Basic"
+msgstr ""
+
+#: includes/class-mxchat-public.php:150
+msgid "AI Agent"
+msgstr ""
+
+#: includes/class-mxchat-public.php:152 includes/class-mxchat-public.php:158
+msgid "Minimize"
+msgstr ""
+
+#: includes/class-mxchat-public.php:179
+msgid "Enter your email address"
+msgstr ""
+
+#: includes/class-mxchat-public.php:236
+msgid "Upload PDF"
+msgstr ""
+
+#: includes/class-mxchat-public.php:244
+msgid "Upload Word Document"
+msgstr ""
+
+#: includes/class-mxchat-public.php:251
+msgid "Remove PDF"
+msgstr ""
+
+#: includes/class-mxchat-public.php:261
+msgid "Remove Word Document"
+msgstr ""
+
+#: includes/class-mxchat-public.php:287
+msgid "Close"
+msgstr ""
+
+#: includes/class-mxchat-public.php:296
+msgid "Chatbot Icon"
+msgstr ""
+
+#: includes/class-mxchat-word-handler.php:37
+msgid "Invalid file type. Only .docx files are allowed."
+msgstr ""
+
+#: includes/class-mxchat-word-handler.php:58
+msgid "The uploaded document appears to be empty or contains unsupported content."
+msgstr ""
+
+#: includes/class-mxchat-word-handler.php:70
+msgid "I've processed the document. What questions do you have about it?"
+msgstr ""
+
+#: includes/class-mxchat-word-handler.php:120
+msgid "Chunk "
+msgstr ""
+
+#: includes/class-mxchat-word-handler.php:207
+msgid "Document removed successfully."
+msgstr ""
+
+#: includes/class-mxchat-word-handler.php:260
+msgid "Please upload a Word document (.docx) that you'd like to discuss."
+msgstr ""
+#. Plugin Name of the plugin/theme
+msgid "MxChat"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "AI chatbot for WordPress with OpenAI, Claude, xAI, live agent transfer, PDF uploads, WooCommerce, and training on website data."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "MxChat"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://mxchat.ai"
+msgstr ""

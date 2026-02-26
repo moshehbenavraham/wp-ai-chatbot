@@ -1,0 +1,95 @@
+/**
+ * Leads Admin CSS - Bootstrap Enhancements
+ * 
+ * Minimal additional styles for Leads admin page.
+ * Main styling comes from Bootstrap via aichat-admin.
+ * 
+ * @package AIChat
+ * @subpackage Leads
+ */
+
+/* Stats cards - larger numbers on displays */
+.aichat-leads-wrap .display-5 {
+    font-size: 2.5rem;
+}
+
+/* Table status select */
+.lead-status-select.updated {
+    background-color: #d4edda !important;
+    transition: background-color 0.3s;
+}
+
+/* Code styling in table */
+.table code {
+    background: #f6f7f7;
+    border: 1px solid #e2e4e7;
+}
+
+/* Modal detail grid */
+.lead-detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.lead-detail-grid .detail-item {
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border: 1px solid #e9ecef;
+}
+
+.lead-detail-grid .detail-item.full-width {
+    grid-column: 1 / -1;
+}
+
+.lead-detail-grid .detail-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #6c757d;
+    margin-bottom: 5px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.lead-detail-grid .detail-value {
+    font-size: 14px;
+    color: #212529;
+    word-break: break-word;
+}
+
+.lead-detail-grid .detail-value pre {
+    background: #fff;
+    border: 1px solid #dee2e6;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    margin: 0;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+/* Destination cards consistency */
+.aichat-leads-wrap .card .dashicons {
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 782px) {
+    .aichat-leads-wrap .display-5 {
+        font-size: 1.75rem;
+    }
+    
+    .lead-detail-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .aichat-leads-wrap .d-flex.flex-wrap {
+        flex-direction: column;
+    }
+    
+    .aichat-leads-wrap .input-group {
+        width: 100% !important;
+    }
+}

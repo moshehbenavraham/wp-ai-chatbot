@@ -1,0 +1,16 @@
+{
+  "version": "2.0",
+  "project_name": "Ultimate WP AI Chatbot Plugin",
+  "description": "Build one ultimate WordPress AI chatbot plugin by combining the strongest implemented features from axiachat-ai, mxchat-basic, and baachal while improving architecture, security, performance, migration safety, and maintainability.",
+  "current_phase": 0,
+  "current_session": null,
+  "phases": {
+    "0": {
+      "name": "Program Setup and Extraction Schema",
+      "status": "not_started",
+      "session_count": 0
+    }
+  },
+  "completed_sessions": [],
+  "next_session_history": []
+}

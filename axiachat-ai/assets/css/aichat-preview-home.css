@@ -1,0 +1,3 @@
+/* AIChat Preview Home: remove admin-bar top offsets inside iframe previews */
+html{margin-top:0!important}
+body{margin-top:0!important;padding-top:0!important}

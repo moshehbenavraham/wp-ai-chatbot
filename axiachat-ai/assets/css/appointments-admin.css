@@ -1,0 +1,562 @@
+/**
+ * Appointments Admin Styles
+ * 
+ * Professional calendar and appointment management styles.
+ * 
+ * @package AIChat
+ * @subpackage Appointments
+ * @since 2.3.0
+ */
+
+/* =====================
+   GENERAL LAYOUT
+   ===================== */
+
+/* Reminder Time Selector */
+.reminder-time-selector {
+    background: #f8f9fa;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #dee2e6;
+}
+
+.reminder-time-selector input[type="number"] {
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+.reminder-time-selector .form-select {
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+/* Notifications Card Improvements */
+.internal-only-card .form-check-input:checked {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.aichat-appointments-wrap .card100 {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+/* =====================
+   CALENDAR - MONTH VIEW
+   ===================== */
+
+.calendar-container {
+    background: #fff;
+    border-radius: 8px;
+}
+
+.calendar-header {
+    padding: 15px 0;
+}
+
+.calendar-header h4 {
+    font-weight: 600;
+    color: #333;
+}
+
+.calendar-grid {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.calendar-weekday {
+    padding: 12px 8px;
+    text-align: center;
+    font-weight: 600;
+    color: #495057;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.calendar-day {
+    min-height: 120px;
+    border-right: 1px solid #dee2e6;
+    border-bottom: 1px solid #dee2e6;
+    padding: 8px;
+    background: #fff;
+    transition: background-color 0.2s;
+}
+
+.calendar-day:nth-child(7n) {
+    border-right: none;
+}
+
+.calendar-day:hover {
+    background-color: #f8f9fa;
+}
+
+.calendar-day.today {
+    background-color: #e7f1ff;
+}
+
+.calendar-day.today .day-number {
+    background: #0d6efd;
+    color: #fff;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.calendar-day.other-month {
+    background-color: #f8f9fa;
+    opacity: 0.5;
+}
+
+.calendar-day.non-working {
+    background-color: #fafafa;
+    background-image: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(0,0,0,0.02) 10px,
+        rgba(0,0,0,0.02) 20px
+    );
+}
+
+.day-number {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+.day-events {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.calendar-event {
+    font-size: 11px;
+    padding: 3px 6px;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.calendar-event:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.event-time {
+    font-weight: 600;
+    margin-right: 4px;
+}
+
+.event-title {
+    opacity: 0.95;
+}
+
+.more-events {
+    font-size: 11px;
+    color: #6c757d;
+    padding: 2px 6px;
+    cursor: pointer;
+}
+
+.more-events:hover {
+    color: #0d6efd;
+}
+
+/* =====================
+   CALENDAR - WEEK VIEW
+   ===================== */
+
+.week-view-grid {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.week-header {
+    display: grid;
+    grid-template-columns: 60px repeat(7, 1fr);
+    background: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.day-column-header {
+    padding: 12px 8px;
+    text-align: center;
+    border-left: 1px solid #dee2e6;
+}
+
+.day-column-header.today {
+    background-color: #e7f1ff;
+}
+
+.day-column-header.non-working {
+    background-color: #f5f5f5;
+}
+
+.day-column-header .day-name {
+    font-weight: 600;
+    font-size: 12px;
+    color: #495057;
+    text-transform: uppercase;
+}
+
+.day-column-header .day-date {
+    font-size: 20px;
+    font-weight: 700;
+    color: #333;
+}
+
+.day-column-header.today .day-date {
+    color: #0d6efd;
+}
+
+.time-column {
+    width: 60px;
+}
+
+.week-body {
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.time-row {
+    display: grid;
+    grid-template-columns: 60px repeat(7, 1fr);
+    min-height: 60px;
+}
+
+.time-row:nth-child(even) {
+    background-color: #fafafa;
+}
+
+.time-label {
+    padding: 8px;
+    font-size: 11px;
+    color: #6c757d;
+    text-align: right;
+    border-right: 1px solid #dee2e6;
+    background: #f8f9fa;
+}
+
+.time-cell {
+    border-left: 1px solid #dee2e6;
+    border-bottom: 1px solid #f0f0f0;
+    padding: 4px;
+    min-height: 60px;
+}
+
+.time-cell.non-working {
+    background-color: #f8f8f8;
+    background-image: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 8px,
+        rgba(0,0,0,0.02) 8px,
+        rgba(0,0,0,0.02) 16px
+    );
+}
+
+.week-event {
+    margin-bottom: 2px;
+    font-size: 10px;
+    padding: 4px 6px;
+}
+
+/* =====================
+   CALENDAR - DAY VIEW
+   ===================== */
+
+.day-view-grid {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.day-view-grid .day-header {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    background: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.day-view-grid .day-column-header.full-width {
+    padding: 16px;
+}
+
+.day-view-grid .day-body {
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.day-view-grid .time-row {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    min-height: 70px;
+}
+
+.day-view-grid .time-cell.full-width {
+    min-height: 70px;
+}
+
+.day-event {
+    margin-bottom: 4px;
+    font-size: 13px;
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.day-event .event-time {
+    font-weight: 600;
+}
+
+.day-event .event-title {
+    font-size: 14px;
+}
+
+.day-event .event-email {
+    font-size: 11px;
+    opacity: 0.8;
+}
+
+/* =====================
+   CALENDAR LEGEND
+   ===================== */
+
+.calendar-legend {
+    font-size: 13px;
+    color: #666;
+}
+
+.legend-color {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    margin-right: 6px;
+    vertical-align: middle;
+}
+
+/* =====================
+   WORKING HOURS
+   ===================== */
+
+.working-hours-card .day-row {
+    padding: 16px;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.2s;
+}
+
+.working-hours-card .day-row:last-child {
+    border-bottom: none;
+}
+
+.working-hours-card .day-row:hover {
+    background-color: #f8f9fa;
+}
+
+.working-hours-card .day-row.disabled {
+    opacity: 0.5;
+    background-color: #fafafa;
+}
+
+.working-hours-card .day-name {
+    font-weight: 600;
+    font-size: 15px;
+    min-width: 120px;
+}
+
+.working-hours-card .day-toggle {
+    min-width: 60px;
+}
+
+.time-slots-container {
+    flex: 1;
+}
+
+.time-slot-row {
+    background: #fff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #e9ecef;
+}
+
+.time-slot-row:hover {
+    border-color: #adb5bd;
+}
+
+.btn-add-time-slot {
+    border-style: dashed;
+}
+
+/* =====================
+   DESTINATION CARD
+   ===================== */
+
+.destination-card {
+    border: 2px solid #e9ecef;
+    transition: border-color 0.2s;
+}
+
+.destination-card:hover {
+    border-color: #0d6efd;
+}
+
+.destination-option {
+    cursor: pointer;
+    padding: 20px;
+    border-radius: 8px;
+    border: 2px solid #dee2e6;
+    transition: all 0.2s;
+    text-align: center;
+}
+
+.destination-option:hover {
+    border-color: #0d6efd;
+    background-color: #f8f9fa;
+}
+
+.destination-option.active {
+    border-color: #0d6efd;
+    background-color: #e7f1ff;
+}
+
+.destination-option.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.destination-option .icon {
+    font-size: 32px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.destination-option .title {
+    font-weight: 600;
+    font-size: 16px;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.destination-option .description {
+    font-size: 12px;
+    color: #6c757d;
+}
+
+/* =====================
+   LIST TABLE ENHANCEMENTS
+   ===================== */
+
+.appointment-list-table .btn-group .btn {
+    padding: 4px 8px;
+}
+
+.appointment-list-table tr.past-appointment {
+    opacity: 0.7;
+}
+
+.appointment-list-table .booking-code {
+    font-family: 'Courier New', monospace;
+    background: #f8f9fa;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+/* =====================
+   MODAL STYLES
+   ===================== */
+
+#aichat-appointment-modal .modal-header {
+    background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+    color: #fff;
+}
+
+#aichat-appointment-modal .modal-header .btn-close {
+    filter: brightness(0) invert(1);
+}
+
+#aichat-appointment-modal .modal-body {
+    padding: 24px;
+}
+
+#aichat-appointment-modal .form-label {
+    margin-bottom: 4px;
+}
+
+/* =====================
+   RESPONSIVE
+   ===================== */
+
+@media (max-width: 992px) {
+    .calendar-day {
+        min-height: 80px;
+        padding: 4px;
+    }
+    
+    .calendar-event {
+        font-size: 10px;
+        padding: 2px 4px;
+    }
+    
+    .event-title {
+        display: none;
+    }
+    
+    .week-view-grid {
+        font-size: 12px;
+    }
+    
+    .time-cell {
+        min-height: 50px;
+    }
+}
+
+@media (max-width: 768px) {
+    .calendar-weekday {
+        font-size: 11px;
+        padding: 8px 4px;
+    }
+    
+    .calendar-day {
+        min-height: 60px;
+    }
+    
+    .day-number {
+        font-size: 12px;
+    }
+    
+    .working-hours-card .day-row {
+        flex-wrap: wrap;
+    }
+    
+    .working-hours-card .day-name {
+        width: 100%;
+        margin-bottom: 8px;
+    }
+}

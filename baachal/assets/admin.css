@@ -1,0 +1,286 @@
+/* Baachal Admin Styles */
+
+.baachal-tabs {
+    border-bottom: 1px solid #ccd0d4;
+    margin: 0 0 20px 0;
+    padding: 0;
+}
+
+.baachal-tabs .nav-tab {
+    border: 1px solid #ccd0d4;
+    border-bottom: none;
+    background: #f1f1f1;
+    color: #555;
+    text-decoration: none;
+    padding: 10px 15px;
+    margin: 0 5px 0 0;
+    display: inline-block;
+    position: relative;
+    top: 1px;
+}
+
+.baachal-tabs .nav-tab:hover {
+    background: #fafafa;
+}
+
+.baachal-tabs .nav-tab-active {
+    background: #fff;
+    border-bottom: 1px solid #fff;
+    color: #000;
+}
+
+.baachal-tab-content {
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #ccd0d4;
+    border-top: none;
+}
+
+.baachal-tab-panel {
+    display: none;
+}
+
+.baachal-tab-panel.active {
+    display: block;
+}
+
+.baachal-color-preview {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ccd0d4;
+    border-radius: 3px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+}
+
+/* Enhanced Color Picker Styles */
+.baachal-color-picker-container {
+    max-width: 500px;
+}
+
+.baachal-color-picker-input {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.baachal-color-input {
+    width: 60px;
+    height: 40px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
+    background: none;
+}
+
+.baachal-color-input:hover {
+    border-color: #007cba;
+    transform: scale(1.05);
+}
+
+.baachal-color-input:focus {
+    outline: none;
+    border-color: #007cba;
+    box-shadow: 0 0 0 3px rgba(0, 124, 186, 0.1);
+}
+
+.baachal-color-swatch {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    background-image: 
+        linear-gradient(45deg, #f0f0f0 25%, transparent 25%), 
+        linear-gradient(-45deg, #f0f0f0 25%, transparent 25%), 
+        linear-gradient(45deg, transparent 75%, #f0f0f0 75%), 
+        linear-gradient(-45deg, transparent 75%, #f0f0f0 75%);
+    background-size: 8px 8px;
+    background-position: 0 0, 0 4px, 4px -4px, -4px 0px;
+}
+
+.baachal-color-swatch::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 6px;
+    background-color: inherit;
+}
+
+.baachal-color-swatch:hover {
+    border-color: #007cba;
+    transform: scale(1.05);
+}
+
+.baachal-color-hex {
+    width: 100px;
+    padding: 8px 12px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
+}
+
+.baachal-color-hex:focus {
+    outline: none;
+    border-color: #007cba;
+    box-shadow: 0 0 0 3px rgba(0, 124, 186, 0.1);
+}
+
+.baachal-color-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.baachal-preset-color {
+    width: 32px;
+    height: 32px;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.baachal-preset-color::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 6px;
+    background-color: inherit;
+}
+
+.baachal-preset-color:hover {
+    border-color: #007cba;
+    transform: scale(1.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.baachal-preset-color.selected {
+    border-color: #007cba;
+    box-shadow: 0 0 0 2px rgba(0, 124, 186, 0.2);
+}
+
+.baachal-preset-color[style*="background-color: #ffffff"] {
+    border: 2px solid #ddd;
+}
+
+.baachal-preset-color[style*="background-color: #ffffff"]:hover {
+    border-color: #007cba;
+}
+
+.baachal-setting-row {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.baachal-setting-row:last-child {
+    border-bottom: none;
+}
+
+.baachal-setting-label {
+    font-weight: 600;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.baachal-setting-description {
+    color: #666;
+    font-style: italic;
+    margin-top: 5px;
+}
+
+.baachal-test-section {
+    margin-top: 40px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.baachal-test-section h4 {
+    margin-top: 0;
+}
+
+#search-results {
+    margin-top: 15px;
+}
+
+#search-results ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#search-results li {
+    margin-bottom: 15px;
+    padding: 10px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#search-results li strong {
+    color: #0073aa;
+}
+
+#search-results li small {
+    color: #666;
+}
+
+#search-results li a {
+    color: #0073aa;
+    text-decoration: none;
+}
+
+#search-results li a:hover {
+    text-decoration: underline;
+}
+
+/* AI Provider Switching Styles */
+.baachal-api-key-row {
+    transition: opacity 0.3s ease;
+}
+
+.baachal-model-group {
+    transition: opacity 0.3s ease;
+}
+
+.baachal-api-key-row[style*="display:none"],
+.baachal-model-group[style*="display:none"] {
+    opacity: 0;
+}
+
+.baachal-provider-info {
+    background: #f0f6fc;
+    border: 1px solid #c8e1ff;
+    border-radius: 4px;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.baachal-provider-info h4 {
+    margin: 0 0 5px 0;
+    color: #0073aa;
+}
+
+.baachal-provider-info p {
+    margin: 0;
+    font-size: 13px;
+    color: #666;
+}

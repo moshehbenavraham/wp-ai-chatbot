@@ -1,0 +1,138 @@
+# Copyright (C) 2025 Baachal AI Chatbot
+# This file is distributed under the same license as the Baachal AI Chatbot package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Baachal AI Chatbot 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/baachal\n"
+"POT-Creation-Date: 2025-01-01 00:00:00+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2025-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: WordPress\n"
+"X-Domain: baachal\n"
+
+# Plugin Information
+msgid "Baachal AI Chatbot"
+msgstr ""
+
+msgid "Intelligent AI chatbot powered by Google Gemini API with deep website knowledge, automatic content indexing, and WooCommerce integration."
+msgstr ""
+
+# Settings
+msgid "General"
+msgstr ""
+
+msgid "WooCommerce"
+msgstr ""
+
+msgid "Content Indexing"
+msgstr ""
+
+msgid "UI Styling"
+msgstr ""
+
+msgid "Advanced"
+msgstr ""
+
+msgid "Settings saved successfully!"
+msgstr ""
+
+# Chat Interface
+msgid "Hello! How can I help you today?"
+msgstr ""
+
+msgid "Type your message..."
+msgstr ""
+
+msgid "Send"
+msgstr ""
+
+msgid "Clear Chat History"
+msgstr ""
+
+msgid "Chat"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "Online"
+msgstr ""
+
+# Admin Labels
+msgid "API Key"
+msgstr ""
+
+msgid "Enable Chatbot"
+msgstr ""
+
+msgid "Welcome Message"
+msgstr ""
+
+msgid "Debug Mode"
+msgstr ""
+
+msgid "Save Changes"
+msgstr ""
+
+# Content Indexing
+msgid "Enable Content Indexing"
+msgstr ""
+
+msgid "Auto Index"
+msgstr ""
+
+msgid "Content Types to Index"
+msgstr ""
+
+msgid "Max Search Results"
+msgstr ""
+
+msgid "Reindex All Content"
+msgstr ""
+
+msgid "Test Content Search"
+msgstr ""
+
+msgid "Successfully indexed %d items."
+msgstr ""
+
+# Errors
+msgid "Security check failed"
+msgstr ""
+
+msgid "API key not configured"
+msgstr ""
+
+msgid "Insufficient permissions"
+msgstr ""
+
+msgid "Query is required"
+msgstr ""
+
+# Conversation Management
+msgid "Baachal Conversations"
+msgstr ""
+
+msgid "Baachal Conversation"
+msgstr ""
+
+msgid "All Conversations"
+msgstr ""
+
+msgid "View Conversation"
+msgstr ""
+
+msgid "Search Conversations"
+msgstr ""
+
+msgid "No conversations found"
+msgstr ""
+
+msgid "No conversations found in trash"
+msgstr ""

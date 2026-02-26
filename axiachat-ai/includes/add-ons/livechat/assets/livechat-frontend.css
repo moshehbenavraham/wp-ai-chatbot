@@ -1,0 +1,81 @@
+/**
+ * Live Chat Frontend Styles
+ * 
+ * Styles for live agent indicators in the chat widget.
+ * 
+ * @package AIChat
+ * @subpackage LiveChat
+ */
+
+/* Status Banner */
+.aichat-livechat-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    font-size: 12px;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.aichat-livechat-pending {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    color: #92400e;
+}
+
+.aichat-livechat-connected {
+    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+    color: #065f46;
+}
+
+/* Spinner */
+.aichat-livechat-spinner {
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(0,0,0,0.1);
+    border-top-color: currentColor;
+    border-radius: 50%;
+    animation: aichat-spin 0.8s linear infinite;
+}
+
+@keyframes aichat-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Agent icon */
+.aichat-livechat-agent-icon {
+    font-size: 14px;
+}
+
+/* Agent Messages */
+.aichat-message-agent {
+    position: relative;
+}
+
+.aichat-message-agent .aichat-agent-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: #059669;
+    margin-bottom: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.aichat-message-agent .aichat-message-content {
+    border-left: 3px solid #10b981;
+}
+
+/* System Messages */
+.aichat-message-system {
+    text-align: center;
+    margin: 10px 0;
+}
+
+.aichat-message-system .aichat-message-content {
+    display: inline-block;
+    background: #f3f4f6;
+    color: #6b7280;
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-style: italic;
+}
