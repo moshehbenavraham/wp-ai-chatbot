@@ -13,7 +13,7 @@ This is a provider-agnostic playbook for any AI coding agent working in this rep
 - Planning and delivery artifacts live in:
   - `.spec_system/`
   - feature maps: `docs/axiachat-ai-feature-map.md`, `docs/baachal-feature-map.md`, `docs/mxchat-basic-feature-map.md`
-  - `docs/ultimate-plugin-context-phased-plan.md`
+  - master PRD: `.spec_system/PRD/PRD.md`
 
 ## Non-Negotiable Boundaries
 

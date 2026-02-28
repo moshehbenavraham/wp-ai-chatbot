@@ -1,0 +1,153 @@
+{
+  "schema_version": "1.0",
+  "session_id": "phase00-session01-reference-inventory-baseline",
+  "generated_at": "2026-02-28 23:13",
+  "domain_targets": [
+    "provider",
+    "runtime",
+    "rag",
+    "tools",
+    "admin",
+    "security",
+    "woocommerce",
+    "integrations",
+    "migration"
+  ],
+  "sources": [
+    {
+      "source_id": "SRC-AXI",
+      "plugin": "AxiaChat AI",
+      "root_path": "axiachat-ai/",
+      "main_entry": "axiachat-ai/axiachat-ai.php",
+      "readme": "axiachat-ai/readme.txt",
+      "feature_map": "docs/axiachat-ai-feature-map.md",
+      "root_modules": [
+        "axiachat-ai/includes/",
+        "axiachat-ai/assets/",
+        "axiachat-ai/vendor/",
+        "axiachat-ai/readme.txt"
+      ],
+      "entry_points": [
+        {
+          "inventory_id": "INV-AXI-001",
+          "type": "bootstrap",
+          "path": "axiachat-ai/axiachat-ai.php"
+        },
+        {
+          "inventory_id": "INV-AXI-002",
+          "type": "provider-registry",
+          "path": "axiachat-ai/includes/class-aichat-provider-registry.php"
+        },
+        {
+          "inventory_id": "INV-AXI-003",
+          "type": "runtime-ajax",
+          "path": "axiachat-ai/includes/class-aichat-ajax.php"
+        },
+        {
+          "inventory_id": "INV-AXI-004",
+          "type": "rag-core",
+          "path": "axiachat-ai/includes/contexto-functions.php"
+        },
+        {
+          "inventory_id": "INV-AXI-005",
+          "type": "admin-settings",
+          "path": "axiachat-ai/includes/settings.php"
+        }
+      ],
+      "candidate_anchor_ids": []
+    },
+    {
+      "source_id": "SRC-MXC",
+      "plugin": "MxChat Basic",
+      "root_path": "mxchat-basic/",
+      "main_entry": "mxchat-basic/mxchat-basic.php",
+      "readme": "mxchat-basic/readme.txt",
+      "feature_map": "docs/mxchat-basic-feature-map.md",
+      "root_modules": [
+        "mxchat-basic/includes/",
+        "mxchat-basic/admin/",
+        "mxchat-basic/js/",
+        "mxchat-basic/css/",
+        "mxchat-basic/images/",
+        "mxchat-basic/languages/"
+      ],
+      "entry_points": [
+        {
+          "inventory_id": "INV-MXC-001",
+          "type": "bootstrap",
+          "path": "mxchat-basic/mxchat-basic.php"
+        },
+        {
+          "inventory_id": "INV-MXC-002",
+          "type": "integrator-runtime",
+          "path": "mxchat-basic/includes/class-mxchat-integrator.php"
+        },
+        {
+          "inventory_id": "INV-MXC-003",
+          "type": "admin-controller",
+          "path": "mxchat-basic/includes/class-mxchat-admin.php"
+        },
+        {
+          "inventory_id": "INV-MXC-004",
+          "type": "public-widget",
+          "path": "mxchat-basic/includes/class-mxchat-public.php"
+        },
+        {
+          "inventory_id": "INV-MXC-005",
+          "type": "knowledge-manager",
+          "path": "mxchat-basic/admin/class-knowledge-manager.php"
+        }
+      ],
+      "candidate_anchor_ids": []
+    },
+    {
+      "source_id": "SRC-BAA",
+      "plugin": "Baachal",
+      "root_path": "baachal/",
+      "main_entry": "baachal/baachal.php",
+      "readme": "baachal/readme.txt",
+      "feature_map": "docs/baachal-feature-map.md",
+      "root_modules": [
+        "baachal/includes/",
+        "baachal/admin/",
+        "baachal/assets/",
+        "baachal/templates/",
+        "baachal/languages/",
+        "baachal/uninstall.php"
+      ],
+      "entry_points": [
+        {
+          "inventory_id": "INV-BAA-001",
+          "type": "bootstrap",
+          "path": "baachal/baachal.php"
+        },
+        {
+          "inventory_id": "INV-BAA-002",
+          "type": "content-indexing",
+          "path": "baachal/includes/content-indexer.php"
+        },
+        {
+          "inventory_id": "INV-BAA-003",
+          "type": "admin-settings",
+          "path": "baachal/admin/settings-page.php"
+        },
+        {
+          "inventory_id": "INV-BAA-004",
+          "type": "woocommerce-tab",
+          "path": "baachal/admin/tabs/woocommerce.php"
+        },
+        {
+          "inventory_id": "INV-BAA-005",
+          "type": "frontend-widget",
+          "path": "baachal/templates/chatbot-widget.php"
+        }
+      ],
+      "candidate_anchor_ids": []
+    }
+  ],
+  "anchor_promotion_ready": false,
+  "notes": [
+    "All source paths are read-only references.",
+    "Anchor IDs are populated in anchor_index.md and traceability_matrix.md."
+  ]
+}

@@ -5,8 +5,17 @@
 Ultimate WP AI Chatbot Plugin unifies the strongest implemented capabilities from `axiachat-ai/`, `mxchat-basic/`, and `baachal/` into one maintainable WordPress plugin. The product must deliver reliable AI chat experiences for business websites while improving architecture quality, migration safety, performance, and security posture.
 
 The product direction follows a phase-driven delivery model that controls scope, preserves context quality, and reduces implementation drift. Early phases focus on extraction and architecture decisions, then move through implementation tracks for runtime, retrieval, integrations, hardening, migration, and GA readiness.
+Every phase plan in this PRD is context-bounded so session work can run without re-reading full source repositories, with phase-level context budgets capped within approximately 45k-95k working context.
 
 Primary ownership is with business owners and operators who need practical automation for customer-facing conversations without adopting a standalone SaaS platform.
+
+## Mission
+
+Build one "ultimate" WordPress AI chatbot plugin by combining the strongest implemented capabilities from `axiachat-ai/`, `mxchat-basic/`, and `baachal/` while improving architecture quality, security posture, performance, migration safety, and maintainability.
+
+## Source Inputs
+
+The planning and implementation inputs for this PRD are the three canonical source codebases and their companion feature maps.
 
 ## Reference Source Code Working Set
 
@@ -15,6 +24,12 @@ Primary ownership is with business owners and operators who need practical autom
 - `axiachat-ai/` (broadest feature surface: provider abstraction, RAG depth, tools/add-ons, diagnostics)
 - `mxchat-basic/` (broad provider coverage, intent/action patterns, live-agent channels, migration and cache compatibility depth)
 - `baachal/` (lean runtime architecture, WooCommerce-first context patterns, clean data lifecycle controls)
+
+### Planning source documents
+
+- `docs/axiachat-ai-feature-map.md` (feature inventory and source map for `axiachat-ai/`)
+- `docs/mxchat-basic-feature-map.md` (feature inventory and source map for `mxchat-basic/`)
+- `docs/baachal-feature-map.md` (feature inventory and source map for `baachal/`)
 
 ### Reference-only policy (non-negotiable)
 
@@ -152,24 +167,24 @@ Primary ownership is with business owners and operators who need practical autom
 - Core dependency for development speed: all phases must use source anchors from the three reference repositories rather than starting from blank designs.
 - Hard boundary: the three reference repositories remain untouched throughout delivery; they are not development targets.
 
-## Phases
+## Phase Plan
 
 This system delivers the product via phases. Each phase is implemented via multiple 2-4 hour sessions (12-25 tasks each).
 
-| Phase | Name | Sessions | Status |
-|-------|------|----------|--------|
-| 00 | Program Setup and Extraction Schema | TBD | Not Started |
-| 01 | Canonical Capability Matrix and Scoring | TBD | Planned |
-| 02 | Target Architecture and Module Contracts | TBD | Planned |
-| 03 | Core Plugin Skeleton, Lifecycle, and Data Foundations | TBD | Planned |
-| 04 | Provider Orchestration and Model Registry | TBD | Planned |
-| 05 | Chat Runtime, Sessioning, UX, and Safety Controls | TBD | Planned |
-| 06 | Knowledge Base, RAG, and Content Ingestion | TBD | Planned |
-| 07 | Actions, Tools, Macros, and Integrations | TBD | Planned |
-| 08 | WooCommerce and Business Workflows | TBD | Planned |
-| 09 | Security, Privacy, Performance, and Observability Hardening | TBD | Planned |
-| 10 | Migration, Compatibility, and Release Candidate | TBD | Planned |
-| 11 | Validation, Documentation, and GA Readiness | TBD | Planned |
+| Phase | Name | Sessions | Context Budget Target | Status |
+|-------|------|----------|-----------------------|--------|
+| 00 | Program Setup and Extraction Schema | 4 | 45k-65k | Not Started |
+| 01 | Canonical Capability Matrix and Scoring | TBD | 65k-85k | Planned |
+| 02 | Target Architecture and Module Contracts | TBD | 70k-90k | Planned |
+| 03 | Core Plugin Skeleton, Lifecycle, and Data Foundations | TBD | 60k-85k | Planned |
+| 04 | Provider Orchestration and Model Registry | TBD | 70k-95k | Planned |
+| 05 | Chat Runtime, Sessioning, UX, and Safety Controls | TBD | 70k-95k | Planned |
+| 06 | Knowledge Base, RAG, and Content Ingestion | TBD | 75k-95k | Planned |
+| 07 | Actions, Tools, Macros, and Integrations | TBD | 75k-95k | Planned |
+| 08 | WooCommerce and Business Workflows | TBD | 70k-90k | Planned |
+| 09 | Security, Privacy, Performance, and Observability Hardening | TBD | 60k-85k | Planned |
+| 10 | Migration, Compatibility, and Release Candidate | TBD | 65k-90k | Planned |
+| 11 | Validation, Documentation, and GA Readiness | TBD | 45k-75k | Planned |
 
 ## Phase Reference Anchors (Use During /plansession)
 
@@ -253,9 +268,38 @@ This system delivers the product via phases. Each phase is implemented via multi
 2. Define stable taxonomy and feature-unit schemas so later phases can proceed without re-reading full source maps.
 3. Produce a reusable anchor index for `axiachat-ai/`, `baachal/`, and `mxchat-basic/` at phase start.
 
-### Sessions (To Be Defined)
+### Focus
 
-Sessions are defined via `/phasebuild` as `session_NN_name.md` stubs under `.spec_system/PRD/phase_00/`.
+- Process and structure, not implementation.
+
+### Inputs (bounded)
+
+- Top-level summaries from the three feature maps.
+- Plugin root structures and key file indexes.
+
+### Outputs
+
+- Domain taxonomy (providers, runtime, RAG, tools, admin, security, WooCommerce, integrations).
+- Feature-unit schema (ID, source plugin, capability, maturity, dependencies, risk).
+- Context pack template and carry-forward template.
+
+### Context budget target
+
+- 45k-65k.
+
+### Exit criteria
+
+- Shared vocabulary and scoring model are stable.
+- Future phases can run without re-reading full source maps.
+
+### Sessions (Defined)
+
+Phase 00 sessions are defined under `.spec_system/PRD/phase_00/`:
+
+- `session_01_reference_inventory_baseline.md`
+- `session_02_domain_taxonomy_and_feature_schema.md`
+- `session_03_context_pack_and_decision_log_templates.md`
+- `session_04_phase_readiness_and_handoff_bundle.md`
 
 Each `phase_00` session must include:
 
@@ -263,7 +307,304 @@ Each `phase_00` session must include:
 - Decision logs for "adopt as-is" vs "adopt with modifications"
 - Explicit carry-forward notes for unresolved conflicts
 
-**Note**: This command does NOT create phase directories or session stubs. Run `/phasebuild` after creating the PRD.
+## Phase 01: Canonical Capability Matrix and Scoring
+
+### Objective
+
+Build a canonical matrix of all feature units and select winners per domain.
+
+### Focus
+
+- Extraction and decision quality.
+
+### Inputs (bounded)
+
+- Feature-map sections by domain (sliced, not full docs).
+
+### Outputs
+
+- Capability matrix with source attribution:
+  - Adopt as-is
+  - Adopt with modifications
+  - Reject/defer
+- Rationale per selection (technical and product rationale).
+- Initial "Ultimate v1 scope" boundary.
+
+### Context budget target
+
+- 65k-85k.
+
+### Exit criteria
+
+- Every major domain has a selected baseline.
+- No unresolved "which plugin behavior wins?" conflicts.
+
+## Phase 02: Target Architecture and Module Contracts
+
+### Objective
+
+Define final plugin architecture and subsystem contracts before coding.
+
+### Focus
+
+- Maintainable module boundaries and future extensibility.
+
+### Inputs (bounded)
+
+- Winners from Phase 01 only.
+- Key implementation references for chosen patterns.
+
+### Outputs
+
+- Module map:
+  - bootstrap/lifecycle
+  - provider layer
+  - model registry
+  - chat runtime
+  - RAG/knowledge pipeline
+  - tool/macro/intent execution
+  - WooCommerce enrichment
+  - admin/ops surface
+- Contract docs (interfaces, payload schemas, storage contracts).
+- Migration strategy outline from each source plugin.
+
+### Context budget target
+
+- 70k-90k.
+
+### Exit criteria
+
+- Interfaces are fixed enough to begin implementation in parallel tracks.
+- High-risk decisions are documented with fallback options.
+
+## Phase 03: Core Plugin Skeleton, Lifecycle, and Data Foundations
+
+### Objective
+
+Implement a clean foundation that all advanced features depend on.
+
+### Focus
+
+- Bootstrap reliability and data model correctness.
+
+### Outputs
+
+- Plugin bootstrap, constants, autoloading, hook registration.
+- Activation/deactivation/uninstall policy.
+- Core DB schema and migration runner.
+- Versioned upgrade framework and repair checks.
+
+### Budget strategy
+
+- Split by concern: lifecycle session, schema session, migration session.
+
+### Context budget target
+
+- 60k-85k.
+
+### Exit criteria
+
+- Fresh install, upgrade, deactivate/reactivate, and uninstall paths are deterministic.
+
+## Phase 04: Provider Orchestration and Model Registry
+
+### Objective
+
+Implement robust multi-provider AI orchestration and model governance.
+
+### Best-of intent
+
+- AxiaChat-style provider abstraction and tool continuation handling.
+- MxChat-style broad provider/model support and migration hygiene.
+- Baachal-style straightforward provider key and model validation UX.
+
+### Outputs
+
+- Provider interface plus registry dispatcher.
+- Provider adapters (initial prioritized set).
+- Unified model registry with deprecation/fallback metadata.
+- Cost accounting hooks and usage attribution model.
+
+### Context budget target
+
+- 70k-95k.
+
+### Exit criteria
+
+- Same chat request contract works across all supported providers.
+- Deprecated model auto-migration path is tested.
+
+## Phase 05: Chat Runtime, Sessioning, UX, and Safety Controls
+
+### Objective
+
+Deliver production-grade chat runtime behavior on frontend and backend.
+
+### Best-of intent
+
+- AxiaChat depth in runtime controls and moderation/rate-limit pipeline.
+- MxChat resilience and fallback patterns.
+- Baachal simplicity in session handling and message lifecycle.
+
+### Outputs
+
+- Widget and shortcode rendering modes.
+- Session model, history persistence options, and clear/reset flows.
+- AJAX/REST runtime endpoints with nonce and auth checks.
+- Input sanitization, output rendering safeguards, and anti-spam controls.
+
+### Context budget target
+
+- 70k-95k.
+
+### Exit criteria
+
+- Stable multi-turn chat across embed modes.
+- Security and abuse controls validated under load and edge cases.
+
+## Phase 06: Knowledge Base, RAG, and Content Ingestion
+
+### Objective
+
+Build a high-quality retrieval pipeline that is accurate and operable.
+
+### Best-of intent
+
+- AxiaChat ingestion breadth and background indexing depth.
+- MxChat queue processing and knowledge admin workflows.
+- Baachal lightweight site index and exclusion controls.
+
+### Outputs
+
+- Content source adapters (posts/pages/products/manual/web/PDF where in scope).
+- Chunking, embedding, and indexing pipeline.
+- Queue workers, retries, and operational controls.
+- Retrieval ranking and context assembly policy.
+
+### Context budget target
+
+- 75k-95k.
+
+### Exit criteria
+
+- Index build and retrieval are reliable, observable, and tunable.
+
+## Phase 07: Actions, Tools, Macros, and Integrations
+
+### Objective
+
+Add controlled execution capabilities beyond plain Q&A.
+
+### Best-of intent
+
+- AxiaChat tool and macro orchestration.
+- MxChat intent/action framework and live-agent handoff patterns.
+- Hardened permission, logging, and rollback semantics.
+
+### Outputs
+
+- Tool/action contract and execution engine.
+- Macro/intent routing layer.
+- External integration adapters (prioritized by value and risk).
+- Full audit trail for tool executions.
+
+### Context budget target
+
+- 75k-95k.
+
+### Exit criteria
+
+- Tooling is useful but bounded by strict trust and validation gates.
+
+## Phase 08: WooCommerce and Business Workflows
+
+### Objective
+
+Implement commerce-aware behavior and business conversions cleanly.
+
+### Best-of intent
+
+- Baachal product-context and recommendation patterns.
+- MxChat WooCommerce and lead/agent operational depth.
+- AxiaChat add-on style modular business features.
+
+### Outputs
+
+- Product-aware retrieval and recommendation responses.
+- Lead capture, appointment, and handoff flows (as scoped).
+- Admin controls and reporting views for business workflows.
+
+### Context budget target
+
+- 70k-90k.
+
+### Exit criteria
+
+- Commerce and conversion flows are reliable, measurable, and optional by module.
+
+## Phase 09: Security, Privacy, Performance, and Observability Hardening
+
+### Objective
+
+Raise production readiness before release candidate cut.
+
+### Outputs
+
+- Security review checklist closure (nonce, capability, sanitization, escaping paths).
+- Privacy and data-retention controls.
+- Cache compatibility and performance profiling fixes.
+- Structured logging, diagnostics export, and alerting hooks.
+
+### Context budget target
+
+- 60k-85k.
+
+### Exit criteria
+
+- No high-severity security gaps remain open.
+- Performance baseline meets agreed targets.
+
+## Phase 10: Migration, Compatibility, and Release Candidate
+
+### Objective
+
+Safely transition existing users and ship with confidence.
+
+### Outputs
+
+- Migration paths from `axiachat-ai`, `mxchat-basic`, and `baachal` settings/data.
+- Backward-compatibility shims where required.
+- Release candidate package, test matrix, and rollback plan.
+
+### Context budget target
+
+- 65k-90k.
+
+### Exit criteria
+
+- Upgrade scenarios pass the test matrix.
+- Rollback and disaster-recovery runbook is verified.
+
+## Phase 11: Validation, Documentation, and GA Readiness
+
+### Objective
+
+Complete final validation and operational documentation.
+
+### Outputs
+
+- End-to-end validation report.
+- Admin/user docs and migration guides.
+- Known limitations and deferred backlog list.
+
+### Context budget target
+
+- 45k-75k.
+
+### Exit criteria
+
+- GA checklist complete.
+- Team can operate and support the plugin post-release.
 
 ## Technical Stack
 
