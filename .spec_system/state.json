@@ -14,7 +14,8 @@
   },
   "completed_sessions": [
     "phase00-session01-reference-inventory-baseline",
-    "phase00-session02-domain-taxonomy-feature-schema"
+    "phase00-session02-domain-taxonomy-feature-schema",
+    "phase00-session03-context-pack-decision-log-templates"
   ],
   "next_session_history": [
     {
@@ -25,6 +26,11 @@
     {
       "date": "2026-03-01",
       "session": "phase00-session02-domain-taxonomy-feature-schema",
+      "status": "completed"
+    },
+    {
+      "date": "2026-03-01",
+      "session": "phase00-session03-context-pack-decision-log-templates",
       "status": "completed"
     }
   ]
