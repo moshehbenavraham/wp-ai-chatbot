@@ -1,6 +1,5 @@
 includes:
     - vendor/szepeviktor/phpstan-wordpress/extension.neon
-    - phpstan-baseline.neon
 
 parameters:
     level: 0
@@ -12,25 +11,11 @@ parameters:
         - uninstall.php
         - includes
         - lib
-        - axiachat-ai
-        - mxchat-basic
-        - baachal
     excludePaths:
         - */vendor/*
         - */node_modules/*
-        - mxchat-basic/includes/pdf-parser/*
     scanDirectories:
         - includes
         - lib
-        - axiachat-ai
-        - mxchat-basic
-        - baachal
     scanFiles:
         - vendor/php-stubs/woocommerce-stubs/woocommerce-stubs.php
-    ignoreErrors:
-        # Third-party plugin functions not available in static analysis
-        - identifier: function.notFound
-          message: '#Function (fs_dynamic_init|ssa_datetime|wpforms_decode|mxchatACT_is_advanced_claude_enabled) not found#'
-        - identifier: class.notFound
-          message: '#not found#'
-          path: '*/includes/add-ons/*'
