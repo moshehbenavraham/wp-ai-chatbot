@@ -4,7 +4,7 @@
 **Sessions**: 7 (initial estimate)
 **Estimated Duration**: 14-28 days
 
-**Progress**: 2/7 sessions (29%)
+**Progress**: 3/7 sessions (43%)
 
 ---
 
@@ -24,7 +24,7 @@ The 7 sessions progress from foundational decisions (module layout, data layer) 
 |---------|------|--------|------------|-----------|
 | 01 | Module Map, Directory Architecture, and Bootstrap Design | Complete (2026-03-01) | 20 | PASS |
 | 02 | Data Layer, Schema Design, and Migration Framework | Complete (2026-03-01) | 22 | PASS |
-| 03 | Provider Orchestration and Model Registry Contracts | Not Started | ~18 | - |
+| 03 | Provider Orchestration and Model Registry Contracts | Complete (2026-03-01) | 19 | PASS |
 | 04 | Chat Runtime, Session Model, and Frontend Contracts | Not Started | ~20 | - |
 | 05 | RAG Pipeline, Knowledge Base, and Embedding Contracts | Not Started | ~18 | - |
 | 06 | Security, Admin Contracts, and Observability | Not Started | ~18 | - |
@@ -36,12 +36,13 @@ The 7 sessions progress from foundational decisions (module layout, data layer) 
 
 - **Session 01** (2026-03-01): Module Map, Directory Architecture, and Bootstrap Design -- 20/20 tasks, 7 architecture documents, all 38 capabilities mapped to module homes
 - **Session 02** (2026-03-01): Data Layer, Schema Design, and Migration Framework -- 22/22 tasks, 7 specification documents, 3 carry-forward items resolved (CFI-MIG-002, CFI-SEC-002, CFI-RUN-002)
+- **Session 03** (2026-03-01): Provider Orchestration and Model Registry Contracts -- 19/19 tasks, 7 contract documents, carry-forward items resolved (CFI-PRO-001, CFI-PRO-002, CFI-RUN-003)
 
 ---
 
 ## Upcoming Sessions
 
-- Session 03: Provider Orchestration and Model Registry Contracts
+- Session 04: Chat Runtime, Session Model, and Frontend Contracts
 
 ---
 
