@@ -1,7 +1,0 @@
-{
-    "name": "estebandezafra/aichat",
-    "description": "aichat",
-    "require": {
-        "smalot/pdfparser": "^2.0"
-    }
-}

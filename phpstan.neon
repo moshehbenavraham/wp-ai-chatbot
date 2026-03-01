@@ -4,9 +4,14 @@ includes:
 
 parameters:
     level: 0
+    reportUnmatchedIgnoredErrors: false
     parallel:
         maximumNumberOfProcesses: 1
     paths:
+        - wp-ai-chatbot.php
+        - uninstall.php
+        - includes
+        - lib
         - axiachat-ai
         - mxchat-basic
         - baachal
@@ -15,6 +20,8 @@ parameters:
         - */node_modules/*
         - mxchat-basic/includes/pdf-parser/*
     scanDirectories:
+        - includes
+        - lib
         - axiachat-ai
         - mxchat-basic
         - baachal

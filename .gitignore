@@ -1,9 +1,11 @@
-# Ignore Windows alternate data stream artifacts copied into Linux.
-*:Zone.Identifier
-
-# Dependencies (root-level only; reference plugin vendors are tracked)
+# Dependencies (root-level only)
 /node_modules/
 /vendor/
+
+# Reference plugins (read-only, not part of the built plugin)
+/axiachat-ai/
+/baachal/
+/mxchat-basic/
 
 # PHP-CS-Fixer cache
 .php-cs-fixer.cache
@@ -17,6 +19,10 @@
 # Logs
 logs/
 
+# Build artifacts
+*.zip
+
 # OS
 .DS_Store
 Thumbs.db
+*:Zone.Identifier
