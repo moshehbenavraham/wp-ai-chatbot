@@ -368,18 +368,18 @@ function aichat_contexto_settings_page()
                         </div>
                         <div class="form-check mb-2" id="aichat-autosync-radio-new-wrapper">
                             <input class="form-check-input" type="radio" name="aichat-autosync-mode-radio" id="aichat-autosync-radio-modified-new" value="modified_and_new">
-                            <label class="form-check-label" for="aichat-autosync-radio-modified-new"><?php esc_html_e('Modified + discover new','axiachat-ai'); ?></label>
+                            <label class="form-check-label" for="aichat-autosync-radio-modified-new"><?php esc_html_e('Modified + discover new', 'axiachat-ai'); ?></label>
                         </div>
                         <div class="form-check mb-3">
                             <input class="form-check-input" type="radio" name="aichat-autosync-mode-radio" id="aichat-autosync-radio-full" value="full">
-                            <label class="form-check-label" for="aichat-autosync-radio-full"><?php esc_html_e('Full rebuild (slow)','axiachat-ai'); ?></label>
+                            <label class="form-check-label" for="aichat-autosync-radio-full"><?php esc_html_e('Full rebuild (slow)', 'axiachat-ai'); ?></label>
                         </div>
-                        <div class="alert alert-warning py-2 small d-none" id="aichat-autosync-limited-note"><i class="bi bi-exclamation-triangle me-1"></i><?php esc_html_e('This is a LIMITED scope context; discovering new items is disabled.','axiachat-ai'); ?></div>
+                        <div class="alert alert-warning py-2 small d-none" id="aichat-autosync-limited-note"><i class="bi bi-exclamation-triangle me-1"></i><?php esc_html_e('This is a LIMITED scope context; discovering new items is disabled.', 'axiachat-ai'); ?></div>
                         <input type="hidden" id="aichat-autosync-modal-context-id" value="" />
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal"><?php esc_html_e('Cancel','axiachat-ai'); ?></button>
-                        <button type="button" class="btn btn-primary btn-sm" id="aichat-autosync-run-confirm"><i class="bi bi-play-circle"></i> <?php esc_html_e('Run','axiachat-ai'); ?></button>
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal"><?php esc_html_e('Cancel', 'axiachat-ai'); ?></button>
+                        <button type="button" class="btn btn-primary btn-sm" id="aichat-autosync-run-confirm"><i class="bi bi-play-circle"></i> <?php esc_html_e('Run', 'axiachat-ai'); ?></button>
                     </div>
                 </div>
             </div>

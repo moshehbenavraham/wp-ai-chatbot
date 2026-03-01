@@ -3752,9 +3752,9 @@ function aichat_generate_bot_response_for_phone($bot_slug, $phone, $message, $ar
 		$normalized = substr($normalized, 0, 24);
 	}
 	// session determinista: wha<md5> o wha<digits>. (Antes se usaba 'wha_' con guion bajo; soportado en vistas).
-	$digits_only = preg_replace('/[^0-9]/','', $normalized);
+	$digits_only = preg_replace('/[^0-9]/', '', $normalized);
 	if ($digits_only === '') {
-		$digits_only = substr(md5($normalized),0,10);
+		$digits_only = substr(md5($normalized), 0, 10);
 	}
 	$session_id = 'wha' . $digits_only;
 	// Forzar session_id

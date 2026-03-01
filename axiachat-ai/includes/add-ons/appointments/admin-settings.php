@@ -100,19 +100,19 @@ function aichat_appointments_render_page()
         <!-- Tab Content -->
         <div class="tab-content">
             <?php
-			switch ($tab) {
-				case 'calendar':
-					aichat_appointments_render_calendar_tab();
-					break;
-				case 'settings':
-					aichat_appointments_render_settings_tab();
-					break;
-				case 'help':
-					aichat_appointments_render_help_tab();
-					break;
-				default:
-					aichat_appointments_render_list_tab();
-			}
+        	switch ($tab) {
+        		case 'calendar':
+        			aichat_appointments_render_calendar_tab();
+        			break;
+        		case 'settings':
+        			aichat_appointments_render_settings_tab();
+        			break;
+        		case 'help':
+        			aichat_appointments_render_help_tab();
+        			break;
+        		default:
+        			aichat_appointments_render_list_tab();
+        	}
 	?>
         </div>
     </div>

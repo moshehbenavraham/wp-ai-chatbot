@@ -201,7 +201,7 @@ function aichat_expand_macros_to_atomic(array $selected_ids)
 		}
 	}
 
-return array_keys($uniq);
+	return array_keys($uniq);
 }
 
 // phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching

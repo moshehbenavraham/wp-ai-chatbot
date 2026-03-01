@@ -719,8 +719,8 @@ function aichat_bot_delete()
 
 	$ok = $wpdb->delete($t, ['id' => $id], ['%d']);
 	if (!$ok) {
-		aichat_bots_log('DELETE error',['db_error' => $wpdb->last_error]);
-		wp_send_json_error(['message' => 'DB delete error'],500);
+		aichat_bots_log('DELETE error', ['db_error' => $wpdb->last_error]);
+		wp_send_json_error(['message' => 'DB delete error'], 500);
 	}
 
 	wp_send_json_success(['deleted' => true, 'id' => $id]);

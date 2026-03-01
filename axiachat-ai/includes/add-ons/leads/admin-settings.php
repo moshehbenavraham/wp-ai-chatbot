@@ -105,13 +105,13 @@ function aichat_leads_render_page()
             
             <div class="tab-content border border-top-0 bg-white p-4">
                 <?php
-				if ($tab === 'settings') {
-					aichat_leads_render_settings_tab();
-				} elseif ($tab === 'help') {
-					aichat_leads_render_help_tab();
-				} else {
-					aichat_leads_render_list_tab();
-				}
+        		if ($tab === 'settings') {
+        			aichat_leads_render_settings_tab();
+        		} elseif ($tab === 'help') {
+        			aichat_leads_render_help_tab();
+        		} else {
+        			aichat_leads_render_list_tab();
+        		}
 	?>
             </div>
         </div>

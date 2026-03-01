@@ -271,7 +271,7 @@ function aichat_contexto_pdf_page()
                     <div><div class="fw-semibold">PHP Fallback</div>
                         <div class="aichat-badge <?php echo $caps['php_fallback'] ? 'ok' : 'no'; ?>">
                             <i class="bi <?php echo $caps['php_fallback'] ? 'bi-check-circle' : 'bi-x-circle'; ?>"></i>
-                            <?php echo $caps['php_fallback'] ? esc_html__('Enabled','axiachat-ai') : esc_html__('Disabled','axiachat-ai'); ?>
+                            <?php echo $caps['php_fallback'] ? esc_html__('Enabled', 'axiachat-ai') : esc_html__('Disabled', 'axiachat-ai'); ?>
                         </div>
                     </div>
                 </div></div>

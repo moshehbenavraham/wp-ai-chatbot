@@ -3275,8 +3275,8 @@ class MxChat_Admin
 
                             <div class="mxchat-card-footer">
                                 <?php
-								// Check if it's a form action
-								$is_form_action = preg_match('/Form (\d+)/', $action->intent_label, $form_matches);
+                    			// Check if it's a form action
+                    			$is_form_action = preg_match('/Form (\d+)/', $action->intent_label, $form_matches);
 
                     	// Check if it's a recommendation flow action
                     	$is_flow_action = preg_match('/Recommendation Flow (\d+)/', $action->intent_label, $flow_matches);

@@ -925,7 +925,7 @@ function mxchat_render_knowledge_base_section($admin_instance, $knowledge_manage
                                                     <span class="mxchat-chunk-badge"><?php echo esc_html($chunk_count); ?> <?php esc_html_e('chunks', 'mxchat'); ?></span>
                                                     <span class="mxchat-chunk-preview">
                                                         <?php
-														$parent_content = isset($first_prompt->display_content) ? $first_prompt->display_content : $first_prompt->article_content;
+                                            			$parent_content = isset($first_prompt->display_content) ? $first_prompt->display_content : $first_prompt->article_content;
 			$content_preview = mb_substr($parent_content, 0, 100);
 			echo esc_html($content_preview . '...');
 			?>
@@ -1055,13 +1055,13 @@ function mxchat_render_knowledge_base_section($admin_instance, $knowledge_manage
                                                 <div class="mxchat-content-full" style="display: none;">
                                                     <div class="content-view">
                                                         <?php
-														if (preg_match('/[\x{0590}-\x{05FF}]/u', $content)) {
-															echo '<div dir="rtl" lang="he" class="rtl-content">';
-															echo wp_kses_post(wpautop($content));
-															echo '</div>';
-														} else {
-															echo wp_kses_post(wpautop($content));
-														}
+                                        				if (preg_match('/[\x{0590}-\x{05FF}]/u', $content)) {
+                                        					echo '<div dir="rtl" lang="he" class="rtl-content">';
+                                        					echo wp_kses_post(wpautop($content));
+                                        					echo '</div>';
+                                        				} else {
+                                        					echo wp_kses_post(wpautop($content));
+                                        				}
 			?>
                                                     </div>
                                                 </div>

@@ -216,8 +216,8 @@ add_action('admin_enqueue_scripts', function ($hook) {
 	// Dedicated nonce for usage endpoints (see usage-ajax.php)
 	'nonce' => wp_create_nonce('aichat_usage'),
 	'strings' => [
-	'totalTokens' => esc_html__('Total Tokens','axiachat-ai'),
-	'costLabel' => esc_html__('Cost','axiachat-ai'),
+	'totalTokens' => esc_html__('Total Tokens', 'axiachat-ai'),
+	'costLabel' => esc_html__('Cost', 'axiachat-ai'),
 	],
 	]);
 });

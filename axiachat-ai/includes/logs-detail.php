@@ -169,7 +169,7 @@ function aichat_logs_detail_page()
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr><td colspan="3" class="text-center text-muted py-4">
-                        <i class="bi bi-info-circle"></i> <?php esc_html_e('No messages in this conversation.','axiachat-ai'); ?>
+                        <i class="bi bi-info-circle"></i> <?php esc_html_e('No messages in this conversation.', 'axiachat-ai'); ?>
                     </td></tr>
                 <?php endif; ?>
                 </tbody>

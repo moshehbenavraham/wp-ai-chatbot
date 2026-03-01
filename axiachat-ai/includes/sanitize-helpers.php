@@ -59,26 +59,27 @@ if (! function_exists('aichat_validate_patch_payload')) {
 	 * Returns array (possibly empty) or WP_Error.
 	 */
 	function aichat_validate_patch_payload($raw, $max_bytes = 20480) // 20KB default cap.
-	{if (is_string($raw)) {
-		if (strlen($raw) > $max_bytes) {
-			return new WP_Error('aichat_patch_too_large', __('Patch payload too large.', 'axiachat-ai'));
-		}
-		// Do NOT call stripslashes() here: the caller already uses
-		// wp_unslash() which removes WordPress magic-quotes.  A second
-		// stripslashes() destroys valid JSON escape sequences (\n → n,
-		// \t → t, \" → ", etc.), corrupting multi-line text fields.
-		$decoded = json_decode($raw, true);
-		if (json_last_error() !== JSON_ERROR_NONE || ! is_array($decoded)) {
-			// Fallback: try once with stripslashes in case the input was
-			// not previously wp_unslash()-ed (legacy/external callers).
-			$decoded = json_decode(stripslashes($raw), true);
-			if (json_last_error() !== JSON_ERROR_NONE || ! is_array($decoded)) {
-				return new WP_Error('aichat_patch_invalid_json', __('Invalid patch JSON.', 'axiachat-ai'));
+	{
+		if (is_string($raw)) {
+			if (strlen($raw) > $max_bytes) {
+				return new WP_Error('aichat_patch_too_large', __('Patch payload too large.', 'axiachat-ai'));
 			}
-		}
+			// Do NOT call stripslashes() here: the caller already uses
+			// wp_unslash() which removes WordPress magic-quotes.  A second
+			// stripslashes() destroys valid JSON escape sequences (\n → n,
+			// \t → t, \" → ", etc.), corrupting multi-line text fields.
+			$decoded = json_decode($raw, true);
+			if (json_last_error() !== JSON_ERROR_NONE || ! is_array($decoded)) {
+				// Fallback: try once with stripslashes in case the input was
+				// not previously wp_unslash()-ed (legacy/external callers).
+				$decoded = json_decode(stripslashes($raw), true);
+				if (json_last_error() !== JSON_ERROR_NONE || ! is_array($decoded)) {
+					return new WP_Error('aichat_patch_invalid_json', __('Invalid patch JSON.', 'axiachat-ai'));
+				}
+			}
 
-		return $decoded;
-	}
+			return $decoded;
+		}
 		if (is_array($raw)) {
 			return $raw;
 		}
