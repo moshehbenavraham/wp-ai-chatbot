@@ -27,6 +27,9 @@ jobs:
   codeql:
     name: SAST (CodeQL - JavaScript)
     runs-on: ubuntu-latest
+    # SARIF upload requires GitHub Advanced Security (free for public repos).
+    # On private repos without GHAS, the scan runs but upload fails gracefully.
+    continue-on-error: true
     permissions:
       actions: read
       contents: read
