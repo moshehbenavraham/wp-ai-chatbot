@@ -42,98 +42,98 @@ use Smalot\PdfParser\PDFObject;
  */
 class ElementArray extends Element
 {
-    public function __construct($value, ?Document $document = null)
-    {
-        parent::__construct($value, $document);
-    }
+	public function __construct($value, ?Document $document = null)
+	{
+		parent::__construct($value, $document);
+	}
 
-    public function getContent()
-    {
-        foreach ($this->value as $name => $element) {
-            $this->resolveXRef($name);
-        }
+	public function getContent()
+	{
+		foreach ($this->value as $name => $element) {
+			$this->resolveXRef($name);
+		}
 
-        return parent::getContent();
-    }
+		return parent::getContent();
+	}
 
-    public function getRawContent(): array
-    {
-        return $this->value;
-    }
+	public function getRawContent(): array
+	{
+		return $this->value;
+	}
 
-    public function getDetails(bool $deep = true): array
-    {
-        $values = [];
-        $elements = $this->getContent();
+	public function getDetails(bool $deep = true): array
+	{
+		$values = [];
+		$elements = $this->getContent();
 
-        foreach ($elements as $key => $element) {
-            if ($element instanceof Header && $deep) {
-                $values[$key] = $element->getDetails($deep);
-            } elseif ($element instanceof PDFObject && $deep) {
-                $values[$key] = $element->getDetails(false);
-            } elseif ($element instanceof self) {
-                if ($deep) {
-                    $values[$key] = $element->getDetails();
-                }
-            } elseif ($element instanceof Element && !($element instanceof self)) {
-                $values[$key] = $element->getContent();
-            }
-        }
+		foreach ($elements as $key => $element) {
+			if ($element instanceof Header && $deep) {
+				$values[$key] = $element->getDetails($deep);
+			} elseif ($element instanceof PDFObject && $deep) {
+				$values[$key] = $element->getDetails(false);
+			} elseif ($element instanceof self) {
+				if ($deep) {
+					$values[$key] = $element->getDetails();
+				}
+			} elseif ($element instanceof Element && !($element instanceof self)) {
+				$values[$key] = $element->getContent();
+			}
+		}
 
-        return $values;
-    }
+		return $values;
+	}
 
-    public function __toString(): string
-    {
-        return implode(',', $this->value);
-    }
+	public function __toString(): string
+	{
+		return implode(',', $this->value);
+	}
 
-    /**
-     * @return Element|PDFObject
-     */
-    protected function resolveXRef(string $name)
-    {
-        if (($obj = $this->value[$name]) instanceof ElementXRef) {
-            /** @var ElementXRef $obj */
-            $obj = $this->document->getObjectById($obj->getId());
-            $this->value[$name] = $obj;
-        }
+	/**
+	 * @return Element|PDFObject
+	 */
+	protected function resolveXRef(string $name)
+	{
+		if (($obj = $this->value[$name]) instanceof ElementXRef) {
+			/** @var ElementXRef $obj */
+			$obj = $this->document->getObjectById($obj->getId());
+			$this->value[$name] = $obj;
+		}
 
-        return $this->value[$name];
-    }
+		return $this->value[$name];
+	}
 
-    /**
-     * @todo: These methods return mixed and mismatched types throughout the hierarchy
-     *
-     * @return bool|ElementArray
-     */
-    public static function parse(string $content, ?Document $document = null, int &$offset = 0)
-    {
-        if (preg_match('/^\s*\[(?P<array>.*)/is', $content, $match)) {
-            preg_match_all('/(.*?)(\[|\])/s', trim($content), $matches);
+	/**
+	 * @todo: These methods return mixed and mismatched types throughout the hierarchy
+	 *
+	 * @return bool|ElementArray
+	 */
+	public static function parse(string $content, ?Document $document = null, int &$offset = 0)
+	{
+		if (preg_match('/^\s*\[(?P<array>.*)/is', $content, $match)) {
+			preg_match_all('/(.*?)(\[|\])/s', trim($content), $matches);
 
-            $level = 0;
-            $sub = '';
-            foreach ($matches[0] as $part) {
-                $sub .= $part;
-                $level += (false !== strpos($part, '[') ? 1 : -1);
-                if ($level <= 0) {
-                    break;
-                }
-            }
+			$level = 0;
+			$sub = '';
+			foreach ($matches[0] as $part) {
+				$sub .= $part;
+				$level += (false !== strpos($part, '[') ? 1 : -1);
+				if ($level <= 0) {
+					break;
+				}
+			}
 
-            // Removes 1 level [ and ].
-            $sub = substr(trim($sub), 1, -1);
-            $sub_offset = 0;
-            $values = Element::parse($sub, $document, $sub_offset, true);
+			// Removes 1 level [ and ].
+			$sub = substr(trim($sub), 1, -1);
+			$sub_offset = 0;
+			$values = Element::parse($sub, $document, $sub_offset, true);
 
-            $offset += strpos($content, '[') + 1;
-            // Find next ']' position
-            $offset += \strlen($sub) + 1;
+			$offset += strpos($content, '[') + 1;
+			// Find next ']' position
+			$offset += \strlen($sub) + 1;
 
-            return new self($values, $document);
-        }
+			return new self($values, $document);
+		}
 
-        return false;
-    }
+		return false;
+	}
 }

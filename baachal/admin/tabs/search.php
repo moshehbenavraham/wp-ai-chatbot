@@ -1,7 +1,7 @@
 <?php
 // Prevent direct access
 if (!defined('ABSPATH')) {
-    exit;
+	exit;
 }
 ?>
 
@@ -56,9 +56,9 @@ if (!defined('ABSPATH')) {
 <?php
 // Check if we should clear cache
 if (isset($_POST['action']) && $_POST['action'] === 'clear_cache') {
-    check_admin_referer('clear_dynamic_terms_cache');
-    delete_transient('baachal_dynamic_terms');
-    echo '<div class="notice notice-success"><p>Product terms cache cleared successfully!</p></div>';
+	check_admin_referer('clear_dynamic_terms_cache');
+	delete_transient('baachal_dynamic_terms');
+	echo '<div class="notice notice-success"><p>Product terms cache cleared successfully!</p></div>';
 }
 ?>
 
@@ -67,14 +67,14 @@ if (isset($_POST['action']) && $_POST['action'] === 'clear_cache') {
         <th scope="row">Dynamic Product Terms</th>
         <td>
             <?php
-            $cached_terms = get_transient('baachal_dynamic_terms');
-            if ($cached_terms !== false) {
-                echo '<p style="color: green;">✅ Cache active (' . count($cached_terms) . ' terms stored)</p>';
-                echo '<details><summary>View cached terms</summary><pre>' . esc_html(implode(', ', array_slice($cached_terms, 0, 20))) . '...</pre></details>';
-            } else {
-                echo '<p style="color: orange;">⚠️ No cached terms (will be generated on next product search)</p>';
-            }
-            ?>
+			$cached_terms = get_transient('baachal_dynamic_terms');
+if ($cached_terms !== false) {
+	echo '<p style="color: green;">✅ Cache active (' . count($cached_terms) . ' terms stored)</p>';
+	echo '<details><summary>View cached terms</summary><pre>' . esc_html(implode(', ', array_slice($cached_terms, 0, 20))) . '...</pre></details>';
+} else {
+	echo '<p style="color: orange;">⚠️ No cached terms (will be generated on next product search)</p>';
+}
+?>
             <p>
                 <button type="button" id="clear-cache-btn" class="button">Clear Product Terms Cache</button>
             </p>

@@ -42,121 +42,121 @@ use Smalot\PdfParser\Exception\EncodingNotFoundException;
  */
 class Encoding extends PDFObject
 {
-    /**
-     * @var array
-     */
-    protected $encoding;
+	/**
+	 * @var array
+	 */
+	protected $encoding;
 
-    /**
-     * @var array
-     */
-    protected $differences;
+	/**
+	 * @var array
+	 */
+	protected $differences;
 
-    /**
-     * @var array
-     */
-    protected $mapping;
+	/**
+	 * @var array
+	 */
+	protected $mapping;
 
-    public function init()
-    {
-        $this->mapping = [];
-        $this->differences = [];
-        $this->encoding = [];
+	public function init()
+	{
+		$this->mapping = [];
+		$this->differences = [];
+		$this->encoding = [];
 
-        if ($this->has('BaseEncoding')) {
-            $this->encoding = EncodingLocator::getEncoding($this->getEncodingClass())->getTranslations();
+		if ($this->has('BaseEncoding')) {
+			$this->encoding = EncodingLocator::getEncoding($this->getEncodingClass())->getTranslations();
 
-            // Build table including differences.
-            $differences = $this->get('Differences')->getContent();
-            $code = 0;
+			// Build table including differences.
+			$differences = $this->get('Differences')->getContent();
+			$code = 0;
 
-            if (!\is_array($differences)) {
-                return;
-            }
+			if (!\is_array($differences)) {
+				return;
+			}
 
-            foreach ($differences as $difference) {
-                /** @var ElementNumeric $difference */
-                if ($difference instanceof ElementNumeric) {
-                    $code = $difference->getContent();
-                    continue;
-                }
+			foreach ($differences as $difference) {
+				/** @var ElementNumeric $difference */
+				if ($difference instanceof ElementNumeric) {
+					$code = $difference->getContent();
+					continue;
+				}
 
-                // ElementName
-                $this->differences[$code] = $difference;
-                if (\is_object($difference)) {
-                    $this->differences[$code] = $difference->getContent();
-                }
+				// ElementName
+				$this->differences[$code] = $difference;
+				if (\is_object($difference)) {
+					$this->differences[$code] = $difference->getContent();
+				}
 
-                // For the next char.
-                ++$code;
-            }
+				// For the next char.
+				++$code;
+			}
 
-            $this->mapping = $this->encoding;
-            foreach ($this->differences as $code => $difference) {
-                /* @var string $difference */
-                $this->mapping[$code] = $difference;
-            }
-        }
-    }
+			$this->mapping = $this->encoding;
+			foreach ($this->differences as $code => $difference) {
+				/* @var string $difference */
+				$this->mapping[$code] = $difference;
+			}
+		}
+	}
 
-    public function getDetails(bool $deep = true): array
-    {
-        $details = [];
+	public function getDetails(bool $deep = true): array
+	{
+		$details = [];
 
-        $details['BaseEncoding'] = ($this->has('BaseEncoding') ? (string) $this->get('BaseEncoding') : 'Ansi');
-        $details['Differences'] = ($this->has('Differences') ? (string) $this->get('Differences') : '');
+		$details['BaseEncoding'] = ($this->has('BaseEncoding') ? (string) $this->get('BaseEncoding') : 'Ansi');
+		$details['Differences'] = ($this->has('Differences') ? (string) $this->get('Differences') : '');
 
-        $details += parent::getDetails($deep);
+		$details += parent::getDetails($deep);
 
-        return $details;
-    }
+		return $details;
+	}
 
-    public function translateChar($dec): ?int
-    {
-        if (isset($this->mapping[$dec])) {
-            $dec = $this->mapping[$dec];
-        }
+	public function translateChar($dec): ?int
+	{
+		if (isset($this->mapping[$dec])) {
+			$dec = $this->mapping[$dec];
+		}
 
-        return PostScriptGlyphs::getCodePoint($dec);
-    }
+		return PostScriptGlyphs::getCodePoint($dec);
+	}
 
-    /**
-     * Returns encoding class name if available or empty string (only prior PHP 7.4).
-     *
-     * @throws \Exception On PHP 7.4+ an exception is thrown if encoding class doesn't exist.
-     */
-    public function __toString(): string
-    {
-        try {
-            return $this->getEncodingClass();
-        } catch (\Exception $e) {
-            // prior to PHP 7.4 toString has to return an empty string.
-            if (version_compare(\PHP_VERSION, '7.4.0', '<')) {
-                return '';
-            }
-            throw $e;
-        }
-    }
+	/**
+	 * Returns encoding class name if available or empty string (only prior PHP 7.4).
+	 *
+	 * @throws \Exception On PHP 7.4+ an exception is thrown if encoding class doesn't exist.
+	 */
+	public function __toString(): string
+	{
+		try {
+			return $this->getEncodingClass();
+		} catch (\Exception $e) {
+			// prior to PHP 7.4 toString has to return an empty string.
+			if (version_compare(\PHP_VERSION, '7.4.0', '<')) {
+				return '';
+			}
+			throw $e;
+		}
+	}
 
-    /**
-     * @throws EncodingNotFoundException
-     */
-    protected function getEncodingClass(): string
-    {
-        // Load reference table charset.
-        $baseEncoding = preg_replace('/[^A-Z0-9]/is', '', $this->get('BaseEncoding')->getContent());
+	/**
+	 * @throws EncodingNotFoundException
+	 */
+	protected function getEncodingClass(): string
+	{
+		// Load reference table charset.
+		$baseEncoding = preg_replace('/[^A-Z0-9]/is', '', $this->get('BaseEncoding')->getContent());
 
-        // Check for empty BaseEncoding field value
-        if (!\is_string($baseEncoding) || 0 == \strlen($baseEncoding)) {
-            $baseEncoding = 'StandardEncoding';
-        }
+		// Check for empty BaseEncoding field value
+		if (!\is_string($baseEncoding) || 0 == \strlen($baseEncoding)) {
+			$baseEncoding = 'StandardEncoding';
+		}
 
-        $className = '\\Smalot\\PdfParser\\Encoding\\'.$baseEncoding;
+		$className = '\\Smalot\\PdfParser\\Encoding\\' . $baseEncoding;
 
-        if (!class_exists($className)) {
-            throw new EncodingNotFoundException('Missing encoding data for: "'.$baseEncoding.'".');
-        }
+		if (!class_exists($className)) {
+			throw new EncodingNotFoundException('Missing encoding data for: "' . $baseEncoding . '".');
+		}
 
-        return $className;
-    }
+		return $className;
+	}
 }

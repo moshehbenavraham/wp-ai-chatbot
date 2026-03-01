@@ -7,43 +7,44 @@
  */
 
 if (!defined('ABSPATH')) {
-    exit;
+	exit;
 }
 
 /**
  * Render the consolidated Pro & Extensions page
  */
-function mxchat_render_pro_page($admin_instance, $addons_config) {
-    $is_activated = $admin_instance->is_activated();
-    $plugin_url = plugin_dir_url(dirname(__FILE__));
+function mxchat_render_pro_page($admin_instance, $addons_config)
+{
+	$is_activated = $admin_instance->is_activated();
+	$plugin_url = plugin_dir_url(dirname(__FILE__));
 
-    // License data
-    $license_status = get_option('mxchat_license_status', 'inactive');
-    $license_email = get_option('mxchat_pro_email', '');
-    $license_key = get_option('mxchat_activation_key', '');
-    $current_domain = parse_url(home_url(), PHP_URL_HOST);
-    $is_domain_linked = $admin_instance->is_current_activation_linked($current_domain);
-    $license_management_url = 'https://mxchat.ai/my-account/orders/';
+	// License data
+	$license_status = get_option('mxchat_license_status', 'inactive');
+	$license_email = get_option('mxchat_pro_email', '');
+	$license_key = get_option('mxchat_activation_key', '');
+	$current_domain = parse_url(home_url(), PHP_URL_HOST);
+	$is_domain_linked = $admin_instance->is_current_activation_linked($current_domain);
+	$license_management_url = 'https://mxchat.ai/my-account/orders/';
 
-    // Mask the license key for display
-    $masked_key = '';
-    if (!empty($license_key)) {
-        $masked_key = str_repeat('•', max(0, strlen($license_key) - 4)) . substr($license_key, -4);
-    }
+	// Mask the license key for display
+	$masked_key = '';
+	if (!empty($license_key)) {
+		$masked_key = str_repeat('•', max(0, strlen($license_key) - 4)) . substr($license_key, -4);
+	}
 
-    // Count addon statuses
-    $active_count = 0;
-    $installed_count = 0;
-    foreach ($addons_config as $slug => $addon) {
-        $status = mxchat_get_addon_status_info($addon['plugin_file'], $addon['config_page']);
-        if ($status['status'] === 'active') {
-            $active_count++;
-            $installed_count++;
-        } elseif ($status['status'] === 'inactive') {
-            $installed_count++;
-        }
-    }
-    ?>
+	// Count addon statuses
+	$active_count = 0;
+	$installed_count = 0;
+	foreach ($addons_config as $slug => $addon) {
+		$status = mxchat_get_addon_status_info($addon['plugin_file'], $addon['config_page']);
+		if ($status['status'] === 'active') {
+			$active_count++;
+			$installed_count++;
+		} elseif ($status['status'] === 'inactive') {
+			$installed_count++;
+		}
+	}
+	?>
     <div class="mxch-admin-wrapper mxch-pro-wrapper">
         <!-- Mobile Header -->
         <header class="mxch-mobile-header">
@@ -88,8 +89,8 @@ function mxchat_render_pro_page($admin_instance, $addons_config) {
                         <span><?php esc_html_e('Overview', 'mxchat'); ?></span>
                     </button>
                     <?php foreach ($addons_config as $slug => $addon):
-                        $status = mxchat_get_addon_status_info($addon['plugin_file'], $addon['config_page']);
-                    ?>
+                    	$status = mxchat_get_addon_status_info($addon['plugin_file'], $addon['config_page']);
+                    	?>
                     <button class="mxch-mobile-nav-link mxch-addon-nav-link" data-target="addon-<?php echo esc_attr($slug); ?>">
                         <span class="mxch-addon-status-dot <?php echo esc_attr($status['status']); ?>"></span>
                         <span><?php echo esc_html(!empty($addon['sidebar_title']) ? $addon['sidebar_title'] : str_replace('MxChat ', '', $addon['title'])); ?></span>
@@ -139,8 +140,8 @@ function mxchat_render_pro_page($admin_instance, $addons_config) {
                     </div>
 
                     <?php foreach ($addons_config as $slug => $addon):
-                        $status = mxchat_get_addon_status_info($addon['plugin_file'], $addon['config_page']);
-                    ?>
+                    	$status = mxchat_get_addon_status_info($addon['plugin_file'], $addon['config_page']);
+                    	?>
                     <div class="mxch-nav-item mxch-addon-item" data-section="addon-<?php echo esc_attr($slug); ?>">
                         <button class="mxch-nav-link mxch-addon-nav-link" data-target="addon-<?php echo esc_attr($slug); ?>">
                             <span class="mxch-addon-status-dot <?php echo esc_attr($status['status']); ?>"></span>
@@ -270,8 +271,8 @@ function mxchat_render_pro_page($admin_instance, $addons_config) {
 
                 <div class="mxch-extensions-grid">
                     <?php foreach ($addons_config as $slug => $addon):
-                        $status = mxchat_get_addon_status_info($addon['plugin_file'], $addon['config_page']);
-                    ?>
+                    	$status = mxchat_get_addon_status_info($addon['plugin_file'], $addon['config_page']);
+                    	?>
                     <div class="mxch-extension-card" data-addon="<?php echo esc_attr($slug); ?>" style="--card-accent: <?php echo esc_attr($addon['accent']); ?>">
                         <div class="mxch-extension-card-header">
                             <h3 class="mxch-extension-title"><?php echo esc_html($addon['title']); ?></h3>
@@ -305,9 +306,9 @@ function mxchat_render_pro_page($admin_instance, $addons_config) {
 
             <!-- Individual Addon Detail Sections (Hero Style) -->
             <?php foreach ($addons_config as $slug => $addon):
-                $status = mxchat_get_addon_status_info($addon['plugin_file'], $addon['config_page']);
-                $screenshot_url = $plugin_url . 'images/addons/' . $slug . '.png';
-            ?>
+            	$status = mxchat_get_addon_status_info($addon['plugin_file'], $addon['config_page']);
+            	$screenshot_url = $plugin_url . 'images/addons/' . $slug . '.png';
+            	?>
             <div id="addon-<?php echo esc_attr($slug); ?>" class="mxch-section mxch-addon-detail">
                 <!-- Back Link -->
                 <div class="mxch-addon-page-header">
@@ -401,36 +402,37 @@ function mxchat_render_pro_page($admin_instance, $addons_config) {
 /**
  * Get addon status information
  */
-function mxchat_get_addon_status_info($plugin_file, $config_page) {
-    if (!function_exists('get_plugins')) {
-        require_once ABSPATH . 'wp-admin/includes/plugin.php';
-    }
+function mxchat_get_addon_status_info($plugin_file, $config_page)
+{
+	if (!function_exists('get_plugins')) {
+		require_once ABSPATH . 'wp-admin/includes/plugin.php';
+	}
 
-    $all_plugins = get_plugins();
-    $active_plugins = get_option('active_plugins', array());
+	$all_plugins = get_plugins();
+	$active_plugins = get_option('active_plugins', []);
 
-    if (isset($all_plugins[$plugin_file])) {
-        if (in_array($plugin_file, $active_plugins)) {
-            return array(
-                'status' => 'active',
-                'action_url' => admin_url('admin.php?page=' . $config_page),
-                'action_text' => __('Configure', 'mxchat')
-            );
-        } else {
-            return array(
-                'status' => 'inactive',
-                'action_url' => wp_nonce_url(
-                    admin_url('plugins.php?action=activate&plugin=' . $plugin_file),
-                    'activate-plugin_' . $plugin_file
-                ),
-                'action_text' => __('Activate', 'mxchat')
-            );
-        }
-    }
+	if (isset($all_plugins[$plugin_file])) {
+		if (in_array($plugin_file, $active_plugins)) {
+			return [
+				'status' => 'active',
+				'action_url' => admin_url('admin.php?page=' . $config_page),
+				'action_text' => __('Configure', 'mxchat'),
+			];
+		} else {
+			return [
+				'status' => 'inactive',
+				'action_url' => wp_nonce_url(
+					admin_url('plugins.php?action=activate&plugin=' . $plugin_file),
+					'activate-plugin_' . $plugin_file
+				),
+				'action_text' => __('Activate', 'mxchat'),
+			];
+		}
+	}
 
-    return array(
-        'status' => 'not-installed',
-        'action_url' => '',
-        'action_text' => __('Get Extension', 'mxchat')
-    );
+	return [
+		'status' => 'not-installed',
+		'action_url' => '',
+		'action_text' => __('Get Extension', 'mxchat'),
+	];
 }

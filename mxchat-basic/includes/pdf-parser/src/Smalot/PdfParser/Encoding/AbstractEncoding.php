@@ -4,5 +4,5 @@ namespace Smalot\PdfParser\Encoding;
 
 abstract class AbstractEncoding
 {
-    abstract public function getTranslations(): array;
+	abstract public function getTranslations(): array;
 }

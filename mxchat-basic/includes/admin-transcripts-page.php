@@ -7,19 +7,20 @@
  */
 
 if (!defined('ABSPATH')) {
-    exit;
+	exit;
 }
 
 /**
  * Render the new sidebar-based Transcripts page
  */
-function mxchat_render_transcripts_page($admin_instance, $page_data) {
-    $is_activated = $admin_instance->is_activated();
-    $plugin_url = plugin_dir_url(dirname(__FILE__));
+function mxchat_render_transcripts_page($admin_instance, $page_data)
+{
+	$is_activated = $admin_instance->is_activated();
+	$plugin_url = plugin_dir_url(dirname(__FILE__));
 
-    // Extract page data
-    extract($page_data);
-    ?>
+	// Extract page data
+	extract($page_data);
+	?>
     <div class="mxch-admin-wrapper">
         <!-- Mobile Header -->
         <header class="mxch-mobile-header">
@@ -188,12 +189,12 @@ function mxchat_render_transcripts_page($admin_instance, $page_data) {
                             <span class="mxch-stat-label"><?php esc_html_e('Unique Users', 'mxchat'); ?></span>
                             <span class="mxch-stat-sublabel">
                                 <?php
-                                echo sprintf(
-                                    esc_html__('%d registered, %d guests', 'mxchat'),
-                                    $registered_users,
-                                    $guest_users
-                                );
-                                ?>
+								echo sprintf(
+									esc_html__('%d registered, %d guests', 'mxchat'),
+									$registered_users,
+									$guest_users
+								);
+	?>
                             </span>
                         </div>
                     </div>
@@ -266,37 +267,37 @@ function mxchat_render_transcripts_page($admin_instance, $page_data) {
                                     <span class="mxch-insight-label"><?php esc_html_e('Peak Activity', 'mxchat'); ?></span>
                                     <span class="mxch-insight-value">
                                         <?php
-                                        if ($busiest_hour) {
-                                            $hour = $busiest_hour->hour;
-                                            $formatted_hour = date('g A', strtotime("$hour:00"));
-                                            echo esc_html($formatted_hour);
-                                        } else {
-                                            echo esc_html__('N/A', 'mxchat');
-                                        }
-                                        ?>
+			if ($busiest_hour) {
+				$hour = $busiest_hour->hour;
+				$formatted_hour = date('g A', strtotime("$hour:00"));
+				echo esc_html($formatted_hour);
+			} else {
+				echo esc_html__('N/A', 'mxchat');
+			}
+	?>
                                     </span>
                                 </div>
                                 <div class="mxch-insight-item">
                                     <span class="mxch-insight-label"><?php esc_html_e('Engagement Rate', 'mxchat'); ?></span>
                                     <span class="mxch-insight-value">
                                         <?php
-                                        $engagement_rate = $total_chats > 0 ? round(($total_messages / $total_chats), 1) : 0;
-                                        echo esc_html($engagement_rate . ' msg/chat');
-                                        ?>
+	$engagement_rate = $total_chats > 0 ? round(($total_messages / $total_chats), 1) : 0;
+	echo esc_html($engagement_rate . ' msg/chat');
+	?>
                                     </span>
                                 </div>
                                 <div class="mxch-insight-item">
                                     <span class="mxch-insight-label"><?php esc_html_e('Status', 'mxchat'); ?></span>
                                     <span class="mxch-insight-value">
                                         <?php
-                                        if ($today_chats > 0) {
-                                            echo '<span class="mxch-status-badge mxch-status-active">' . esc_html__('Active', 'mxchat') . '</span>';
-                                        } else if ($week_chats > 0) {
-                                            echo '<span class="mxch-status-badge mxch-status-moderate">' . esc_html__('Moderate', 'mxchat') . '</span>';
-                                        } else {
-                                            echo '<span class="mxch-status-badge mxch-status-quiet">' . esc_html__('Quiet', 'mxchat') . '</span>';
-                                        }
-                                        ?>
+	if ($today_chats > 0) {
+		echo '<span class="mxch-status-badge mxch-status-active">' . esc_html__('Active', 'mxchat') . '</span>';
+	} elseif ($week_chats > 0) {
+		echo '<span class="mxch-status-badge mxch-status-moderate">' . esc_html__('Moderate', 'mxchat') . '</span>';
+	} else {
+		echo '<span class="mxch-status-badge mxch-status-quiet">' . esc_html__('Quiet', 'mxchat') . '</span>';
+	}
+	?>
                                     </span>
                                 </div>
                                 <div class="mxch-insight-item">
@@ -543,10 +544,10 @@ function mxchat_render_transcripts_page($admin_instance, $page_data) {
                         </div>
                         <div class="mxch-card-body">
                             <?php
-                            $options = get_option('mxchat_transcripts_options', array());
-                            $enabled = isset($options['mxchat_enable_notifications']) ? $options['mxchat_enable_notifications'] : 0;
-                            $email = isset($options['mxchat_notification_email']) ? $options['mxchat_notification_email'] : get_option('admin_email');
-                            ?>
+							$options = get_option('mxchat_transcripts_options', []);
+	$enabled = isset($options['mxchat_enable_notifications']) ? $options['mxchat_enable_notifications'] : 0;
+	$email = isset($options['mxchat_notification_email']) ? $options['mxchat_notification_email'] : get_option('admin_email');
+	?>
                             <div class="mxch-field">
                                 <div class="mxch-toggle-row">
                                     <label class="mxchat-toggle-switch">
@@ -585,10 +586,10 @@ function mxchat_render_transcripts_page($admin_instance, $page_data) {
                         </div>
                         <div class="mxch-card-body">
                             <?php
-                            $auto_email_enabled = isset($options['mxchat_auto_email_transcript_enabled']) ? $options['mxchat_auto_email_transcript_enabled'] : 0;
-                            $delay = isset($options['mxchat_auto_email_transcript_delay']) ? $options['mxchat_auto_email_transcript_delay'] : '30';
-                            $require_contact = isset($options['mxchat_auto_email_transcript_require_contact']) ? $options['mxchat_auto_email_transcript_require_contact'] : 0;
-                            ?>
+	$auto_email_enabled = isset($options['mxchat_auto_email_transcript_enabled']) ? $options['mxchat_auto_email_transcript_enabled'] : 0;
+	$delay = isset($options['mxchat_auto_email_transcript_delay']) ? $options['mxchat_auto_email_transcript_delay'] : '30';
+	$require_contact = isset($options['mxchat_auto_email_transcript_require_contact']) ? $options['mxchat_auto_email_transcript_require_contact'] : 0;
+	?>
                             <div class="mxch-field">
                                 <div class="mxch-toggle-row">
                                     <label class="mxchat-toggle-switch">
@@ -643,8 +644,8 @@ function mxchat_render_transcripts_page($admin_instance, $page_data) {
                         </div>
                         <div class="mxch-card-body">
                             <?php
-                            $auto_delete = isset($options['mxchat_auto_delete_transcripts']) ? $options['mxchat_auto_delete_transcripts'] : 'never';
-                            ?>
+	$auto_delete = isset($options['mxchat_auto_delete_transcripts']) ? $options['mxchat_auto_delete_transcripts'] : 'never';
+	?>
                             <div class="mxch-field">
                                 <label class="mxch-field-label"><?php esc_html_e('Auto-Delete Old Transcripts', 'mxchat'); ?></label>
                                 <select name="mxchat_transcripts_options[mxchat_auto_delete_transcripts]"

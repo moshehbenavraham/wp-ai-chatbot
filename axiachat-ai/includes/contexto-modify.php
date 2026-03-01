@@ -5,48 +5,51 @@
  *
  * @package AxiaChat
  */
-if ( ! defined( 'ABSPATH' ) ) {
-    exit;
+if (! defined('ABSPATH')) {
+	exit;
 }
 
-function aichat_contexto_modify_page() {
-    global $wpdb;
+function aichat_contexto_modify_page()
+{
+	global $wpdb;
 
-    // Fetch all contexts for the selector
-    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Admin screen listing internal context tables.
-    $contexts = $wpdb->get_results(
-        "SELECT c.id, c.name, c.context_type, c.embedding_provider, c.processing_status, c.processing_progress,
+	// Fetch all contexts for the selector
+	// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Admin screen listing internal context tables.
+	$contexts = $wpdb->get_results(
+		"SELECT c.id, c.name, c.context_type, c.embedding_provider, c.processing_status, c.processing_progress,
                 (SELECT COUNT(*) FROM {$wpdb->prefix}aichat_chunks ch WHERE ch.id_context=c.id) AS chunk_count,
                 (SELECT COUNT(DISTINCT post_id) FROM {$wpdb->prefix}aichat_chunks ch2 WHERE ch2.id_context=c.id) AS post_count
          FROM {$wpdb->prefix}aichat_contexts c
          ORDER BY c.id ASC",
-        ARRAY_A
-    );
-    if ( ! $contexts ) { $contexts = []; }
+		ARRAY_A
+	);
+	if (! $contexts) {
+		$contexts = [];
+	}
 
-    $has_woocommerce = class_exists('WooCommerce') ? 1 : 0;
-    ?>
+	$has_woocommerce = class_exists('WooCommerce') ? 1 : 0;
+	?>
     <div class="wrap aichat-admin">
 
         <div class="d-flex align-items-center mb-3">
             <i class="bi bi-pencil-square fs-3 me-2 text-primary"></i>
-            <h1 class="m-0"><?php echo esc_html__( 'Modify Context', 'axiachat-ai' ); ?></h1>
+            <h1 class="m-0"><?php echo esc_html__('Modify Context', 'axiachat-ai'); ?></h1>
         </div>
 
         <!-- Tabs (consistent with other context pages) -->
         <ul class="nav nav-tabs mb-3" role="tablist">
             <li class="nav-item" role="presentation">
-                <a class="nav-link" href="<?php echo esc_url( admin_url( 'admin.php?page=aichat-contexto-settings' ) ); ?>" role="tab">
+                <a class="nav-link" href="<?php echo esc_url(admin_url('admin.php?page=aichat-contexto-settings')); ?>" role="tab">
                     <i class="bi bi-gear me-1"></i><?php esc_html_e('Context', 'axiachat-ai'); ?>
                 </a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link" href="<?php echo esc_url( admin_url( 'admin.php?page=aichat-contexto-create' ) ); ?>" role="tab">
+                <a class="nav-link" href="<?php echo esc_url(admin_url('admin.php?page=aichat-contexto-create')); ?>" role="tab">
                     <i class="bi bi-plus-circle me-1"></i><?php esc_html_e('Add New', 'axiachat-ai'); ?>
                 </a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link" href="<?php echo esc_url( admin_url( 'admin.php?page=aichat-contexto-pdf' ) ); ?>" role="tab">
+                <a class="nav-link" href="<?php echo esc_url(admin_url('admin.php?page=aichat-contexto-pdf')); ?>" role="tab">
                     <i class="bi bi-file-earmark-arrow-up me-1"></i><?php esc_html_e('Import PDF/Data', 'axiachat-ai'); ?>
                 </a>
             </li>
@@ -70,17 +73,17 @@ function aichat_contexto_modify_page() {
                         </label>
                         <select id="aichat-modify-context-select" class="form-select">
                             <option value=""><?php esc_html_e('— Select a context —', 'axiachat-ai'); ?></option>
-                            <?php foreach ( $contexts as $ctx ) : ?>
-                                <option value="<?php echo esc_attr( $ctx['id'] ); ?>"
-                                        data-type="<?php echo esc_attr( $ctx['context_type'] ); ?>"
-                                        data-provider="<?php echo esc_attr( $ctx['embedding_provider'] ); ?>"
-                                        data-status="<?php echo esc_attr( $ctx['processing_status'] ); ?>">
+                            <?php foreach ($contexts as $ctx) : ?>
+                                <option value="<?php echo esc_attr($ctx['id']); ?>"
+                                        data-type="<?php echo esc_attr($ctx['context_type']); ?>"
+                                        data-provider="<?php echo esc_attr($ctx['embedding_provider']); ?>"
+                                        data-status="<?php echo esc_attr($ctx['processing_status']); ?>">
                                     <?php
-                                    echo esc_html( $ctx['name'] . ' (#' . $ctx['id'] . ') — ' . $ctx['post_count'] . ' docs, ' . $ctx['chunk_count'] . ' chunks' );
-                                    if ( $ctx['processing_status'] !== 'completed' ) {
-                                        echo ' [' . esc_html( $ctx['processing_status'] ) . ' ' . (int) $ctx['processing_progress'] . '%]';
-                                    }
-                                    ?>
+									echo esc_html($ctx['name'] . ' (#' . $ctx['id'] . ') — ' . $ctx['post_count'] . ' docs, ' . $ctx['chunk_count'] . ' chunks');
+                            	if ($ctx['processing_status'] !== 'completed') {
+                            		echo ' [' . esc_html($ctx['processing_status']) . ' ' . (int) $ctx['processing_progress'] . '%]';
+                            	}
+                            	?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
@@ -102,66 +105,66 @@ function aichat_contexto_modify_page() {
             <div class="card card100 shadow-sm mb-4" id="aichat-modify-indexing-options-card">
                 <div class="card-body">
                     <h5 class="card-title mb-3 d-flex align-items-center justify-content-between">
-                        <span><i class="bi bi-sliders me-2 text-secondary"></i><?php esc_html_e('Advanced Indexing Options','axiachat-ai'); ?></span>
+                        <span><i class="bi bi-sliders me-2 text-secondary"></i><?php esc_html_e('Advanced Indexing Options', 'axiachat-ai'); ?></span>
                         <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#aichat-modify-indexing-body" aria-expanded="false">
                             <i class="bi bi-chevron-down"></i>
                         </button>
                     </h5>
-                    <p class="text-muted small mb-2"><?php esc_html_e('Configure which fields are included when indexing. Changes apply on next re-index.','axiachat-ai'); ?></p>
+                    <p class="text-muted small mb-2"><?php esc_html_e('Configure which fields are included when indexing. Changes apply on next re-index.', 'axiachat-ai'); ?></p>
                     <div class="collapse" id="aichat-modify-indexing-body">
 
                         <!-- General fields -->
-                        <h6 class="fw-semibold mt-3 mb-2"><i class="bi bi-file-text me-1"></i> <?php esc_html_e('General Fields','axiachat-ai'); ?></h6>
+                        <h6 class="fw-semibold mt-3 mb-2"><i class="bi bi-file-text me-1"></i> <?php esc_html_e('General Fields', 'axiachat-ai'); ?></h6>
                         <div class="form-check mb-2">
                             <input class="form-check-input aichat-modify-idx" type="checkbox" id="aichat-modify-idx-excerpt" />
-                            <label class="form-check-label" for="aichat-modify-idx-excerpt"><?php esc_html_e('Include excerpt / summary','axiachat-ai'); ?></label>
+                            <label class="form-check-label" for="aichat-modify-idx-excerpt"><?php esc_html_e('Include excerpt / summary', 'axiachat-ai'); ?></label>
                         </div>
                         <div class="form-check mb-2">
                             <input class="form-check-input aichat-modify-idx" type="checkbox" id="aichat-modify-idx-url" />
-                            <label class="form-check-label" for="aichat-modify-idx-url"><?php esc_html_e('Include post URL','axiachat-ai'); ?></label>
+                            <label class="form-check-label" for="aichat-modify-idx-url"><?php esc_html_e('Include post URL', 'axiachat-ai'); ?></label>
                         </div>
                         <div class="form-check mb-2">
                             <input class="form-check-input aichat-modify-idx" type="checkbox" id="aichat-modify-idx-featured-image" />
-                            <label class="form-check-label" for="aichat-modify-idx-featured-image"><?php esc_html_e('Include featured image URL','axiachat-ai'); ?></label>
+                            <label class="form-check-label" for="aichat-modify-idx-featured-image"><?php esc_html_e('Include featured image URL', 'axiachat-ai'); ?></label>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label fw-semibold small" for="aichat-modify-idx-taxonomies"><?php esc_html_e('Include taxonomies (comma-separated slugs)','axiachat-ai'); ?></label>
+                            <label class="form-label fw-semibold small" for="aichat-modify-idx-taxonomies"><?php esc_html_e('Include taxonomies (comma-separated slugs)', 'axiachat-ai'); ?></label>
                             <input type="text" class="form-control form-control-sm aichat-modify-idx" id="aichat-modify-idx-taxonomies" placeholder="category, post_tag, product_cat, product_tag" />
-                            <div class="form-text small"><?php esc_html_e('Leave empty to skip. Examples: category, post_tag, product_cat','axiachat-ai'); ?></div>
+                            <div class="form-text small"><?php esc_html_e('Leave empty to skip. Examples: category, post_tag, product_cat', 'axiachat-ai'); ?></div>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label fw-semibold small" for="aichat-modify-idx-custom-meta"><?php esc_html_e('Custom meta keys (comma-separated)','axiachat-ai'); ?></label>
+                            <label class="form-label fw-semibold small" for="aichat-modify-idx-custom-meta"><?php esc_html_e('Custom meta keys (comma-separated)', 'axiachat-ai'); ?></label>
                             <input type="text" class="form-control form-control-sm aichat-modify-idx" id="aichat-modify-idx-custom-meta" placeholder="my_acf_field, another_field" />
-                            <div class="form-text small"><?php esc_html_e('Post meta keys to include in indexing (ACF, custom fields, etc.)','axiachat-ai'); ?></div>
+                            <div class="form-text small"><?php esc_html_e('Post meta keys to include in indexing (ACF, custom fields, etc.)', 'axiachat-ai'); ?></div>
                         </div>
 
                         <!-- WooCommerce fields -->
-                        <?php if ( class_exists('WooCommerce') ) : ?>
-                        <h6 class="fw-semibold mt-3 mb-2"><i class="bi bi-cart me-1"></i> <?php esc_html_e('WooCommerce Fields (static, embedded)','axiachat-ai'); ?></h6>
+                        <?php if (class_exists('WooCommerce')) : ?>
+                        <h6 class="fw-semibold mt-3 mb-2"><i class="bi bi-cart me-1"></i> <?php esc_html_e('WooCommerce Fields (static, embedded)', 'axiachat-ai'); ?></h6>
                         <div class="form-check mb-2">
                             <input class="form-check-input aichat-modify-idx" type="checkbox" id="aichat-modify-idx-wc-short-desc" />
-                            <label class="form-check-label" for="aichat-modify-idx-wc-short-desc"><?php esc_html_e('Include short description','axiachat-ai'); ?></label>
+                            <label class="form-check-label" for="aichat-modify-idx-wc-short-desc"><?php esc_html_e('Include short description', 'axiachat-ai'); ?></label>
                         </div>
                         <div class="form-check mb-2">
                             <input class="form-check-input aichat-modify-idx" type="checkbox" id="aichat-modify-idx-wc-attributes" />
-                            <label class="form-check-label" for="aichat-modify-idx-wc-attributes"><?php esc_html_e('Include attributes (size, color, etc.)','axiachat-ai'); ?></label>
+                            <label class="form-check-label" for="aichat-modify-idx-wc-attributes"><?php esc_html_e('Include attributes (size, color, etc.)', 'axiachat-ai'); ?></label>
                         </div>
                         <?php endif; ?>
 
                         <div class="alert alert-light border py-2 small mt-3 mb-2">
                             <i class="bi bi-lightbulb me-1 text-warning"></i>
-                            <strong><?php esc_html_e('Tips:','axiachat-ai'); ?></strong>
+                            <strong><?php esc_html_e('Tips:', 'axiachat-ai'); ?></strong>
                             <ul class="mb-0 mt-1 ps-3">
-                                <li><?php esc_html_e('Dynamic WooCommerce data (price, stock, SKU) is automatically injected at query time with fresh values — no need to re-index when prices change.','axiachat-ai'); ?></li>
-                                <li><?php esc_html_e('Changes to these options require re-indexing the context to take effect on existing content.','axiachat-ai'); ?></li>
-                                <li><?php esc_html_e('To display images in the chat, enable "Featured image URL" and instruct your bot to use Markdown image syntax in its responses.','axiachat-ai'); ?></li>
+                                <li><?php esc_html_e('Dynamic WooCommerce data (price, stock, SKU) is automatically injected at query time with fresh values — no need to re-index when prices change.', 'axiachat-ai'); ?></li>
+                                <li><?php esc_html_e('Changes to these options require re-indexing the context to take effect on existing content.', 'axiachat-ai'); ?></li>
+                                <li><?php esc_html_e('To display images in the chat, enable "Featured image URL" and instruct your bot to use Markdown image syntax in its responses.', 'axiachat-ai'); ?></li>
                             </ul>
                         </div>
 
                         <button type="button" class="btn btn-primary btn-sm mt-2" id="aichat-modify-save-indexing-options">
-                            <i class="bi bi-check-lg me-1"></i><?php esc_html_e('Save Options','axiachat-ai'); ?>
+                            <i class="bi bi-check-lg me-1"></i><?php esc_html_e('Save Options', 'axiachat-ai'); ?>
                         </button>
-                        <span class="ms-2 small text-success" id="aichat-modify-idx-saved-msg" style="display:none;"><i class="bi bi-check-circle"></i> <?php esc_html_e('Saved','axiachat-ai'); ?></span>
+                        <span class="ms-2 small text-success" id="aichat-modify-idx-saved-msg" style="display:none;"><i class="bi bi-check-circle"></i> <?php esc_html_e('Saved', 'axiachat-ai'); ?></span>
                     </div>
                 </div>
             </div>
@@ -356,7 +359,7 @@ function aichat_contexto_modify_page() {
                             </div>
 
                             <!-- PRODUCTS (WooCommerce) -->
-                            <?php if ( $has_woocommerce ) : ?>
+                            <?php if ($has_woocommerce) : ?>
                             <div class="mb-4">
                                 <div class="d-flex align-items-center mb-2">
                                     <i class="bi bi-bag-check me-2 text-primary"></i>

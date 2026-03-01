@@ -1,2 +1,19 @@
 # Ignore Windows alternate data stream artifacts copied into Linux.
 *:Zone.Identifier
+
+# Dependencies (root-level only; reference plugin vendors are tracked)
+/node_modules/
+/vendor/
+
+# PHP-CS-Fixer cache
+.php-cs-fixer.cache
+
+# PHPUnit cache
+.phpunit.cache
+
+# Logs
+logs/
+
+# OS
+.DS_Store
+Thumbs.db

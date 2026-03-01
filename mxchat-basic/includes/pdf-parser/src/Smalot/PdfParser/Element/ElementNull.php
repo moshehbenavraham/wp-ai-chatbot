@@ -40,32 +40,32 @@ use Smalot\PdfParser\Element;
  */
 class ElementNull extends Element
 {
-    public function __construct()
-    {
-        parent::__construct(null, null);
-    }
+	public function __construct()
+	{
+		parent::__construct(null, null);
+	}
 
-    public function __toString(): string
-    {
-        return 'null';
-    }
+	public function __toString(): string
+	{
+		return 'null';
+	}
 
-    public function equals($value): bool
-    {
-        return $this->getContent() === $value;
-    }
+	public function equals($value): bool
+	{
+		return $this->getContent() === $value;
+	}
 
-    /**
-     * @return bool|ElementNull
-     */
-    public static function parse(string $content, ?Document $document = null, int &$offset = 0)
-    {
-        if (preg_match('/^\s*(null)/s', $content, $match)) {
-            $offset += strpos($content, 'null') + \strlen('null');
+	/**
+	 * @return bool|ElementNull
+	 */
+	public static function parse(string $content, ?Document $document = null, int &$offset = 0)
+	{
+		if (preg_match('/^\s*(null)/s', $content, $match)) {
+			$offset += strpos($content, 'null') + \strlen('null');
 
-            return new self();
-        }
+			return new self();
+		}
 
-        return false;
-    }
+		return false;
+	}
 }

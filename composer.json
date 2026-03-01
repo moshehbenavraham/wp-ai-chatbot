@@ -1,0 +1,22 @@
+{
+	"name": "moshehbenavraham/wp-ai-chatbot",
+	"description": "Ultimate WP AI Chatbot Plugin",
+	"type": "wordpress-plugin",
+	"license": "GPL-2.0-or-later",
+	"require": {
+		"php": ">=7.4"
+	},
+	"require-dev": {
+		"friendsofphp/php-cs-fixer": "^3.0",
+		"php-stubs/woocommerce-stubs": "^10.5",
+		"phpstan/phpstan": "^2.1",
+		"phpunit/phpunit": "^10.0",
+		"szepeviktor/phpstan-wordpress": "^2.0"
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		},
+		"sort-packages": true
+	}
+}

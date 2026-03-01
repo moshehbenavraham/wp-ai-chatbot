@@ -1,0 +1,75 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.4.4/schema.json",
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true
+	},
+	"files": {
+		"ignoreUnknown": true,
+		"includes": [
+			"axiachat-ai/**/*.js",
+			"!axiachat-ai/vendor",
+			"!axiachat-ai/assets/vendor",
+			"!axiachat-ai/assets/js/vendor",
+			"mxchat-basic/**/*.js",
+			"baachal/**/*.js",
+			"lib/**/*.js",
+			"tests/js/**/*.js",
+			"!**/*.min.js",
+			"package.json",
+			"biome.json",
+			"composer.json",
+			"vitest.config.js"
+		]
+	},
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "tab",
+		"indentWidth": 4,
+		"lineWidth": 120
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true
+		}
+	},
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "single",
+			"semicolons": "always"
+		}
+	},
+	"assist": {
+		"enabled": true,
+		"actions": {
+			"source": {
+				"organizeImports": "on"
+			}
+		}
+	},
+	"overrides": [
+		{
+			"includes": ["axiachat-ai/**/*.js", "mxchat-basic/**/*.js", "baachal/**/*.js"],
+			"linter": {
+				"rules": {
+					"correctness": {
+						"noInnerDeclarations": "warn",
+						"noInvalidUseBeforeDeclaration": "warn",
+						"noUnusedVariables": "warn"
+					},
+					"suspicious": {
+						"noRedeclare": "warn",
+						"noDocumentCookie": "warn",
+						"noAssignInExpressions": "warn",
+						"useIterableCallbackReturn": "warn"
+					},
+					"complexity": {
+						"noArguments": "warn"
+					}
+				}
+			}
+		}
+	]
+}

@@ -111,16 +111,37 @@
 - PR descriptions must explain what changed, why it changed, and migration/security implications.
 - Review comments should be specific, actionable, and focused on code behavior.
 
+## Stack
+
+| Runtime | Version | Package Manager |
+|---------|---------|-----------------|
+| PHP | >=7.4 (via Docker php:8.3-cli) | Composer (via Docker) |
+| JavaScript | Vanilla (no build) | npm (via nvm) |
+| Node.js | v22.22.0 | npm 10.9.4 |
+| Python | 3.12.3 | pip |
+
 ## Local Dev Tools
 
 | Category | Tool | Config |
 |----------|------|--------|
-| Formatter | not configured | - |
-| Linter | not configured | - |
-| Type Safety | not configured | - |
-| Testing | not configured | - |
-| Observability | not configured | - |
-| Git Hooks | not configured | - |
+| Formatter | Biome (JS), PHP-CS-Fixer (PHP via Docker) | biome.json, .php-cs-fixer.dist.php |
+| Linter | Biome (JS), PHPStan (PHP via Docker) | biome.json, phpstan.neon |
+| Type Safety | PHPStan (PHP, shared with Linting); N/A (vanilla JS) | phpstan.neon |
+| Testing | PHPUnit 10 (PHP via Docker), Vitest 4 (JS) | phpunit.xml.dist, vitest.config.js |
+| Observability | Structured Logger (PHP + JS) | lib/structured-logger.php, lib/structured-logger.js, logs/ |
+| Git Hooks | husky 9 + lint-staged 16 | .husky/pre-commit, package.json (lint-staged) |
+
+## CI/CD
+
+| Bundle | Status | Workflow |
+|--------|--------|----------|
+| Code Quality | configured | .github/workflows/quality.yml |
+| Build & Test | not configured | - |
+| Security | not configured | - |
+| Integration | not configured | - |
+| Operations | not configured | - |
+
+Platform: GitHub Actions
 
 ## When In Doubt
 

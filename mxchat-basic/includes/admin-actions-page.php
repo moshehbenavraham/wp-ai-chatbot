@@ -7,19 +7,20 @@
  */
 
 if (!defined('ABSPATH')) {
-    exit;
+	exit;
 }
 
 /**
  * Render the new sidebar-based Actions page
  */
-function mxchat_render_actions_page($admin_instance, $page_data) {
-    $is_activated = $admin_instance->is_activated();
-    $plugin_url = plugin_dir_url(dirname(__FILE__));
+function mxchat_render_actions_page($admin_instance, $page_data)
+{
+	$is_activated = $admin_instance->is_activated();
+	$plugin_url = plugin_dir_url(dirname(__FILE__));
 
-    // Extract page data
-    extract($page_data);
-    ?>
+	// Extract page data
+	extract($page_data);
+	?>
     <div class="mxch-admin-wrapper mxch-actions-wrapper">
         <!-- Mobile Header -->
         <header class="mxch-mobile-header">
@@ -291,16 +292,16 @@ function mxchat_render_actions_page($admin_instance, $page_data) {
 
                                 <div class="mxch-types-grid" id="mxch-types-grid">
                                     <?php foreach ($callback_groups as $group_label => $group_callbacks):
-                                        $category_slug = sanitize_title($group_label);
-                                        foreach ($group_callbacks as $function => $data):
-                                            $label = $data['label'];
-                                            $pro_only = $data['pro_only'];
-                                            $icon = isset($data['icon']) ? $data['icon'] : 'admin-generic';
-                                            $description = isset($data['description']) ? $data['description'] : '';
-                                            $is_addon = isset($data['addon']) && $data['addon'] !== false;
-                                            $addon_name = isset($data['addon_name']) ? $data['addon_name'] : '';
-                                            $is_installed = isset($data['installed']) ? $data['installed'] : true;
-                                    ?>
+                                    	$category_slug = sanitize_title($group_label);
+                                    	foreach ($group_callbacks as $function => $data):
+                                    		$label = $data['label'];
+                                    		$pro_only = $data['pro_only'];
+                                    		$icon = isset($data['icon']) ? $data['icon'] : 'admin-generic';
+                                    		$description = isset($data['description']) ? $data['description'] : '';
+                                    		$is_addon = isset($data['addon']) && $data['addon'] !== false;
+                                    		$addon_name = isset($data['addon_name']) ? $data['addon_name'] : '';
+                                    		$is_installed = isset($data['installed']) ? $data['installed'] : true;
+                                    		?>
                                         <div class="mxch-type-card <?php echo (!$is_activated && $pro_only) ? 'mxch-type-pro' : ''; ?> <?php echo ($is_addon && !$is_installed) ? 'mxch-type-addon' : ''; ?>"
                                              data-category="<?php echo esc_attr($category_slug); ?>"
                                              data-value="<?php echo esc_attr($function); ?>"
@@ -385,11 +386,13 @@ function mxchat_render_actions_page($admin_instance, $page_data) {
                                                 <?php esc_html_e('Default Bot', 'mxchat'); ?>
                                             </label>
                                             <?php if (class_exists('MxChat_Multi_Bot_Core_Manager')):
-                                                $multi_bot_manager = MxChat_Multi_Bot_Core_Manager::get_instance();
-                                                $available_bots_list = $multi_bot_manager->get_available_bots();
-                                                foreach ($available_bots_list as $bot_id => $bot_name):
-                                                    if ($bot_id === 'default') continue;
-                                            ?>
+                                            	$multi_bot_manager = MxChat_Multi_Bot_Core_Manager::get_instance();
+                                            	$available_bots_list = $multi_bot_manager->get_available_bots();
+                                            	foreach ($available_bots_list as $bot_id => $bot_name):
+                                            		if ($bot_id === 'default') {
+                                            			continue;
+                                            		}
+                                            		?>
                                                 <label class="mxch-checkbox-label">
                                                     <input type="checkbox" name="enabled_bots[]" value="<?php echo esc_attr($bot_id); ?>">
                                                     <span class="mxch-checkmark"></span>

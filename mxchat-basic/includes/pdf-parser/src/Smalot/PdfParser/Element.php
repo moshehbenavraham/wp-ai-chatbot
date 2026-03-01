@@ -48,109 +48,109 @@ use Smalot\PdfParser\Element\ElementXRef;
  */
 class Element
 {
-    /**
-     * @var Document|null
-     */
-    protected $document;
+	/**
+	 * @var Document|null
+	 */
+	protected $document;
 
-    protected $value;
+	protected $value;
 
-    public function __construct($value, ?Document $document = null)
-    {
-        $this->value = $value;
-        $this->document = $document;
-    }
+	public function __construct($value, ?Document $document = null)
+	{
+		$this->value = $value;
+		$this->document = $document;
+	}
 
-    public function init()
-    {
-    }
+	public function init()
+	{
+	}
 
-    public function equals($value): bool
-    {
-        return $value == $this->value;
-    }
+	public function equals($value): bool
+	{
+		return $value == $this->value;
+	}
 
-    public function contains($value): bool
-    {
-        if (\is_array($this->value)) {
-            /** @var Element $val */
-            foreach ($this->value as $val) {
-                if ($val->equals($value)) {
-                    return true;
-                }
-            }
+	public function contains($value): bool
+	{
+		if (\is_array($this->value)) {
+			/** @var Element $val */
+			foreach ($this->value as $val) {
+				if ($val->equals($value)) {
+					return true;
+				}
+			}
 
-            return false;
-        }
+			return false;
+		}
 
-        return $this->equals($value);
-    }
+		return $this->equals($value);
+	}
 
-    public function getContent()
-    {
-        return $this->value;
-    }
+	public function getContent()
+	{
+		return $this->value;
+	}
 
-    public function __toString(): string
-    {
-        return (string) $this->value;
-    }
+	public function __toString(): string
+	{
+		return (string) $this->value;
+	}
 
-    public static function parse(string $content, ?Document $document = null, int &$position = 0)
-    {
-        $args = \func_get_args();
-        $only_values = isset($args[3]) ? $args[3] : false;
-        $content = trim($content);
-        $values = [];
+	public static function parse(string $content, ?Document $document = null, int &$position = 0)
+	{
+		$args = \func_get_args();
+		$only_values = isset($args[3]) ? $args[3] : false;
+		$content = trim($content);
+		$values = [];
 
-        do {
-            $old_position = $position;
+		do {
+			$old_position = $position;
 
-            if (!$only_values) {
-                if (!preg_match('/\G\s*(?P<name>\/[A-Z#0-9\._]+)(?P<value>.*)/si', $content, $match, 0, $position)) {
-                    break;
-                } else {
-                    $name = preg_replace_callback(
-                        '/#([0-9a-f]{2})/i',
-                        function ($m) {
-                            return \chr(base_convert($m[1], 16, 10));
-                        },
-                        ltrim($match['name'], '/')
-                    );
-                    $value = $match['value'];
-                    $position = strpos($content, $value, $position + \strlen($match['name']));
-                }
-            } else {
-                $name = \count($values);
-                $value = substr($content, $position);
-            }
+			if (!$only_values) {
+				if (!preg_match('/\G\s*(?P<name>\/[A-Z#0-9\._]+)(?P<value>.*)/si', $content, $match, 0, $position)) {
+					break;
+				} else {
+					$name = preg_replace_callback(
+						'/#([0-9a-f]{2})/i',
+						function ($m) {
+							return \chr(base_convert($m[1], 16, 10));
+						},
+						ltrim($match['name'], '/')
+					);
+					$value = $match['value'];
+					$position = strpos($content, $value, $position + \strlen($match['name']));
+				}
+			} else {
+				$name = \count($values);
+				$value = substr($content, $position);
+			}
 
-            if ($element = ElementName::parse($value, $document, $position)) {
-                $values[$name] = $element;
-            } elseif ($element = ElementXRef::parse($value, $document, $position)) {
-                $values[$name] = $element;
-            } elseif ($element = ElementNumeric::parse($value, $document, $position)) {
-                $values[$name] = $element;
-            } elseif ($element = ElementStruct::parse($value, $document, $position)) {
-                $values[$name] = $element;
-            } elseif ($element = ElementBoolean::parse($value, $document, $position)) {
-                $values[$name] = $element;
-            } elseif ($element = ElementNull::parse($value, $document, $position)) {
-                $values[$name] = $element;
-            } elseif ($element = ElementDate::parse($value, $document, $position)) {
-                $values[$name] = $element;
-            } elseif ($element = ElementString::parse($value, $document, $position)) {
-                $values[$name] = $element;
-            } elseif ($element = ElementHexa::parse($value, $document, $position)) {
-                $values[$name] = $element;
-            } elseif ($element = ElementArray::parse($value, $document, $position)) {
-                $values[$name] = $element;
-            } else {
-                $position = $old_position;
-                break;
-            }
-        } while ($position < \strlen($content));
+			if ($element = ElementName::parse($value, $document, $position)) {
+				$values[$name] = $element;
+			} elseif ($element = ElementXRef::parse($value, $document, $position)) {
+				$values[$name] = $element;
+			} elseif ($element = ElementNumeric::parse($value, $document, $position)) {
+				$values[$name] = $element;
+			} elseif ($element = ElementStruct::parse($value, $document, $position)) {
+				$values[$name] = $element;
+			} elseif ($element = ElementBoolean::parse($value, $document, $position)) {
+				$values[$name] = $element;
+			} elseif ($element = ElementNull::parse($value, $document, $position)) {
+				$values[$name] = $element;
+			} elseif ($element = ElementDate::parse($value, $document, $position)) {
+				$values[$name] = $element;
+			} elseif ($element = ElementString::parse($value, $document, $position)) {
+				$values[$name] = $element;
+			} elseif ($element = ElementHexa::parse($value, $document, $position)) {
+				$values[$name] = $element;
+			} elseif ($element = ElementArray::parse($value, $document, $position)) {
+				$values[$name] = $element;
+			} else {
+				$position = $old_position;
+				break;
+			}
+		} while ($position < \strlen($content));
 
-        return $values;
-    }
+		return $values;
+	}
 }

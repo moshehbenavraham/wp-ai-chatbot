@@ -1,0 +1,47 @@
+{
+	"name": "wp-ai-chatbot",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"directories": {
+		"doc": "docs"
+	},
+	"scripts": {
+		"format:js": "biome format --write .",
+		"format:php": "docker run --rm -v \"$(pwd):/app\" -w /app php:8.3-cli vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php --allow-risky=no",
+		"format": "npm run format:js && npm run format:php",
+		"check:format:js": "biome format .",
+		"check:format:php": "docker run --rm -v \"$(pwd):/app\" -w /app php:8.3-cli vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php --dry-run --diff",
+		"check:format": "npm run check:format:js && npm run check:format:php",
+		"lint:js": "biome lint --write .",
+		"lint:php": "docker run --rm -v \"$(pwd):/app\" -w /app php:8.3-cli -d memory_limit=-1 vendor/bin/phpstan analyse --configuration=phpstan.neon --no-progress --memory-limit=4G",
+		"check:lint:js": "biome lint .",
+		"check:lint:php": "docker run --rm -v \"$(pwd):/app\" -w /app php:8.3-cli -d memory_limit=-1 vendor/bin/phpstan analyse --configuration=phpstan.neon --no-progress --memory-limit=4G --error-format=table",
+		"lint": "npm run lint:js && npm run lint:php",
+		"check": "biome check .",
+		"test": "npm run test:js && npm run test:php",
+		"test:js": "vitest run",
+		"test:php": "docker run --rm -v \"$(pwd):/app\" -w /app php:8.3-cli vendor/bin/phpunit --configuration=phpunit.xml.dist",
+		"prepare": "husky"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/moshehbenavraham/wp-ai-chatbot.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/moshehbenavraham/wp-ai-chatbot/issues"
+	},
+	"homepage": "https://github.com/moshehbenavraham/wp-ai-chatbot#readme",
+	"lint-staged": {
+		"*.js": "biome check --fix"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.4.4",
+		"husky": "^9.1.7",
+		"lint-staged": "^16.3.0",
+		"vitest": "^4.0.18"
+	}
+}

@@ -9,20 +9,21 @@
  */
 
 if (!defined('ABSPATH')) {
-    exit;
+	exit;
 }
 
-function mxchat_render_content_page($admin_instance) {
-    $is_activated = $admin_instance->is_activated();
-    $options = get_option('mxchat_options', array());
-    $plugin_url = plugin_dir_url(dirname(__FILE__));
+function mxchat_render_content_page($admin_instance)
+{
+	$is_activated = $admin_instance->is_activated();
+	$options = get_option('mxchat_options', []);
+	$plugin_url = plugin_dir_url(dirname(__FILE__));
 
-    // Pro feature checks — add-on plugins hook into this filter to unlock
-    $pro_internal_linking  = apply_filters('mxchat_content_pro_feature', false, 'internal_linking');
-    $pro_tool_use          = apply_filters('mxchat_content_pro_feature', false, 'tool_use');
-    $pro_image_management  = apply_filters('mxchat_content_pro_feature', false, 'image_management');
-    $pro_meta_management   = apply_filters('mxchat_content_pro_feature', false, 'meta_management');
-    ?>
+	// Pro feature checks — add-on plugins hook into this filter to unlock
+	$pro_internal_linking = apply_filters('mxchat_content_pro_feature', false, 'internal_linking');
+	$pro_tool_use = apply_filters('mxchat_content_pro_feature', false, 'tool_use');
+	$pro_image_management = apply_filters('mxchat_content_pro_feature', false, 'image_management');
+	$pro_meta_management = apply_filters('mxchat_content_pro_feature', false, 'meta_management');
+	?>
     <div class="mxch-admin-wrapper">
         <!-- Mobile Header -->
         <header class="mxch-mobile-header">
@@ -394,37 +395,37 @@ function mxchat_render_content_page($admin_instance) {
                             <div class="mxch-field-control">
                                 <select id="mxch-content-model" data-field="content_model" class="mxch-cg-select">
                                     <?php
-                                    $content_model = $options['content_model'] ?? ($options['model'] ?? 'gpt-5.1-chat-latest');
-                                    $models = array(
-                                        'OpenAI' => array(
-                                            'gpt-5.2'              => 'GPT-5.2',
-                                            'gpt-5.1-chat-latest'  => 'GPT-5.1',
-                                            'gpt-5'                => 'GPT-5',
-                                        ),
-                                        'Anthropic' => array(
-                                            'claude-opus-4-6'              => 'Claude Opus 4.6',
-                                            'claude-sonnet-4-6'            => 'Claude Sonnet 4.6',
-                                            'claude-haiku-4-5-20251001'    => 'Claude Haiku 4.5',
-                                        ),
-                                        'Google' => array(
-                                            'gemini-3-pro-preview' => 'Gemini 3 Pro',
-                                            'gemini-2.5-pro'       => 'Gemini 2.5 Pro',
-                                        ),
-                                        'xAI' => array(
-                                            'grok-4-0709'                  => 'Grok 4',
-                                            'grok-4-1-fast-non-reasoning'  => 'Grok 4.1 Fast',
-                                            'grok-code-fast-1'             => 'Grok Code Fast',
-                                        ),
-                                    );
-                                    foreach ($models as $group => $group_models) {
-                                        echo '<optgroup label="' . esc_attr($group) . '">';
-                                        foreach ($group_models as $value => $label) {
-                                            $selected = selected($content_model, $value, false);
-                                            echo '<option value="' . esc_attr($value) . '" ' . $selected . '>' . esc_html($label) . '</option>';
-                                        }
-                                        echo '</optgroup>';
-                                    }
-                                    ?>
+									$content_model = $options['content_model'] ?? ($options['model'] ?? 'gpt-5.1-chat-latest');
+	$models = [
+		'OpenAI' => [
+			'gpt-5.2' => 'GPT-5.2',
+			'gpt-5.1-chat-latest' => 'GPT-5.1',
+			'gpt-5' => 'GPT-5',
+		],
+		'Anthropic' => [
+			'claude-opus-4-6' => 'Claude Opus 4.6',
+			'claude-sonnet-4-6' => 'Claude Sonnet 4.6',
+			'claude-haiku-4-5-20251001' => 'Claude Haiku 4.5',
+		],
+		'Google' => [
+			'gemini-3-pro-preview' => 'Gemini 3 Pro',
+			'gemini-2.5-pro' => 'Gemini 2.5 Pro',
+		],
+		'xAI' => [
+			'grok-4-0709' => 'Grok 4',
+			'grok-4-1-fast-non-reasoning' => 'Grok 4.1 Fast',
+			'grok-code-fast-1' => 'Grok Code Fast',
+		],
+	];
+	foreach ($models as $group => $group_models) {
+		echo '<optgroup label="' . esc_attr($group) . '">';
+		foreach ($group_models as $value => $label) {
+			$selected = selected($content_model, $value, false);
+			echo '<option value="' . esc_attr($value) . '" ' . $selected . '>' . esc_html($label) . '</option>';
+		}
+		echo '</optgroup>';
+	}
+	?>
                                 </select>
                             </div>
                             <p class="mxch-field-description"><?php esc_html_e('Select the AI model used for generating content. Uses the API key configured in your main MxChat settings.', 'mxchat'); ?></p>

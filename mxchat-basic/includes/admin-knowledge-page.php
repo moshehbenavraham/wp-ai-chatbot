@@ -7,26 +7,27 @@
  */
 
 if (!defined('ABSPATH')) {
-    exit;
+	exit;
 }
 
 /**
  * Render the new sidebar-based Knowledge Base page
  */
-function mxchat_render_knowledge_page($admin_instance, $knowledge_manager, $page_data) {
-    $is_activated = $admin_instance->is_activated();
-    $plugin_url = plugin_dir_url(dirname(__FILE__));
+function mxchat_render_knowledge_page($admin_instance, $knowledge_manager, $page_data)
+{
+	$is_activated = $admin_instance->is_activated();
+	$plugin_url = plugin_dir_url(dirname(__FILE__));
 
-    // Check if integrations are active
-    $pinecone_options = get_option('mxchat_pinecone_addon_options', array());
-    $is_pinecone_active = ($pinecone_options['mxchat_use_pinecone'] ?? '0') === '1';
+	// Check if integrations are active
+	$pinecone_options = get_option('mxchat_pinecone_addon_options', []);
+	$is_pinecone_active = ($pinecone_options['mxchat_use_pinecone'] ?? '0') === '1';
 
-    $vectorstore_options = get_option('mxchat_openai_vectorstore_options', array());
-    $is_vectorstore_active = ($vectorstore_options['mxchat_use_openai_vectorstore'] ?? '0') === '1';
+	$vectorstore_options = get_option('mxchat_openai_vectorstore_options', []);
+	$is_vectorstore_active = ($vectorstore_options['mxchat_use_openai_vectorstore'] ?? '0') === '1';
 
-    // Extract page data
-    extract($page_data);
-    ?>
+	// Extract page data
+	extract($page_data);
+	?>
     <div class="mxch-admin-wrapper">
         <!-- Mobile Header -->
         <header class="mxch-mobile-header">
@@ -248,46 +249,47 @@ function mxchat_render_knowledge_page($admin_instance, $knowledge_manager, $page
         <!-- Main Content Area -->
         <main class="mxch-content">
             <?php
-            // Multi-Bot Selector
-            mxchat_render_knowledge_bot_selector($multibot_active, $current_bot_id);
+			// Multi-Bot Selector
+			mxchat_render_knowledge_bot_selector($multibot_active, $current_bot_id);
 
-            // Global Processing Status - Always visible when processing
-            mxchat_render_global_processing_status($page_data, $knowledge_manager);
+	// Global Processing Status - Always visible when processing
+	mxchat_render_global_processing_status($page_data, $knowledge_manager);
 
-            // Render content sections
-            mxchat_render_import_options_section($admin_instance, $knowledge_manager, $page_data);
-            mxchat_render_knowledge_base_section($admin_instance, $knowledge_manager, $page_data);
-            mxchat_render_auto_sync_section($knowledge_manager);
-            mxchat_render_chunking_section();
-            mxchat_render_role_restrictions_section($knowledge_manager);
-            mxchat_render_acf_fields_section($knowledge_manager);
-            mxchat_render_custom_meta_section();
-            mxchat_render_pinecone_section();
-            mxchat_render_openai_vectorstore_section();
-            ?>
+	// Render content sections
+	mxchat_render_import_options_section($admin_instance, $knowledge_manager, $page_data);
+	mxchat_render_knowledge_base_section($admin_instance, $knowledge_manager, $page_data);
+	mxchat_render_auto_sync_section($knowledge_manager);
+	mxchat_render_chunking_section();
+	mxchat_render_role_restrictions_section($knowledge_manager);
+	mxchat_render_acf_fields_section($knowledge_manager);
+	mxchat_render_custom_meta_section();
+	mxchat_render_pinecone_section();
+	mxchat_render_openai_vectorstore_section();
+	?>
 
         </main>
     </div>
 
     <?php
-    // Render the Content Selector Modal
-    mxchat_render_content_selector_modal();
+	// Render the Content Selector Modal
+	mxchat_render_content_selector_modal();
 
-    // Render the navigation JavaScript
-    mxchat_render_knowledge_page_scripts();
+	// Render the navigation JavaScript
+	mxchat_render_knowledge_page_scripts();
 }
 
 /**
  * Render Multi-Bot Selector
  */
-function mxchat_render_knowledge_bot_selector($multibot_active, $current_bot_id) {
-    if (!$multibot_active || !class_exists('MxChat_Multi_Bot_Manager')) {
-        return;
-    }
+function mxchat_render_knowledge_bot_selector($multibot_active, $current_bot_id)
+{
+	if (!$multibot_active || !class_exists('MxChat_Multi_Bot_Manager')) {
+		return;
+	}
 
-    $multi_bot_manager = MxChat_Multi_Bot_Core_Manager::get_instance();
-    $available_bots = $multi_bot_manager->get_available_bots();
-    ?>
+	$multi_bot_manager = MxChat_Multi_Bot_Core_Manager::get_instance();
+	$available_bots = $multi_bot_manager->get_available_bots();
+	?>
     <div class="mxch-card" style="margin-bottom: 24px;">
         <div class="mxch-card-body">
             <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
@@ -316,18 +318,19 @@ function mxchat_render_knowledge_bot_selector($multibot_active, $current_bot_id)
 /**
  * Render Global Processing Status - Always visible when processing is active
  */
-function mxchat_render_global_processing_status($page_data, $knowledge_manager) {
-    extract($page_data);
+function mxchat_render_global_processing_status($page_data, $knowledge_manager)
+{
+	extract($page_data);
 
-    // Only show if there's active processing
-    if (!$is_processing) {
-        return;
-    }
-    ?>
+	// Only show if there's active processing
+	if (!$is_processing) {
+		return;
+	}
+	?>
     <div class="mxch-processing-status-global mxchat-import-section" style="margin-bottom: 24px;">
         <?php
-        // PDF Processing Status - Using mxchat-status-card class for JavaScript compatibility
-        if ($pdf_status && $pdf_status['status'] === 'processing') : ?>
+		// PDF Processing Status - Using mxchat-status-card class for JavaScript compatibility
+		if ($pdf_status && $pdf_status['status'] === 'processing') : ?>
             <div class="mxchat-status-card mxch-card" data-card-type="pdf" data-queue-id="<?php echo esc_attr(get_transient('mxchat_active_queue_pdf')); ?>" style="border-left: 4px solid var(--mxch-primary); margin-bottom: 16px;">
                 <div class="mxchat-status-header mxch-card-header" style="background: var(--mxch-primary-light);">
                     <h4 style="margin: 0; display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600;">
@@ -357,8 +360,8 @@ function mxchat_render_global_processing_status($page_data, $knowledge_manager) 
             </div>
         <?php endif;
 
-        // Sitemap Processing Status - Using mxchat-status-card class for JavaScript compatibility
-        if ($sitemap_status && $sitemap_status['status'] === 'processing') : ?>
+	// Sitemap Processing Status - Using mxchat-status-card class for JavaScript compatibility
+	if ($sitemap_status && $sitemap_status['status'] === 'processing') : ?>
             <div class="mxchat-status-card mxch-card" data-card-type="sitemap" data-queue-id="<?php echo esc_attr(get_transient('mxchat_active_queue_sitemap')); ?>" style="border-left: 4px solid var(--mxch-primary); margin-bottom: 16px;">
                 <div class="mxchat-status-header mxch-card-header" style="background: var(--mxch-primary-light);">
                     <h4 style="margin: 0; display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600;">
@@ -388,9 +391,9 @@ function mxchat_render_global_processing_status($page_data, $knowledge_manager) 
             </div>
         <?php endif;
 
-        // Completed status cards
-        echo $knowledge_manager->mxchat_render_completed_status_cards();
-        ?>
+	// Completed status cards
+	echo $knowledge_manager->mxchat_render_completed_status_cards();
+	?>
     </div>
     <?php
 }
@@ -398,43 +401,44 @@ function mxchat_render_global_processing_status($page_data, $knowledge_manager) 
 /**
  * Render Import Options Section
  */
-function mxchat_render_import_options_section($admin_instance, $knowledge_manager, $page_data) {
-    extract($page_data);
-    $options = $admin_instance->options ?? get_option('mxchat_options', array());
+function mxchat_render_import_options_section($admin_instance, $knowledge_manager, $page_data)
+{
+	extract($page_data);
+	$options = $admin_instance->options ?? get_option('mxchat_options', []);
 
-    // Check if user is using WordPress database (not Pinecone or OpenAI Vector Store)
-    $pinecone_options = get_option('mxchat_pinecone_addon_options', array());
-    $is_pinecone_active = ($pinecone_options['mxchat_use_pinecone'] ?? '0') === '1';
-    $vectorstore_options = get_option('mxchat_openai_vectorstore_options', array());
-    $is_vectorstore_active = ($vectorstore_options['mxchat_use_openai_vectorstore'] ?? '0') === '1';
-    $is_using_wordpress_db = !$is_pinecone_active && !$is_vectorstore_active;
+	// Check if user is using WordPress database (not Pinecone or OpenAI Vector Store)
+	$pinecone_options = get_option('mxchat_pinecone_addon_options', []);
+	$is_pinecone_active = ($pinecone_options['mxchat_use_pinecone'] ?? '0') === '1';
+	$vectorstore_options = get_option('mxchat_openai_vectorstore_options', []);
+	$is_vectorstore_active = ($vectorstore_options['mxchat_use_openai_vectorstore'] ?? '0') === '1';
+	$is_using_wordpress_db = !$is_pinecone_active && !$is_vectorstore_active;
 
-    // Check embedding API key
-    $embedding_model = isset($options['embedding_model']) ? esc_attr($options['embedding_model']) : 'text-embedding-ada-002';
-    $has_openai_key = !empty($options['api_key']);
-    $has_voyage_key = !empty($options['voyage_api_key']);
-    $has_gemini_key = !empty($options['gemini_api_key']);
+	// Check embedding API key
+	$embedding_model = isset($options['embedding_model']) ? esc_attr($options['embedding_model']) : 'text-embedding-ada-002';
+	$has_openai_key = !empty($options['api_key']);
+	$has_voyage_key = !empty($options['voyage_api_key']);
+	$has_gemini_key = !empty($options['gemini_api_key']);
 
-    $has_required_key = false;
-    $required_key_type = '';
+	$has_required_key = false;
+	$required_key_type = '';
 
-    if (strpos($embedding_model, 'text-embedding-') !== false && $has_openai_key) {
-        $has_required_key = true;
-        $required_key_type = 'OpenAI';
-    } elseif (strpos($embedding_model, 'voyage-') !== false && $has_voyage_key) {
-        $has_required_key = true;
-        $required_key_type = 'Voyage AI';
-    } elseif (strpos($embedding_model, 'gemini-embedding-') !== false && $has_gemini_key) {
-        $has_required_key = true;
-        $required_key_type = 'Google Gemini';
-    } elseif (strpos($embedding_model, 'text-embedding-') !== false) {
-        $required_key_type = 'OpenAI';
-    } elseif (strpos($embedding_model, 'voyage-') !== false) {
-        $required_key_type = 'Voyage AI';
-    } elseif (strpos($embedding_model, 'gemini-embedding-') !== false) {
-        $required_key_type = 'Google Gemini';
-    }
-    ?>
+	if (strpos($embedding_model, 'text-embedding-') !== false && $has_openai_key) {
+		$has_required_key = true;
+		$required_key_type = 'OpenAI';
+	} elseif (strpos($embedding_model, 'voyage-') !== false && $has_voyage_key) {
+		$has_required_key = true;
+		$required_key_type = 'Voyage AI';
+	} elseif (strpos($embedding_model, 'gemini-embedding-') !== false && $has_gemini_key) {
+		$has_required_key = true;
+		$required_key_type = 'Google Gemini';
+	} elseif (strpos($embedding_model, 'text-embedding-') !== false) {
+		$required_key_type = 'OpenAI';
+	} elseif (strpos($embedding_model, 'voyage-') !== false) {
+		$required_key_type = 'Voyage AI';
+	} elseif (strpos($embedding_model, 'gemini-embedding-') !== false) {
+		$required_key_type = 'Google Gemini';
+	}
+	?>
     <div id="import-options" class="mxch-section active">
         <div class="mxch-content-header">
             <h1 class="mxch-content-title"><?php esc_html_e('Import Options', 'mxchat'); ?></h1>
@@ -635,11 +639,12 @@ function mxchat_render_import_options_section($admin_instance, $knowledge_manage
  * Render Processing Status Cards (legacy - kept for reference)
  * Note: Processing status is now rendered globally via mxchat_render_global_processing_status()
  */
-function mxchat_render_processing_status($page_data, $knowledge_manager) {
-    extract($page_data);
+function mxchat_render_processing_status($page_data, $knowledge_manager)
+{
+	extract($page_data);
 
-    // PDF Processing Status
-    if ($pdf_status && $pdf_status['status'] === 'processing') : ?>
+	// PDF Processing Status
+	if ($pdf_status && $pdf_status['status'] === 'processing') : ?>
         <div class="mxch-card" style="margin-top: 20px;">
             <div class="mxch-card-header" style="background: var(--mxch-primary-light);">
                 <h3 class="mxch-card-title"><?php esc_html_e('PDF Processing Status', 'mxchat'); ?></h3>
@@ -668,8 +673,8 @@ function mxchat_render_processing_status($page_data, $knowledge_manager) {
         </div>
     <?php endif;
 
-    // Sitemap Processing Status
-    if ($sitemap_status && $sitemap_status['status'] === 'processing') : ?>
+	// Sitemap Processing Status
+	if ($sitemap_status && $sitemap_status['status'] === 'processing') : ?>
         <div class="mxch-card" style="margin-top: 20px;">
             <div class="mxch-card-header" style="background: var(--mxch-primary-light);">
                 <h3 class="mxch-card-title"><?php esc_html_e('Sitemap Processing Status', 'mxchat'); ?></h3>
@@ -698,67 +703,69 @@ function mxchat_render_processing_status($page_data, $knowledge_manager) {
         </div>
     <?php endif;
 
-    // Completed status cards
-    echo $knowledge_manager->mxchat_render_completed_status_cards();
+	// Completed status cards
+	echo $knowledge_manager->mxchat_render_completed_status_cards();
 }
 
 /**
  * Render Knowledge Base Section (table)
  */
-function mxchat_render_knowledge_base_section($admin_instance, $knowledge_manager, $page_data) {
-    extract($page_data);
+function mxchat_render_knowledge_base_section($admin_instance, $knowledge_manager, $page_data)
+{
+	extract($page_data);
 
-    // Group prompts by source_url for chunked content display
-    $grouped_prompts = array();
+	// Group prompts by source_url for chunked content display
+	$grouped_prompts = [];
 
-    if ($prompts) {
-        foreach ($prompts as $prompt) {
-            $source_url = $prompt->source_url ?? '';
+	if ($prompts) {
+		foreach ($prompts as $prompt) {
+			$source_url = $prompt->source_url ?? '';
 
-            // Check if chunk metadata exists on the record itself (Pinecone)
-            if (isset($prompt->chunk_index) && $prompt->chunk_index !== null) {
-                // Pinecone: metadata is already on the record object
-                $prompt->chunk_metadata = array(
-                    'chunk_index' => intval($prompt->chunk_index),
-                    'total_chunks' => isset($prompt->total_chunks) ? intval($prompt->total_chunks) : null,
-                    'is_chunked' => isset($prompt->is_chunked) ? (bool) $prompt->is_chunked : true
-                );
-                $prompt->display_content = $prompt->article_content; // Pinecone content is already clean
-            } else {
-                // WordPress: Parse chunk metadata from JSON prefix in article_content
-                if (class_exists('MxChat_Chunker')) {
-                    $chunk_meta = MxChat_Chunker::parse_stored_chunk($prompt->article_content);
-                    $prompt->chunk_metadata = $chunk_meta['metadata'];
-                    $prompt->display_content = $chunk_meta['text']; // Store clean content without JSON prefix
-                } else {
-                    $prompt->chunk_metadata = array();
-                    $prompt->display_content = $prompt->article_content;
-                }
-            }
+			// Check if chunk metadata exists on the record itself (Pinecone)
+			if (isset($prompt->chunk_index) && $prompt->chunk_index !== null) {
+				// Pinecone: metadata is already on the record object
+				$prompt->chunk_metadata = [
+					'chunk_index' => intval($prompt->chunk_index),
+					'total_chunks' => isset($prompt->total_chunks) ? intval($prompt->total_chunks) : null,
+					'is_chunked' => isset($prompt->is_chunked) ? (bool) $prompt->is_chunked : true,
+				];
+				$prompt->display_content = $prompt->article_content; // Pinecone content is already clean
+			} else {
+				// WordPress: Parse chunk metadata from JSON prefix in article_content
+				if (class_exists('MxChat_Chunker')) {
+					$chunk_meta = MxChat_Chunker::parse_stored_chunk($prompt->article_content);
+					$prompt->chunk_metadata = $chunk_meta['metadata'];
+					$prompt->display_content = $chunk_meta['text']; // Store clean content without JSON prefix
+				} else {
+					$prompt->chunk_metadata = [];
+					$prompt->display_content = $prompt->article_content;
+				}
+			}
 
-            if (!empty($source_url)) {
-                if (!isset($grouped_prompts[$source_url])) {
-                    $grouped_prompts[$source_url] = array();
-                }
-                $grouped_prompts[$source_url][] = $prompt;
-            } else {
-                // Use a unique key for ungrouped prompts
-                $grouped_prompts['_ungrouped_' . $prompt->id] = array($prompt);
-            }
-        }
+			if (!empty($source_url)) {
+				if (!isset($grouped_prompts[$source_url])) {
+					$grouped_prompts[$source_url] = [];
+				}
+				$grouped_prompts[$source_url][] = $prompt;
+			} else {
+				// Use a unique key for ungrouped prompts
+				$grouped_prompts['_ungrouped_' . $prompt->id] = [$prompt];
+			}
+		}
 
-        // Sort each group by chunk_index from metadata
-        foreach ($grouped_prompts as $source_url => &$group) {
-            usort($group, function($a, $b) {
-                $index_a = isset($a->chunk_metadata['chunk_index']) ? intval($a->chunk_metadata['chunk_index']) : 0;
-                $index_b = isset($b->chunk_metadata['chunk_index']) ? intval($b->chunk_metadata['chunk_index']) : 0;
-                return $index_a - $index_b;
-            });
-        }
-        unset($group); // Break reference
-    }
-    $display_index = 0;
-    ?>
+		// Sort each group by chunk_index from metadata
+		foreach ($grouped_prompts as $source_url => &$group) {
+			usort($group, function ($a, $b) {
+				$index_a = isset($a->chunk_metadata['chunk_index']) ? intval($a->chunk_metadata['chunk_index']) : 0;
+				$index_b = isset($b->chunk_metadata['chunk_index']) ? intval($b->chunk_metadata['chunk_index']) : 0;
+
+				return $index_a - $index_b;
+			});
+		}
+		unset($group); // Break reference
+	}
+	$display_index = 0;
+	?>
     <div id="knowledge-base" class="mxch-section">
         <div class="mxch-content-header">
             <h1 class="mxch-content-title"><?php esc_html_e('Knowledge Base', 'mxchat'); ?></h1>
@@ -805,11 +812,11 @@ function mxchat_render_knowledge_base_section($admin_instance, $knowledge_manage
                         <select name="content_type" class="mxch-select mxch-kb-type-filter" onchange="this.form.submit()">
                             <option value=""><?php esc_html_e('All Types', 'mxchat'); ?></option>
                             <?php
-                            $post_types = get_post_types(array('public' => true), 'objects');
-                            foreach ($post_types as $post_type) {
-                                echo '<option value="' . esc_attr($post_type->name) . '" ' . selected($content_type_filter, $post_type->name, false) . '>' . esc_html($post_type->label) . '</option>';
-                            }
-                            ?>
+							$post_types = get_post_types(['public' => true], 'objects');
+	foreach ($post_types as $post_type) {
+		echo '<option value="' . esc_attr($post_type->name) . '" ' . selected($content_type_filter, $post_type->name, false) . '>' . esc_html($post_type->label) . '</option>';
+	}
+	?>
                             <option value="pdf" <?php selected($content_type_filter, 'pdf'); ?>><?php esc_html_e('PDFs', 'mxchat'); ?></option>
                             <option value="url" <?php selected($content_type_filter, 'url'); ?>><?php esc_html_e('URLs', 'mxchat'); ?></option>
                         </select>
@@ -877,21 +884,23 @@ function mxchat_render_knowledge_base_section($admin_instance, $knowledge_manage
                                 </tr>
                             <?php else : ?>
                                 <?php
-                                // Display grouped prompts
-                                foreach ($grouped_prompts as $source_url => $group) :
-                                    $chunk_count = count($group);
-                                    $first_prompt = $group[0];
-                                    $display_index++;
+		// Display grouped prompts
+		foreach ($grouped_prompts as $source_url => $group) :
+			$chunk_count = count($group);
+			$first_prompt = $group[0];
+			$display_index++;
 
-                                    if ($chunk_count > 1) :
-                                        // Multiple chunks - show grouped row with expand button
-                                        $group_id = 'group-' . md5($source_url);
-                                ?>
+			if ($chunk_count > 1) :
+				// Multiple chunks - show grouped row with expand button
+				$group_id = 'group-' . md5($source_url);
+				?>
                                         <tr id="prompt-<?php echo esc_attr($first_prompt->id); ?>"
                                             class="mxchat-chunk-group-header"
                                             data-source="<?php echo esc_attr($data_source); ?>"
                                             data-group-id="<?php echo esc_attr($group_id); ?>"
-                                            style="border-bottom: 1px solid var(--mxch-card-border); <?php if ($data_source === 'pinecone') echo 'background: rgba(33, 150, 243, 0.02);'; ?>">
+                                            style="border-bottom: 1px solid var(--mxch-card-border); <?php if ($data_source === 'pinecone') {
+                                            	echo 'background: rgba(33, 150, 243, 0.02);';
+                                            } ?>">
                                             <td style="padding: 12px 16px; text-align: center;">
                                                 <input type="checkbox"
                                                        class="mxchat-entry-checkbox"
@@ -916,10 +925,10 @@ function mxchat_render_knowledge_base_section($admin_instance, $knowledge_manage
                                                     <span class="mxchat-chunk-badge"><?php echo esc_html($chunk_count); ?> <?php esc_html_e('chunks', 'mxchat'); ?></span>
                                                     <span class="mxchat-chunk-preview">
                                                         <?php
-                                                        $parent_content = isset($first_prompt->display_content) ? $first_prompt->display_content : $first_prompt->article_content;
-                                                        $content_preview = mb_substr($parent_content, 0, 100);
-                                                        echo esc_html($content_preview . '...');
-                                                        ?>
+														$parent_content = isset($first_prompt->display_content) ? $first_prompt->display_content : $first_prompt->article_content;
+			$content_preview = mb_substr($parent_content, 0, 100);
+			echo esc_html($content_preview . '...');
+			?>
                                                     </span>
                                                 </div>
                                             </td>
@@ -948,16 +957,16 @@ function mxchat_render_knowledge_base_section($admin_instance, $knowledge_manage
                                             </td>
                                         </tr>
                                         <?php
-                                        // Render hidden chunk rows
-                                        foreach ($group as $chunk_index => $prompt) :
-                                            $meta_chunk_index = isset($prompt->chunk_metadata['chunk_index']) ? intval($prompt->chunk_metadata['chunk_index']) : $chunk_index;
-                                            $meta_total_chunks = isset($prompt->chunk_metadata['total_chunks']) ? intval($prompt->chunk_metadata['total_chunks']) : $chunk_count;
-                                            $content = isset($prompt->display_content) ? $prompt->display_content : $prompt->article_content;
-                                            $preview_length = 150;
-                                            $content_preview = mb_strlen($content) > $preview_length
-                                                ? mb_substr($content, 0, $preview_length) . '...'
-                                                : $content;
-                                        ?>
+										// Render hidden chunk rows
+										foreach ($group as $chunk_index => $prompt) :
+											$meta_chunk_index = isset($prompt->chunk_metadata['chunk_index']) ? intval($prompt->chunk_metadata['chunk_index']) : $chunk_index;
+											$meta_total_chunks = isset($prompt->chunk_metadata['total_chunks']) ? intval($prompt->chunk_metadata['total_chunks']) : $chunk_count;
+											$content = isset($prompt->display_content) ? $prompt->display_content : $prompt->article_content;
+											$preview_length = 150;
+											$content_preview = mb_strlen($content) > $preview_length
+												? mb_substr($content, 0, $preview_length) . '...'
+												: $content;
+											?>
                                         <tr id="prompt-<?php echo esc_attr($prompt->id); ?>"
                                             class="mxchat-chunk-row <?php echo esc_attr($group_id); ?>"
                                             data-source="<?php echo esc_attr($data_source); ?>"
@@ -984,14 +993,14 @@ function mxchat_render_knowledge_base_section($admin_instance, $knowledge_manage
                                                     <div class="mxchat-content-full" style="display: none;">
                                                         <div class="content-view">
                                                             <?php
-                                                            if (preg_match('/[\x{0590}-\x{05FF}]/u', $content)) {
-                                                                echo '<div dir="rtl" lang="he" class="rtl-content">';
-                                                                echo wp_kses_post(wpautop($content));
-                                                                echo '</div>';
-                                                            } else {
-                                                                echo wp_kses_post(wpautop($content));
-                                                            }
-                                                            ?>
+																if (preg_match('/[\x{0590}-\x{05FF}]/u', $content)) {
+																	echo '<div dir="rtl" lang="he" class="rtl-content">';
+																	echo wp_kses_post(wpautop($content));
+																	echo '</div>';
+																} else {
+																	echo wp_kses_post(wpautop($content));
+																}
+											?>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1005,17 +1014,19 @@ function mxchat_render_knowledge_base_section($admin_instance, $knowledge_manage
                                         </tr>
                                         <?php endforeach; ?>
                                     <?php else :
-                                        // Single entry - display normally with accordion
-                                        $prompt = $first_prompt;
-                                        $content = isset($prompt->display_content) ? $prompt->display_content : $prompt->article_content;
-                                        $preview_length = 150;
-                                        $content_preview = mb_strlen($content) > $preview_length
-                                            ? mb_substr($content, 0, $preview_length) . '...'
-                                            : $content;
-                                    ?>
+                                    	// Single entry - display normally with accordion
+                                    	$prompt = $first_prompt;
+                                    	$content = isset($prompt->display_content) ? $prompt->display_content : $prompt->article_content;
+                                    	$preview_length = 150;
+                                    	$content_preview = mb_strlen($content) > $preview_length
+                                    		? mb_substr($content, 0, $preview_length) . '...'
+                                    		: $content;
+                                    	?>
                                     <tr id="prompt-<?php echo esc_attr($prompt->id); ?>"
                                         data-source="<?php echo esc_attr($data_source); ?>"
-                                        style="border-bottom: 1px solid var(--mxch-card-border); <?php if ($data_source === 'pinecone') echo 'background: rgba(33, 150, 243, 0.02);'; ?>">
+                                        style="border-bottom: 1px solid var(--mxch-card-border); <?php if ($data_source === 'pinecone') {
+                                        	echo 'background: rgba(33, 150, 243, 0.02);';
+                                        } ?>">
                                         <td style="padding: 12px 16px; text-align: center;">
                                             <input type="checkbox"
                                                    class="mxchat-entry-checkbox"
@@ -1044,25 +1055,25 @@ function mxchat_render_knowledge_base_section($admin_instance, $knowledge_manage
                                                 <div class="mxchat-content-full" style="display: none;">
                                                     <div class="content-view">
                                                         <?php
-                                                        if (preg_match('/[\x{0590}-\x{05FF}]/u', $content)) {
-                                                            echo '<div dir="rtl" lang="he" class="rtl-content">';
-                                                            echo wp_kses_post(wpautop($content));
-                                                            echo '</div>';
-                                                        } else {
-                                                            echo wp_kses_post(wpautop($content));
-                                                        }
-                                                        ?>
+														if (preg_match('/[\x{0590}-\x{05FF}]/u', $content)) {
+															echo '<div dir="rtl" lang="he" class="rtl-content">';
+															echo wp_kses_post(wpautop($content));
+															echo '</div>';
+														} else {
+															echo wp_kses_post(wpautop($content));
+														}
+			?>
                                                     </div>
                                                 </div>
                                             </div>
                                         </td>
                                         <td class="mxchat-url-cell" style="padding: 12px 16px; font-size: 13px;">
                                             <?php
-                                            $actual_source = $source_url;
-                                            if (strpos($source_url, '_ungrouped_') === 0) {
-                                                $actual_source = $prompt->source_url ?? '';
-                                            }
-                                            if (!empty($actual_source) && strpos($actual_source, 'mxchat://') !== 0) : ?>
+											$actual_source = $source_url;
+			if (strpos($source_url, '_ungrouped_') === 0) {
+				$actual_source = $prompt->source_url ?? '';
+			}
+			if (!empty($actual_source) && strpos($actual_source, 'mxchat://') !== 0) : ?>
                                                 <a href="<?php echo esc_url($actual_source); ?>" target="_blank" style="color: var(--mxch-primary); text-decoration: none;">
                                                     <span class="dashicons dashicons-external" style="font-size: 14px;"></span>
                                                     <?php esc_html_e('View', 'mxchat'); ?>
@@ -1095,38 +1106,38 @@ function mxchat_render_knowledge_base_section($admin_instance, $knowledge_manage
                     <?php if ($total_pages > 1) : ?>
                     <div class="mxchat-ajax-pagination" data-current-page="<?php echo esc_attr($current_page); ?>" data-total-pages="<?php echo esc_attr($total_pages); ?>">
                         <?php if ($current_page > 1) : ?>
-                            <a href="#" class="mxchat-page-link" data-page="<?php echo ($current_page - 1); ?>"><?php esc_html_e('&laquo; Previous', 'mxchat'); ?></a>
+                            <a href="#" class="mxchat-page-link" data-page="<?php echo($current_page - 1); ?>"><?php esc_html_e('&laquo; Previous', 'mxchat'); ?></a>
                         <?php endif; ?>
 
                         <?php
-                        $start_page = max(1, $current_page - 2);
-                        $end_page = min($total_pages, $current_page + 2);
+						$start_page = max(1, $current_page - 2);
+                    	$end_page = min($total_pages, $current_page + 2);
 
-                        if ($start_page > 1) {
-                            echo '<a href="#" class="mxchat-page-link" data-page="1">1</a> ';
-                            if ($start_page > 2) {
-                                echo '<span class="mxchat-page-dots">...</span> ';
-                            }
-                        }
+                    	if ($start_page > 1) {
+                    		echo '<a href="#" class="mxchat-page-link" data-page="1">1</a> ';
+                    		if ($start_page > 2) {
+                    			echo '<span class="mxchat-page-dots">...</span> ';
+                    		}
+                    	}
 
-                        for ($i = $start_page; $i <= $end_page; $i++) {
-                            if ($i == $current_page) {
-                                echo '<span class="mxchat-page-current">' . $i . '</span> ';
-                            } else {
-                                echo '<a href="#" class="mxchat-page-link" data-page="' . $i . '">' . $i . '</a> ';
-                            }
-                        }
+                    	for ($i = $start_page; $i <= $end_page; $i++) {
+                    		if ($i == $current_page) {
+                    			echo '<span class="mxchat-page-current">' . $i . '</span> ';
+                    		} else {
+                    			echo '<a href="#" class="mxchat-page-link" data-page="' . $i . '">' . $i . '</a> ';
+                    		}
+                    	}
 
-                        if ($end_page < $total_pages) {
-                            if ($end_page < $total_pages - 1) {
-                                echo '<span class="mxchat-page-dots">...</span> ';
-                            }
-                            echo '<a href="#" class="mxchat-page-link" data-page="' . $total_pages . '">' . $total_pages . '</a> ';
-                        }
-                        ?>
+	if ($end_page < $total_pages) {
+		if ($end_page < $total_pages - 1) {
+			echo '<span class="mxchat-page-dots">...</span> ';
+		}
+		echo '<a href="#" class="mxchat-page-link" data-page="' . $total_pages . '">' . $total_pages . '</a> ';
+	}
+	?>
 
                         <?php if ($current_page < $total_pages) : ?>
-                            <a href="#" class="mxchat-page-link" data-page="<?php echo ($current_page + 1); ?>"><?php esc_html_e('Next &raquo;', 'mxchat'); ?></a>
+                            <a href="#" class="mxchat-page-link" data-page="<?php echo($current_page + 1); ?>"><?php esc_html_e('Next &raquo;', 'mxchat'); ?></a>
                         <?php endif; ?>
                     </div>
                     <?php endif; ?>
@@ -1140,8 +1151,9 @@ function mxchat_render_knowledge_base_section($admin_instance, $knowledge_manage
 /**
  * Render Auto-Sync Section
  */
-function mxchat_render_auto_sync_section($knowledge_manager) {
-    ?>
+function mxchat_render_auto_sync_section($knowledge_manager)
+{
+	?>
     <div id="auto-sync" class="mxch-section">
         <div class="mxch-content-header">
             <h1 class="mxch-content-title"><?php esc_html_e('Auto-Sync Settings', 'mxchat'); ?></h1>
@@ -1175,14 +1187,14 @@ function mxchat_render_auto_sync_section($knowledge_manager) {
                     <div id="mxchat-custom-post-types-container" style="display: none; margin-top: 16px; padding: 16px; background: #f8fafc; border-radius: var(--mxch-radius-md);">
                         <h4 style="margin: 0 0 12px 0;"><?php esc_html_e('Sync Custom Post Types', 'mxchat'); ?></h4>
                         <?php
-                        $post_types = $knowledge_manager->mxchat_get_public_post_types();
-                        unset($post_types['post'], $post_types['page']);
+						$post_types = $knowledge_manager->mxchat_get_public_post_types();
+	unset($post_types['post'], $post_types['page']);
 
-                        if (!empty($post_types)) {
-                            foreach ($post_types as $post_type => $label) {
-                                $option_name = 'mxchat_auto_sync_' . $post_type;
-                                $is_enabled = get_option($option_name, '0');
-                                ?>
+	if (!empty($post_types)) {
+		foreach ($post_types as $post_type => $label) {
+			$option_name = 'mxchat_auto_sync_' . $post_type;
+			$is_enabled = get_option($option_name, '0');
+			?>
                                 <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
                                     <label class="mxchat-toggle-switch">
                                         <input type="checkbox" name="<?php echo esc_attr($option_name); ?>" class="mxchat-autosave-field" value="1" data-nonce="<?php echo wp_create_nonce('mxchat_prompts_setting_nonce'); ?>" <?php checked($is_enabled, '1'); ?>>
@@ -1191,11 +1203,11 @@ function mxchat_render_auto_sync_section($knowledge_manager) {
                                     <span><?php echo esc_html($label); ?> (<?php echo esc_html($post_type); ?>)</span>
                                 </div>
                                 <?php
-                            }
-                        } else {
-                            echo '<p style="color: var(--mxch-text-muted);">' . esc_html__('No custom post types found.', 'mxchat') . '</p>';
-                        }
-                        ?>
+		}
+	} else {
+		echo '<p style="color: var(--mxch-text-muted);">' . esc_html__('No custom post types found.', 'mxchat') . '</p>';
+	}
+	?>
                     </div>
                 </div>
             </div>
@@ -1207,11 +1219,12 @@ function mxchat_render_auto_sync_section($knowledge_manager) {
 /**
  * Render Chunking Section
  */
-function mxchat_render_chunking_section() {
-    $chunking_settings = MxChat_Chunker::get_settings();
-    $chunking_enabled = $chunking_settings['chunking_enabled'];
-    $chunk_size = $chunking_settings['chunk_size'];
-    ?>
+function mxchat_render_chunking_section()
+{
+	$chunking_settings = MxChat_Chunker::get_settings();
+	$chunking_enabled = $chunking_settings['chunking_enabled'];
+	$chunk_size = $chunking_settings['chunk_size'];
+	?>
     <div id="chunking" class="mxch-section">
         <div class="mxch-content-header">
             <h1 class="mxch-content-title"><?php esc_html_e('Content Chunking', 'mxchat'); ?></h1>
@@ -1249,17 +1262,18 @@ function mxchat_render_chunking_section() {
 /**
  * Render Role Restrictions Section
  */
-function mxchat_render_role_restrictions_section($knowledge_manager) {
-    $role_options = array(
-        'public' => __('Public (Everyone)', 'mxchat'),
-        'logged_in' => __('Logged In Users', 'mxchat'),
-        'subscriber' => __('Subscribers & Above', 'mxchat'),
-        'contributor' => __('Contributors & Above', 'mxchat'),
-        'author' => __('Authors & Above', 'mxchat'),
-        'editor' => __('Editors & Above', 'mxchat'),
-        'administrator' => __('Administrators Only', 'mxchat')
-    );
-    ?>
+function mxchat_render_role_restrictions_section($knowledge_manager)
+{
+	$role_options = [
+		'public' => __('Public (Everyone)', 'mxchat'),
+		'logged_in' => __('Logged In Users', 'mxchat'),
+		'subscriber' => __('Subscribers & Above', 'mxchat'),
+		'contributor' => __('Contributors & Above', 'mxchat'),
+		'author' => __('Authors & Above', 'mxchat'),
+		'editor' => __('Editors & Above', 'mxchat'),
+		'administrator' => __('Administrators Only', 'mxchat'),
+	];
+	?>
     <div id="role-restrictions" class="mxch-section">
         <div class="mxch-content-header">
             <h1 class="mxch-content-title"><?php esc_html_e('Role-Based Content Restrictions', 'mxchat'); ?></h1>
@@ -1328,12 +1342,13 @@ function mxchat_render_role_restrictions_section($knowledge_manager) {
 /**
  * Render ACF Fields Section
  */
-function mxchat_render_acf_fields_section($knowledge_manager) {
-    $excluded_fields = get_option('mxchat_acf_excluded_fields', array());
-    if (!is_array($excluded_fields)) {
-        $excluded_fields = array();
-    }
-    ?>
+function mxchat_render_acf_fields_section($knowledge_manager)
+{
+	$excluded_fields = get_option('mxchat_acf_excluded_fields', []);
+	if (!is_array($excluded_fields)) {
+		$excluded_fields = [];
+	}
+	?>
     <div id="acf-fields" class="mxch-section">
         <div class="mxch-content-header">
             <h1 class="mxch-content-title"><?php esc_html_e('ACF Field Settings', 'mxchat'); ?></h1>
@@ -1348,9 +1363,9 @@ function mxchat_render_acf_fields_section($knowledge_manager) {
                         <span><?php esc_html_e('Advanced Custom Fields (ACF) plugin is not detected. Install and activate ACF to use this feature.', 'mxchat'); ?></span>
                     </div>
                 <?php else:
-                    $all_acf_fields = $knowledge_manager->mxchat_get_all_acf_fields();
+                	$all_acf_fields = $knowledge_manager->mxchat_get_all_acf_fields();
 
-                    if (empty($all_acf_fields)): ?>
+                	if (empty($all_acf_fields)): ?>
                         <div class="mxch-notice mxch-notice-info">
                             <svg class="mxch-notice-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
                             <span><?php esc_html_e('No ACF field groups found. Create field groups in ACF to control which fields are included in embeddings.', 'mxchat'); ?></span>
@@ -1368,9 +1383,9 @@ function mxchat_render_acf_fields_section($knowledge_manager) {
                                 </h4>
                                 <div style="background: #f8fafc; border-radius: var(--mxch-radius-md); padding: 16px;">
                                     <?php foreach ($fields as $field):
-                                        $field_name = $field['name'];
-                                        $is_enabled = !in_array($field_name, $excluded_fields);
-                                    ?>
+                                    	$field_name = $field['name'];
+                                    	$is_enabled = !in_array($field_name, $excluded_fields);
+                                    	?>
                                         <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e2e8f0;">
                                             <div>
                                                 <span style="font-weight: 500;"><?php echo esc_html($field['label']); ?></span>
@@ -1402,9 +1417,10 @@ function mxchat_render_acf_fields_section($knowledge_manager) {
 /**
  * Render Custom Meta Section
  */
-function mxchat_render_custom_meta_section() {
-    $whitelist = get_option('mxchat_custom_meta_whitelist', '');
-    ?>
+function mxchat_render_custom_meta_section()
+{
+	$whitelist = get_option('mxchat_custom_meta_whitelist', '');
+	?>
     <div id="custom-meta" class="mxch-section">
         <div class="mxch-content-header">
             <h1 class="mxch-content-title"><?php esc_html_e('Custom Post Meta', 'mxchat'); ?></h1>
@@ -1454,10 +1470,11 @@ function mxchat_render_custom_meta_section() {
 /**
  * Render Pinecone Section
  */
-function mxchat_render_pinecone_section() {
-    $pinecone_options = get_option('mxchat_pinecone_addon_options', array());
-    $use_pinecone = $pinecone_options['mxchat_use_pinecone'] ?? '0';
-    ?>
+function mxchat_render_pinecone_section()
+{
+	$pinecone_options = get_option('mxchat_pinecone_addon_options', []);
+	$use_pinecone = $pinecone_options['mxchat_use_pinecone'] ?? '0';
+	?>
     <div id="pinecone" class="mxch-section">
         <div class="mxch-content-header">
             <h1 class="mxch-content-title"><?php esc_html_e('Pinecone Vector Database', 'mxchat'); ?></h1>
@@ -1526,7 +1543,7 @@ function mxchat_render_pinecone_section() {
                         </div>
                     </div>
 
-                    <?php submit_button(__('Save Pinecone Settings', 'mxchat'), 'primary', 'submit', true, array('class' => 'mxch-btn mxch-btn-primary')); ?>
+                    <?php submit_button(__('Save Pinecone Settings', 'mxchat'), 'primary', 'submit', true, ['class' => 'mxch-btn mxch-btn-primary']); ?>
                 </form>
             </div>
         </div>
@@ -1537,17 +1554,18 @@ function mxchat_render_pinecone_section() {
 /**
  * Render OpenAI Vector Store Section
  */
-function mxchat_render_openai_vectorstore_section() {
-    $vectorstore_options = get_option('mxchat_openai_vectorstore_options', array());
-    $use_vectorstore = $vectorstore_options['mxchat_use_openai_vectorstore'] ?? '0';
-    $vectorstore_ids = $vectorstore_options['mxchat_vectorstore_ids'] ?? '';
-    $max_results = $vectorstore_options['mxchat_vectorstore_max_results'] ?? 5;
+function mxchat_render_openai_vectorstore_section()
+{
+	$vectorstore_options = get_option('mxchat_openai_vectorstore_options', []);
+	$use_vectorstore = $vectorstore_options['mxchat_use_openai_vectorstore'] ?? '0';
+	$vectorstore_ids = $vectorstore_options['mxchat_vectorstore_ids'] ?? '';
+	$max_results = $vectorstore_options['mxchat_vectorstore_max_results'] ?? 5;
 
-    // Get current chat model to check compatibility
-    $mxchat_options = get_option('mxchat_options', array());
-    $current_model = $mxchat_options['model'] ?? 'gpt-5.1-chat-latest';
-    $is_openai_model = preg_match('/^(gpt-|o1-|o3-)/', $current_model);
-    ?>
+	// Get current chat model to check compatibility
+	$mxchat_options = get_option('mxchat_options', []);
+	$current_model = $mxchat_options['model'] ?? 'gpt-5.1-chat-latest';
+	$is_openai_model = preg_match('/^(gpt-|o1-|o3-)/', $current_model);
+	?>
     <div id="openai-vectorstore" class="mxch-section">
         <div class="mxch-content-header">
             <h1 class="mxch-content-title"><?php esc_html_e('OpenAI Vector Store', 'mxchat'); ?></h1>
@@ -1613,7 +1631,7 @@ function mxchat_render_openai_vectorstore_section() {
                         </div>
                     </div>
 
-                    <?php submit_button(__('Save Vector Store Settings', 'mxchat'), 'primary', 'submit', true, array('class' => 'mxch-btn mxch-btn-primary')); ?>
+                    <?php submit_button(__('Save Vector Store Settings', 'mxchat'), 'primary', 'submit', true, ['class' => 'mxch-btn mxch-btn-primary']); ?>
                 </form>
             </div>
         </div>
@@ -1624,8 +1642,9 @@ function mxchat_render_openai_vectorstore_section() {
 /**
  * Render Content Selector Modal
  */
-function mxchat_render_content_selector_modal() {
-    ?>
+function mxchat_render_content_selector_modal()
+{
+	?>
     <div id="mxchat-kb-content-selector-modal" class="mxchat-kb-modal">
         <div class="mxchat-kb-modal-content">
             <div class="mxchat-kb-modal-header">
@@ -1645,13 +1664,13 @@ function mxchat_render_content_selector_modal() {
                         <option value="post"><?php esc_html_e('Posts', 'mxchat'); ?></option>
                         <option value="page"><?php esc_html_e('Pages', 'mxchat'); ?></option>
                         <?php
-                        $post_types = get_post_types(array('public' => true), 'objects');
-                        foreach ($post_types as $post_type) {
-                            if (!in_array($post_type->name, array('post', 'page'))) {
-                                echo '<option value="' . esc_attr($post_type->name) . '">' . esc_html($post_type->label) . '</option>';
-                            }
-                        }
-                        ?>
+						$post_types = get_post_types(['public' => true], 'objects');
+	foreach ($post_types as $post_type) {
+		if (!in_array($post_type->name, ['post', 'page'])) {
+			echo '<option value="' . esc_attr($post_type->name) . '">' . esc_html($post_type->label) . '</option>';
+		}
+	}
+	?>
                     </select>
                     <select id="mxchat-kb-content-status-filter">
                         <option value="publish"><?php esc_html_e('Published', 'mxchat'); ?></option>
@@ -1704,8 +1723,9 @@ function mxchat_render_content_selector_modal() {
 /**
  * Render Knowledge Page Navigation Scripts
  */
-function mxchat_render_knowledge_page_scripts() {
-    ?>
+function mxchat_render_knowledge_page_scripts()
+{
+	?>
     <script>
     (function() {
         'use strict';

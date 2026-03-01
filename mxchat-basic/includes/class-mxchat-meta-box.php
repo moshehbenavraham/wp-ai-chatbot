@@ -1,107 +1,114 @@
 <?php
 if (!defined('ABSPATH')) {
-    exit; // Exit if accessed directly
+	exit; // Exit if accessed directly
 }
 
 /**
  * Enhanced meta box to hide chatbot and select specific bot on pages
  */
-class MxChat_Meta_Box {
-    
-    public function __construct() {
-        add_action('add_meta_boxes', array($this, 'add_chatbot_meta_box'));
-        add_action('save_post', array($this, 'save_chatbot_meta_box'));
-        add_action('enqueue_block_editor_assets', array($this, 'enqueue_gutenberg_assets'));
-        add_action('init', array($this, 'register_meta_fields'));
-    }
-    
-    /**
-     * Add meta box to posts and pages
-     */
-    public function add_chatbot_meta_box() {
-        $post_types = get_post_types(array('public' => true), 'names');
-        
-        foreach ($post_types as $post_type) {
-            add_meta_box(
-                'mxchat_visibility',
-                __('MxChat Settings', 'mxchat'),
-                array($this, 'render_meta_box'),
-                $post_type,
-                'side',
-                'default'
-            );
-        }
-    }
-    
-    /**
-     * Register meta fields for Gutenberg
-     */
-    public function register_meta_fields() {
-        register_post_meta('', '_mxchat_hide_chatbot', array(
-            'show_in_rest' => true,
-            'single' => true,
-            'type' => 'string',
-            'default' => '',
-            'auth_callback' => function() {
-                return current_user_can('edit_posts');
-            }
-        ));
-        
-        register_post_meta('', '_mxchat_selected_bot', array(
-            'show_in_rest' => true,
-            'single' => true,
-            'type' => 'string',
-            'default' => '',
-            'auth_callback' => function() {
-                return current_user_can('edit_posts');
-            }
-        ));
-    }
-    
-    /**
-     * Get available bots
-     */
-    private function get_available_bots() {
-        $bots = array();
-        
-        // Check if multi-bot addon is active
-        if (class_exists('MxChat_Multi_Bot_Manager')) {
-            $multi_bot_manager = MxChat_Multi_Bot_Core_Manager::get_instance();
-            $available_bots = $multi_bot_manager->get_available_bots();
-            
-            // Add the available bots
-            foreach ($available_bots as $bot_id => $bot_name) {
-                $bots[$bot_id] = $bot_name;
-            }
-        } else {
-            // Only default bot available
-            $bots['default'] = __('Default Bot', 'mxchat');
-        }
-        
-        return $bots;
-    }
-    
-    /**
-     * Check if global auto-show is enabled
-     */
-    private function is_global_autoshow_enabled() {
-        $options = get_option('mxchat_options', array());
-        return isset($options['append_to_body']) && $options['append_to_body'] === 'on';
-    }
-    
-    /**
-     * Updated render_meta_box method with clarified copy
-     */
-    public function render_meta_box($post) {
-        wp_nonce_field('mxchat_meta_box_nonce', 'mxchat_meta_box_nonce');
-        
-        $hide_chatbot = get_post_meta($post->ID, '_mxchat_hide_chatbot', true);
-        $selected_bot = get_post_meta($post->ID, '_mxchat_selected_bot', true);
-        $available_bots = $this->get_available_bots();
-        $global_autoshow = $this->is_global_autoshow_enabled();
-        $has_multibot = class_exists('MxChat_Multi_Bot_Manager');
-        
-        ?>
+class MxChat_Meta_Box
+{
+	public function __construct()
+	{
+		add_action('add_meta_boxes', [$this, 'add_chatbot_meta_box']);
+		add_action('save_post', [$this, 'save_chatbot_meta_box']);
+		add_action('enqueue_block_editor_assets', [$this, 'enqueue_gutenberg_assets']);
+		add_action('init', [$this, 'register_meta_fields']);
+	}
+
+	/**
+	 * Add meta box to posts and pages
+	 */
+	public function add_chatbot_meta_box()
+	{
+		$post_types = get_post_types(['public' => true], 'names');
+
+		foreach ($post_types as $post_type) {
+			add_meta_box(
+				'mxchat_visibility',
+				__('MxChat Settings', 'mxchat'),
+				[$this, 'render_meta_box'],
+				$post_type,
+				'side',
+				'default'
+			);
+		}
+	}
+
+	/**
+	 * Register meta fields for Gutenberg
+	 */
+	public function register_meta_fields()
+	{
+		register_post_meta('', '_mxchat_hide_chatbot', [
+			'show_in_rest' => true,
+			'single' => true,
+			'type' => 'string',
+			'default' => '',
+			'auth_callback' => function () {
+				return current_user_can('edit_posts');
+			},
+		]);
+
+		register_post_meta('', '_mxchat_selected_bot', [
+			'show_in_rest' => true,
+			'single' => true,
+			'type' => 'string',
+			'default' => '',
+			'auth_callback' => function () {
+				return current_user_can('edit_posts');
+			},
+		]);
+	}
+
+	/**
+	 * Get available bots
+	 */
+	private function get_available_bots()
+	{
+		$bots = [];
+
+		// Check if multi-bot addon is active
+		if (class_exists('MxChat_Multi_Bot_Manager')) {
+			$multi_bot_manager = MxChat_Multi_Bot_Core_Manager::get_instance();
+			$available_bots = $multi_bot_manager->get_available_bots();
+
+			// Add the available bots
+			foreach ($available_bots as $bot_id => $bot_name) {
+				$bots[$bot_id] = $bot_name;
+			}
+		} else {
+			// Only default bot available
+			$bots['default'] = __('Default Bot', 'mxchat');
+		}
+
+		return $bots;
+	}
+
+	/**
+	 * Check if global auto-show is enabled
+	 */
+	private function is_global_autoshow_enabled()
+	{
+		$options = get_option('mxchat_options', []);
+
+		return isset($options['append_to_body']) && $options['append_to_body'] === 'on';
+	}
+
+	/**
+	 * Updated render_meta_box method with clarified copy
+	 */
+	public function render_meta_box($post)
+	{
+		wp_nonce_field('mxchat_meta_box_nonce', 'mxchat_meta_box_nonce');
+
+		$hide_chatbot = get_post_meta($post->ID, '_mxchat_hide_chatbot', true);
+		$selected_bot = get_post_meta($post->ID, '_mxchat_selected_bot', true);
+		$available_bots = $this->get_available_bots();
+		$global_autoshow = $this->is_global_autoshow_enabled();
+		$has_multibot = class_exists('MxChat_Multi_Bot_Manager');
+
+		?>
         <div style="padding: 10px 0;">
             
             <!-- Hide Chatbot Option -->
@@ -177,103 +184,106 @@ class MxChat_Meta_Box {
             </div>
         </div>
         <?php
-    }
+	}
 
-    /**
-     * Save meta box data
-     */
-    public function save_chatbot_meta_box($post_id) {
-        if (!isset($_POST['mxchat_meta_box_nonce']) || 
-            !wp_verify_nonce($_POST['mxchat_meta_box_nonce'], 'mxchat_meta_box_nonce')) {
-            return;
-        }
-        
-        if (!current_user_can('edit_post', $post_id)) {
-            return;
-        }
-        
-        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
-            return;
-        }
-        
-        // Save hide chatbot setting
-        if (isset($_POST['mxchat_hide_chatbot'])) {
-            update_post_meta($post_id, '_mxchat_hide_chatbot', '1');
-        } else {
-            delete_post_meta($post_id, '_mxchat_hide_chatbot');
-        }
-        
-        // Save selected bot setting
-        if (isset($_POST['mxchat_selected_bot'])) {
-            $selected_bot = sanitize_text_field($_POST['mxchat_selected_bot']);
-            if (!empty($selected_bot)) {
-                update_post_meta($post_id, '_mxchat_selected_bot', $selected_bot);
-            } else {
-                delete_post_meta($post_id, '_mxchat_selected_bot');
-            }
-        }
-    }
-    
-    /**
-     * Enqueue Gutenberg assets
-     */
-    public function enqueue_gutenberg_assets() {
-        $available_bots = $this->get_available_bots();
-        $global_autoshow = $this->is_global_autoshow_enabled();
-        $has_multibot = class_exists('MxChat_Multi_Bot_Manager');
-        
-        // Enqueue the JavaScript file
-        wp_enqueue_script(
-            'mxchat-meta-box',
-            plugin_dir_url(__FILE__) . 'js/meta-box.js',
-            array('wp-edit-post', 'wp-element', 'wp-components', 'wp-data', 'wp-plugins'),
-            '1.0.0',
-            true
-        );
-        
-        // Localize script with data
-        wp_localize_script('mxchat-meta-box', 'mxchatMetaBox', array(
-            'availableBots' => $available_bots,
-            'globalAutoshow' => $global_autoshow,
-            'hasMultibot' => $has_multibot,
-            'strings' => array(
-                'panelTitle' => __('MxChat Settings', 'mxchat'),
-                'useGlobalSetting' => __('Use Global Setting', 'mxchat'),
-                'hideChatbot' => __('Hide chatbot on this page', 'mxchat'),
-                'hideChatbotHelp' => __('Prevent any chatbot from appearing on this page', 'mxchat'),
-                'selectBot' => __('Select Bot for this Page', 'mxchat'),
-                'globalAutoshowOn' => __('Global Auto-Show: ON. Use Global Setting = Default bot shows automatically. Select specific bot = That bot shows instead.', 'mxchat'),
-                'globalAutoshowOff' => __('Global Auto-Show: OFF. Use Global Setting = No bot shows. Select specific bot = That bot shows on this page only.', 'mxchat')
-            )
-        ));
-    }
-    
-    /**
-     * Helper function to get the bot that should display on current page
-     * Call this from your main chatbot display logic
-     */
-    public static function get_page_bot_setting($post_id = null) {
-        if (!$post_id) {
-            $post_id = get_the_ID();
-        }
-        
-        if (!$post_id) {
-            return null;
-        }
-        
-        // Check if chatbot is hidden on this page
-        $hide_chatbot = get_post_meta($post_id, '_mxchat_hide_chatbot', true);
-        if ($hide_chatbot === '1') {
-            return array('action' => 'hide');
-        }
-        
-        // Check if specific bot is selected
-        $selected_bot = get_post_meta($post_id, '_mxchat_selected_bot', true);
-        if (!empty($selected_bot)) {
-            return array('action' => 'show', 'bot_id' => $selected_bot);
-        }
-        
-        // Use global setting
-        return array('action' => 'global');
-    }
+	/**
+	 * Save meta box data
+	 */
+	public function save_chatbot_meta_box($post_id)
+	{
+		if (!isset($_POST['mxchat_meta_box_nonce']) ||
+			!wp_verify_nonce($_POST['mxchat_meta_box_nonce'], 'mxchat_meta_box_nonce')) {
+			return;
+		}
+
+		if (!current_user_can('edit_post', $post_id)) {
+			return;
+		}
+
+		if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+			return;
+		}
+
+		// Save hide chatbot setting
+		if (isset($_POST['mxchat_hide_chatbot'])) {
+			update_post_meta($post_id, '_mxchat_hide_chatbot', '1');
+		} else {
+			delete_post_meta($post_id, '_mxchat_hide_chatbot');
+		}
+
+		// Save selected bot setting
+		if (isset($_POST['mxchat_selected_bot'])) {
+			$selected_bot = sanitize_text_field($_POST['mxchat_selected_bot']);
+			if (!empty($selected_bot)) {
+				update_post_meta($post_id, '_mxchat_selected_bot', $selected_bot);
+			} else {
+				delete_post_meta($post_id, '_mxchat_selected_bot');
+			}
+		}
+	}
+
+	/**
+	 * Enqueue Gutenberg assets
+	 */
+	public function enqueue_gutenberg_assets()
+	{
+		$available_bots = $this->get_available_bots();
+		$global_autoshow = $this->is_global_autoshow_enabled();
+		$has_multibot = class_exists('MxChat_Multi_Bot_Manager');
+
+		// Enqueue the JavaScript file
+		wp_enqueue_script(
+			'mxchat-meta-box',
+			plugin_dir_url(__FILE__) . 'js/meta-box.js',
+			['wp-edit-post', 'wp-element', 'wp-components', 'wp-data', 'wp-plugins'],
+			'1.0.0',
+			true
+		);
+
+		// Localize script with data
+		wp_localize_script('mxchat-meta-box', 'mxchatMetaBox', [
+			'availableBots' => $available_bots,
+			'globalAutoshow' => $global_autoshow,
+			'hasMultibot' => $has_multibot,
+			'strings' => [
+				'panelTitle' => __('MxChat Settings', 'mxchat'),
+				'useGlobalSetting' => __('Use Global Setting', 'mxchat'),
+				'hideChatbot' => __('Hide chatbot on this page', 'mxchat'),
+				'hideChatbotHelp' => __('Prevent any chatbot from appearing on this page', 'mxchat'),
+				'selectBot' => __('Select Bot for this Page', 'mxchat'),
+				'globalAutoshowOn' => __('Global Auto-Show: ON. Use Global Setting = Default bot shows automatically. Select specific bot = That bot shows instead.', 'mxchat'),
+				'globalAutoshowOff' => __('Global Auto-Show: OFF. Use Global Setting = No bot shows. Select specific bot = That bot shows on this page only.', 'mxchat'),
+			],
+		]);
+	}
+
+	/**
+	 * Helper function to get the bot that should display on current page
+	 * Call this from your main chatbot display logic
+	 */
+	public static function get_page_bot_setting($post_id = null)
+	{
+		if (!$post_id) {
+			$post_id = get_the_ID();
+		}
+
+		if (!$post_id) {
+			return null;
+		}
+
+		// Check if chatbot is hidden on this page
+		$hide_chatbot = get_post_meta($post_id, '_mxchat_hide_chatbot', true);
+		if ($hide_chatbot === '1') {
+			return ['action' => 'hide'];
+		}
+
+		// Check if specific bot is selected
+		$selected_bot = get_post_meta($post_id, '_mxchat_selected_bot', true);
+		if (!empty($selected_bot)) {
+			return ['action' => 'show', 'bot_id' => $selected_bot];
+		}
+
+		// Use global setting
+		return ['action' => 'global'];
+	}
 }

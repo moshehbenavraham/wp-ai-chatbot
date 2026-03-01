@@ -7,17 +7,18 @@
  */
 
 if (!defined('ABSPATH')) {
-    exit;
+	exit;
 }
 
 /**
  * Render the new sidebar-based admin settings page
  */
-function mxchat_render_settings_page($admin_instance) {
-    $is_activated = $admin_instance->is_activated();
-    $options = get_option('mxchat_options', array());
-    $plugin_url = plugin_dir_url(dirname(__FILE__));
-    ?>
+function mxchat_render_settings_page($admin_instance)
+{
+	$is_activated = $admin_instance->is_activated();
+	$options = get_option('mxchat_options', []);
+	$plugin_url = plugin_dir_url(dirname(__FILE__));
+	?>
     <div class="mxch-admin-wrapper">
         <!-- Mobile Header -->
         <header class="mxch-mobile-header">
@@ -218,9 +219,9 @@ function mxchat_render_settings_page($admin_instance) {
             <?php endif; ?>
 
             <?php
-            // Show theme migration notice for Pro users
-            $admin_instance->show_theme_migration_banner();
-            ?>
+			// Show theme migration notice for Pro users
+			$admin_instance->show_theme_migration_banner();
+	?>
 
             <!-- ========================================
                  CHATBOT - AI MODELS
@@ -234,26 +235,26 @@ function mxchat_render_settings_page($admin_instance) {
                 <div class="mxch-card">
                     <div class="mxch-card-body mxchat-autosave-section">
                         <?php
-                        // Chat Model
-                        mxchat_render_field_wrapper('model', __('Chat Model', 'mxchat'), function() use ($admin_instance) {
-                            $admin_instance->mxchat_model_callback();
-                        }, __('Select the AI model your chatbot will use for conversations.', 'mxchat'));
+				// Chat Model
+				mxchat_render_field_wrapper('model', __('Chat Model', 'mxchat'), function () use ($admin_instance) {
+					$admin_instance->mxchat_model_callback();
+				}, __('Select the AI model your chatbot will use for conversations.', 'mxchat'));
 
-                        // Embedding Model
-                        mxchat_render_field_wrapper('embedding_model', __('Embedding Model', 'mxchat'), function() use ($admin_instance) {
-                            $admin_instance->embedding_model_callback();
-                        }, __('Vector embedding model for knowledge base matching. Changing models requires reconfiguring knowledge data.', 'mxchat'));
+	// Embedding Model
+	mxchat_render_field_wrapper('embedding_model', __('Embedding Model', 'mxchat'), function () use ($admin_instance) {
+		$admin_instance->embedding_model_callback();
+	}, __('Vector embedding model for knowledge base matching. Changing models requires reconfiguring knowledge data.', 'mxchat'));
 
-                        // Enable Streaming
-                        mxchat_render_field_wrapper('enable_streaming', __('Enable Streaming', 'mxchat'), function() use ($admin_instance) {
-                            $admin_instance->enable_streaming_toggle_callback();
-                        }, __('Enable real-time streaming responses for supported models (OpenAI, Claude, DeepSeek, Grok).', 'mxchat'));
+	// Enable Streaming
+	mxchat_render_field_wrapper('enable_streaming', __('Enable Streaming', 'mxchat'), function () use ($admin_instance) {
+		$admin_instance->enable_streaming_toggle_callback();
+	}, __('Enable real-time streaming responses for supported models (OpenAI, Claude, DeepSeek, Grok).', 'mxchat'));
 
-                        // Enable Web Search (OpenAI only)
-                        mxchat_render_field_wrapper('enable_web_search', __('Enable Web Search', 'mxchat'), function() use ($admin_instance) {
-                            $admin_instance->enable_web_search_toggle_callback();
-                        }, __('Allow the chatbot to search the web for current information (OpenAI models only).', 'mxchat'));
-                        ?>
+	// Enable Web Search (OpenAI only)
+	mxchat_render_field_wrapper('enable_web_search', __('Enable Web Search', 'mxchat'), function () use ($admin_instance) {
+		$admin_instance->enable_web_search_toggle_callback();
+	}, __('Allow the chatbot to search the web for current information (OpenAI models only).', 'mxchat'));
+	?>
                     </div>
                 </div>
             </div>
@@ -270,36 +271,36 @@ function mxchat_render_settings_page($admin_instance) {
                 <div class="mxch-card">
                     <div class="mxch-card-body mxchat-autosave-section">
                         <?php
-                        // AI Instructions
-                        mxchat_render_field_wrapper('system_prompt_instructions', __('AI Instructions (Behavior)', 'mxchat'), function() use ($admin_instance) {
-                            $admin_instance->system_prompt_instructions_callback();
-                        }, __('Provide system-level instructions to guide the AI\'s behavior and responses.', 'mxchat'));
+	// AI Instructions
+	mxchat_render_field_wrapper('system_prompt_instructions', __('AI Instructions (Behavior)', 'mxchat'), function () use ($admin_instance) {
+		$admin_instance->system_prompt_instructions_callback();
+	}, __('Provide system-level instructions to guide the AI\'s behavior and responses.', 'mxchat'));
 
-                        // Similarity Threshold
-                        mxchat_render_field_wrapper('similarity_threshold', __('Similarity Threshold', 'mxchat'), function() use ($admin_instance) {
-                            $admin_instance->mxchat_similarity_threshold_callback();
-                        }, __('Adjust threshold for content matching. Lower values = more matches, higher values = stricter matching.', 'mxchat'));
+	// Similarity Threshold
+	mxchat_render_field_wrapper('similarity_threshold', __('Similarity Threshold', 'mxchat'), function () use ($admin_instance) {
+		$admin_instance->mxchat_similarity_threshold_callback();
+	}, __('Adjust threshold for content matching. Lower values = more matches, higher values = stricter matching.', 'mxchat'));
 
-                        // RAG Sources Limit
-                        mxchat_render_field_wrapper('rag_sources_limit', __('RAG Sources Limit', 'mxchat'), function() use ($admin_instance) {
-                            $admin_instance->mxchat_rag_sources_limit_callback();
-                        }, __('Number of knowledge base sources (pages/documents) to include in AI context. Higher values provide more context but use more tokens.', 'mxchat'));
+	// RAG Sources Limit
+	mxchat_render_field_wrapper('rag_sources_limit', __('RAG Sources Limit', 'mxchat'), function () use ($admin_instance) {
+		$admin_instance->mxchat_rag_sources_limit_callback();
+	}, __('Number of knowledge base sources (pages/documents) to include in AI context. Higher values provide more context but use more tokens.', 'mxchat'));
 
-                        // Contextual Awareness
-                        mxchat_render_field_wrapper('contextual_awareness', __('Contextual Awareness', 'mxchat'), function() use ($admin_instance) {
-                            $admin_instance->mxchat_contextual_awareness_callback();
-                        }, __('Allow the chatbot to understand and reference the current page content for more relevant responses.', 'mxchat'));
+	// Contextual Awareness
+	mxchat_render_field_wrapper('contextual_awareness', __('Contextual Awareness', 'mxchat'), function () use ($admin_instance) {
+		$admin_instance->mxchat_contextual_awareness_callback();
+	}, __('Allow the chatbot to understand and reference the current page content for more relevant responses.', 'mxchat'));
 
-                        // Citation Links
-                        mxchat_render_field_wrapper('citation_links', __('Citation Links', 'mxchat'), function() use ($admin_instance) {
-                            $admin_instance->mxchat_citation_links_toggle_callback();
-                        }, __('Allow the AI to include citation links from your knowledge database in responses. If disabled, ensure your AI Behavior settings do not mention links or the AI may fabricate URLs.', 'mxchat'));
+	// Citation Links
+	mxchat_render_field_wrapper('citation_links', __('Citation Links', 'mxchat'), function () use ($admin_instance) {
+		$admin_instance->mxchat_citation_links_toggle_callback();
+	}, __('Allow the AI to include citation links from your knowledge database in responses. If disabled, ensure your AI Behavior settings do not mention links or the AI may fabricate URLs.', 'mxchat'));
 
-                        // Frontend Debugger
-                        mxchat_render_field_wrapper('frontend_debugger', __('Frontend Debugger', 'mxchat'), function() use ($admin_instance) {
-                            $admin_instance->mxchat_frontend_debugger_callback();
-                        }, __('Show debug panel on frontend for admins. Displays similarity scores and query analysis.', 'mxchat'));
-                        ?>
+	// Frontend Debugger
+	mxchat_render_field_wrapper('frontend_debugger', __('Frontend Debugger', 'mxchat'), function () use ($admin_instance) {
+		$admin_instance->mxchat_frontend_debugger_callback();
+	}, __('Show debug panel on frontend for admins. Displays similarity scores and query analysis.', 'mxchat'));
+	?>
                     </div>
                 </div>
             </div>
@@ -322,21 +323,21 @@ function mxchat_render_settings_page($admin_instance) {
                     </div>
                     <div class="mxch-card-body mxchat-autosave-section">
                         <?php
-                        // Auto-Display
-                        mxchat_render_field_wrapper('auto_display', __('Auto-Display Chatbot', 'mxchat'), function() use ($admin_instance) {
-                            $admin_instance->mxchat_append_to_body_callback();
-                        }, __('Show chatbot automatically on all pages. Disable to use shortcode [mxchat_chatbot floating="yes"] for floating widget or [mxchat_chatbot floating="no"] for embedded chat.', 'mxchat'));
+	// Auto-Display
+	mxchat_render_field_wrapper('auto_display', __('Auto-Display Chatbot', 'mxchat'), function () use ($admin_instance) {
+		$admin_instance->mxchat_append_to_body_callback();
+	}, __('Show chatbot automatically on all pages. Disable to use shortcode [mxchat_chatbot floating="yes"] for floating widget or [mxchat_chatbot floating="no"] for embedded chat.', 'mxchat'));
 
-                        // Open Links in New Tab
-                        mxchat_render_field_wrapper('link_target', __('Open Links in New Tab', 'mxchat'), function() use ($admin_instance) {
-                            $admin_instance->mxchat_link_target_toggle_callback();
-                        }, __('Open links clicked in chat responses in a new browser tab.', 'mxchat'));
+	// Open Links in New Tab
+	mxchat_render_field_wrapper('link_target', __('Open Links in New Tab', 'mxchat'), function () use ($admin_instance) {
+		$admin_instance->mxchat_link_target_toggle_callback();
+	}, __('Open links clicked in chat responses in a new browser tab.', 'mxchat'));
 
-                        // Chat Persistence
-                        mxchat_render_field_wrapper('chat_persistence', __('Chat Persistence', 'mxchat'), function() use ($admin_instance) {
-                            $admin_instance->mxchat_chat_persistence_toggle_callback();
-                        }, __('Keep chat history when users navigate or return within 24 hours.', 'mxchat'));
-                        ?>
+	// Chat Persistence
+	mxchat_render_field_wrapper('chat_persistence', __('Chat Persistence', 'mxchat'), function () use ($admin_instance) {
+		$admin_instance->mxchat_chat_persistence_toggle_callback();
+	}, __('Keep chat history when users navigate or return within 24 hours.', 'mxchat'));
+	?>
                     </div>
                 </div>
 
@@ -349,31 +350,31 @@ function mxchat_render_settings_page($admin_instance) {
                     </div>
                     <div class="mxch-card-body mxchat-autosave-section">
                         <?php
-                        // Top Bar Title
-                        mxchat_render_field_wrapper('top_bar_title', __('Top Bar Title', 'mxchat'), function() use ($admin_instance) {
-                            $admin_instance->mxchat_top_bar_title_callback();
-                        }, __('Title text shown in the chatbot header.', 'mxchat'));
+	// Top Bar Title
+	mxchat_render_field_wrapper('top_bar_title', __('Top Bar Title', 'mxchat'), function () use ($admin_instance) {
+		$admin_instance->mxchat_top_bar_title_callback();
+	}, __('Title text shown in the chatbot header.', 'mxchat'));
 
-                        // AI Agent Text
-                        mxchat_render_field_wrapper('ai_agent_text', __('AI Agent Text', 'mxchat'), function() use ($admin_instance) {
-                            $admin_instance->mxchat_ai_agent_text_callback();
-                        }, __('Text shown for AI agents in the status indicator.', 'mxchat'));
+	// AI Agent Text
+	mxchat_render_field_wrapper('ai_agent_text', __('AI Agent Text', 'mxchat'), function () use ($admin_instance) {
+		$admin_instance->mxchat_ai_agent_text_callback();
+	}, __('Text shown for AI agents in the status indicator.', 'mxchat'));
 
-                        // Intro Message
-                        mxchat_render_field_wrapper('intro_message', __('Introductory Message', 'mxchat'), function() use ($admin_instance) {
-                            $admin_instance->mxchat_intro_message_callback();
-                        }, __('First message shown when chat opens. HTML allowed.', 'mxchat'));
+	// Intro Message
+	mxchat_render_field_wrapper('intro_message', __('Introductory Message', 'mxchat'), function () use ($admin_instance) {
+		$admin_instance->mxchat_intro_message_callback();
+	}, __('First message shown when chat opens. HTML allowed.', 'mxchat'));
 
-                        // Input Placeholder
-                        mxchat_render_field_wrapper('input_copy', __('Input Placeholder', 'mxchat'), function() use ($admin_instance) {
-                            $admin_instance->mxchat_input_copy_callback();
-                        }, __('Placeholder text in the chat input field.', 'mxchat'));
+	// Input Placeholder
+	mxchat_render_field_wrapper('input_copy', __('Input Placeholder', 'mxchat'), function () use ($admin_instance) {
+		$admin_instance->mxchat_input_copy_callback();
+	}, __('Placeholder text in the chat input field.', 'mxchat'));
 
-                        // Chat Teaser
-                        mxchat_render_field_wrapper('pre_chat_message', __('Chat Teaser Pop-up', 'mxchat'), function() use ($admin_instance) {
-                            $admin_instance->mxchat_pre_chat_message_callback();
-                        }, __('Message shown before users start chatting.', 'mxchat'));
-                        ?>
+	// Chat Teaser
+	mxchat_render_field_wrapper('pre_chat_message', __('Chat Teaser Pop-up', 'mxchat'), function () use ($admin_instance) {
+		$admin_instance->mxchat_pre_chat_message_callback();
+	}, __('Message shown before users start chatting.', 'mxchat'));
+	?>
                     </div>
                 </div>
             </div>
@@ -396,31 +397,31 @@ function mxchat_render_settings_page($admin_instance) {
                     </div>
                     <div class="mxch-card-body mxchat-autosave-section">
                         <?php
-                        // Require Email
-                        mxchat_render_field_wrapper('enable_email_block', __('Require Email to Chat', 'mxchat'), function() use ($admin_instance) {
-                            $admin_instance->enable_email_block_callback();
-                        }, __('Require users to enter their email before chatting. Shows for non-logged-in users.', 'mxchat'));
+	// Require Email
+	mxchat_render_field_wrapper('enable_email_block', __('Require Email to Chat', 'mxchat'), function () use ($admin_instance) {
+		$admin_instance->enable_email_block_callback();
+	}, __('Require users to enter their email before chatting. Shows for non-logged-in users.', 'mxchat'));
 
-                        // Email Form Content
-                        mxchat_render_field_wrapper('email_blocker_header', __('Email Form Content', 'mxchat'), function() use ($admin_instance) {
-                            $admin_instance->email_blocker_header_content_callback();
-                        }, __('HTML content shown above the email form.', 'mxchat'));
+	// Email Form Content
+	mxchat_render_field_wrapper('email_blocker_header', __('Email Form Content', 'mxchat'), function () use ($admin_instance) {
+		$admin_instance->email_blocker_header_content_callback();
+	}, __('HTML content shown above the email form.', 'mxchat'));
 
-                        // Email Button Text
-                        mxchat_render_field_wrapper('email_blocker_button', __('Submit Button Text', 'mxchat'), function() use ($admin_instance) {
-                            $admin_instance->email_blocker_button_text_callback();
-                        }, __('Text for the email form submit button.', 'mxchat'));
+	// Email Button Text
+	mxchat_render_field_wrapper('email_blocker_button', __('Submit Button Text', 'mxchat'), function () use ($admin_instance) {
+		$admin_instance->email_blocker_button_text_callback();
+	}, __('Text for the email form submit button.', 'mxchat'));
 
-                        // Require Name
-                        mxchat_render_field_wrapper('enable_name_field', __('Also Require Name', 'mxchat'), function() use ($admin_instance) {
-                            $admin_instance->enable_name_field_callback();
-                        }, __('Also require users to enter their name with email.', 'mxchat'));
+	// Require Name
+	mxchat_render_field_wrapper('enable_name_field', __('Also Require Name', 'mxchat'), function () use ($admin_instance) {
+		$admin_instance->enable_name_field_callback();
+	}, __('Also require users to enter their name with email.', 'mxchat'));
 
-                        // Name Placeholder
-                        mxchat_render_field_wrapper('name_placeholder', __('Name Field Placeholder', 'mxchat'), function() use ($admin_instance) {
-                            $admin_instance->name_field_placeholder_callback();
-                        }, __('Placeholder text for the name input field.', 'mxchat'));
-                        ?>
+	// Name Placeholder
+	mxchat_render_field_wrapper('name_placeholder', __('Name Field Placeholder', 'mxchat'), function () use ($admin_instance) {
+		$admin_instance->name_field_placeholder_callback();
+	}, __('Placeholder text for the name input field.', 'mxchat'));
+	?>
                     </div>
                 </div>
 
@@ -433,16 +434,16 @@ function mxchat_render_settings_page($admin_instance) {
                     </div>
                     <div class="mxch-card-body mxchat-autosave-section">
                         <?php
-                        // Privacy Notice
-                        mxchat_render_field_wrapper('privacy_toggle', __('Privacy Notice', 'mxchat'), function() use ($admin_instance) {
-                            $admin_instance->mxchat_privacy_toggle_callback();
-                        }, __('Show privacy notice below the chat widget.', 'mxchat'));
+	// Privacy Notice
+	mxchat_render_field_wrapper('privacy_toggle', __('Privacy Notice', 'mxchat'), function () use ($admin_instance) {
+		$admin_instance->mxchat_privacy_toggle_callback();
+	}, __('Show privacy notice below the chat widget.', 'mxchat'));
 
-                        // Complianz
-                        mxchat_render_field_wrapper('complianz_toggle', __('Complianz Integration', 'mxchat'), function() use ($admin_instance) {
-                            $admin_instance->mxchat_complianz_toggle_callback();
-                        }, __('Apply Complianz consent logic to the chatbot (requires Complianz plugin).', 'mxchat'));
-                        ?>
+	// Complianz
+	mxchat_render_field_wrapper('complianz_toggle', __('Complianz Integration', 'mxchat'), function () use ($admin_instance) {
+		$admin_instance->mxchat_complianz_toggle_callback();
+	}, __('Apply Complianz consent logic to the chatbot (requires Complianz plugin).', 'mxchat'));
+	?>
                     </div>
                 </div>
             </div>
@@ -459,26 +460,26 @@ function mxchat_render_settings_page($admin_instance) {
                 <div class="mxch-card">
                     <div class="mxch-card-body mxchat-autosave-section">
                         <?php
-                        // Quick Question 1
-                        mxchat_render_field_wrapper('popular_question_1', __('Quick Question 1', 'mxchat'), function() use ($admin_instance) {
-                            $admin_instance->mxchat_popular_question_1_callback();
-                        });
+	// Quick Question 1
+	mxchat_render_field_wrapper('popular_question_1', __('Quick Question 1', 'mxchat'), function () use ($admin_instance) {
+		$admin_instance->mxchat_popular_question_1_callback();
+	});
 
-                        // Quick Question 2
-                        mxchat_render_field_wrapper('popular_question_2', __('Quick Question 2', 'mxchat'), function() use ($admin_instance) {
-                            $admin_instance->mxchat_popular_question_2_callback();
-                        });
+	// Quick Question 2
+	mxchat_render_field_wrapper('popular_question_2', __('Quick Question 2', 'mxchat'), function () use ($admin_instance) {
+		$admin_instance->mxchat_popular_question_2_callback();
+	});
 
-                        // Quick Question 3
-                        mxchat_render_field_wrapper('popular_question_3', __('Quick Question 3', 'mxchat'), function() use ($admin_instance) {
-                            $admin_instance->mxchat_popular_question_3_callback();
-                        });
+	// Quick Question 3
+	mxchat_render_field_wrapper('popular_question_3', __('Quick Question 3', 'mxchat'), function () use ($admin_instance) {
+		$admin_instance->mxchat_popular_question_3_callback();
+	});
 
-                        // Additional Questions
-                        mxchat_render_field_wrapper('additional_questions', __('Additional Questions', 'mxchat'), function() use ($admin_instance) {
-                            $admin_instance->mxchat_additional_popular_questions_callback();
-                        }, __('Add as many quick questions as you need.', 'mxchat'));
-                        ?>
+	// Additional Questions
+	mxchat_render_field_wrapper('additional_questions', __('Additional Questions', 'mxchat'), function () use ($admin_instance) {
+		$admin_instance->mxchat_additional_popular_questions_callback();
+	}, __('Add as many quick questions as you need.', 'mxchat'));
+	?>
                     </div>
                 </div>
             </div>
@@ -506,9 +507,9 @@ function mxchat_render_settings_page($admin_instance) {
                 <div class="mxch-card">
                     <div class="mxch-card-body mxchat-autosave-section">
                         <?php
-                        // Render rate limits with accordion
-                        mxchat_render_rate_limits_accordion($admin_instance);
-                        ?>
+	// Render rate limits with accordion
+	mxchat_render_rate_limits_accordion($admin_instance);
+	?>
                     </div>
                 </div>
             </div>
@@ -556,8 +557,8 @@ function mxchat_render_settings_page($admin_instance) {
                     </div>
                     <div class="mxch-card-body mxchat-autosave-section">
                         <?php
-                        $script_loading_strategy = isset($options['script_loading_strategy']) ? $options['script_loading_strategy'] : 'default';
-                        ?>
+	$script_loading_strategy = isset($options['script_loading_strategy']) ? $options['script_loading_strategy'] : 'default';
+	?>
                         <div class="mxch-field">
                             <label class="mxch-field-label"><?php esc_html_e('Script Loading Strategy', 'mxchat'); ?></label>
                             <div class="mxch-field-control">
@@ -590,9 +591,9 @@ function mxchat_render_settings_page($admin_instance) {
 
                 <!-- Debug Mode Card -->
                 <?php
-                $debug_mode = isset($options['debug_mode']) ? $options['debug_mode'] : 'off';
-                $debug_active = ($debug_mode === 'on');
-                ?>
+				$debug_mode = isset($options['debug_mode']) ? $options['debug_mode'] : 'off';
+	$debug_active = ($debug_mode === 'on');
+	?>
                 <div class="mxch-card">
                     <div class="mxch-card-header">
                         <h3 class="mxch-card-title">
@@ -780,8 +781,8 @@ function mxchat_render_settings_page($admin_instance) {
                     <svg class="mxch-notice-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
                     <div>
                         <?php printf(
-                            esc_html__('Visit our %s for setup instructions.', 'mxchat'),
-                            '<a href="https://mxchat.ai/documentation/#slack_integration" target="_blank">' . esc_html__('documentation page', 'mxchat') . '</a>'
+                        	esc_html__('Visit our %s for setup instructions.', 'mxchat'),
+                        	'<a href="https://mxchat.ai/documentation/#slack_integration" target="_blank">' . esc_html__('documentation page', 'mxchat') . '</a>'
                         ); ?>
                     </div>
                 </div>
@@ -874,9 +875,9 @@ function mxchat_render_settings_page($admin_instance) {
                     <div class="mxch-card-body">
                         <?php
                         $telegram_bot_token = $options['telegram_bot_token'] ?? '';
-                        $telegram_webhook_secret = $options['telegram_webhook_secret'] ?? '';
-                        $webhook_url = rest_url('mxchat/v1/telegram-webhook');
-                        ?>
+	$telegram_webhook_secret = $options['telegram_webhook_secret'] ?? '';
+	$webhook_url = rest_url('mxchat/v1/telegram-webhook');
+	?>
 
                         <p class="mxch-field-description" style="margin-bottom: 8px;">
                             <strong><?php esc_html_e('Your Webhook URL:', 'mxchat'); ?></strong>
@@ -894,11 +895,11 @@ function mxchat_render_settings_page($admin_instance) {
                                 <?php esc_html_e('Copy and paste this URL into your browser to register the webhook with Telegram:', 'mxchat'); ?>
                             </p>
                             <?php
-                            $registration_url = 'https://api.telegram.org/bot' . $telegram_bot_token . '/setWebhook?url=' . urlencode($webhook_url);
-                            if (!empty($telegram_webhook_secret)) {
-                                $registration_url .= '&secret_token=' . urlencode($telegram_webhook_secret);
-                            }
-                            ?>
+		$registration_url = 'https://api.telegram.org/bot' . $telegram_bot_token . '/setWebhook?url=' . urlencode($webhook_url);
+                        	if (!empty($telegram_webhook_secret)) {
+                        		$registration_url .= '&secret_token=' . urlencode($telegram_webhook_secret);
+                        	}
+                        	?>
                             <div class="mxch-webhook-url-display" style="margin-bottom: 12px;">
                                 <code id="mxch-telegram-registration-url" style="word-break: break-all; font-size: 12px;"><?php echo esc_url($registration_url); ?></code>
                                 <button type="button" class="mxch-btn mxch-btn-secondary mxch-btn-sm" onclick="navigator.clipboard.writeText(document.getElementById('mxch-telegram-registration-url').textContent); this.textContent='Copied!'; setTimeout(() => this.textContent='Copy', 2000);">
@@ -946,75 +947,75 @@ function mxchat_render_settings_page($admin_instance) {
 
                 <div class="mxch-tutorials-grid">
                     <?php
-                    $tutorials = array(
-                        array(
-                            'title' => __('Quick Setup with MxChat', 'mxchat'),
-                            'description' => __('Learn how to quickly setup and understand how your chatbot works.', 'mxchat'),
-                            'url' => 'https://www.youtube.com/watch?v=3BqoiyWaQiM&t'
-                        ),
-                        array(
-                            'title' => __('AI Content Generation', 'mxchat'),
-                            'description' => __('Generate full blog posts and landing pages with AI—from prompt to publish in minutes.', 'mxchat'),
-                            'url' => 'https://www.youtube.com/watch?v=n8TeEeHpxs4'
-                        ),
-                        array(
-                            'title' => __('AI Theme Generator', 'mxchat'),
-                            'description' => __('Learn how to instantly restyle your chatbot using plain English prompts with real-time previews.', 'mxchat'),
-                            'url' => 'https://www.youtube.com/watch?v=rSQDW2qbtRU&t'
-                        ),
-                        array(
-                            'title' => __('MxChat Forms', 'mxchat'),
-                            'description' => __('Create and manage smart forms that automatically trigger during chat conversations.', 'mxchat'),
-                            'url' => 'https://www.youtube.com/watch?v=3MrWy5dRalA'
-                        ),
-                        array(
-                            'title' => __('Admin Assistant Add-on', 'mxchat'),
-                            'description' => __('Bring a ChatGPT-like experience directly inside your WordPress dashboard.', 'mxchat'),
-                            'url' => 'https://youtu.be/AdEA1k-UCFM'
-                        ),
-                        array(
-                            'title' => __('Chat Themes', 'mxchat'),
-                            'description' => __('Customize appearance with real-time previews to match your brand.', 'mxchat'),
-                            'url' => 'https://youtu.be/MfbB9mZi6ag'
-                        ),
-                        array(
-                            'title' => __('WooCommerce Integration', 'mxchat'),
-                            'description' => __('Provide product recommendations and shopping assistance to customers.', 'mxchat'),
-                            'url' => 'https://www.youtube.com/watch?v=WsqAppHRGdA'
-                        ),
-                        array(
-                            'title' => __('Knowledge Base Setup', 'mxchat'),
-                            'description' => __('Set up your knowledge base using PDFs, sitemaps, and manual entries.', 'mxchat'),
-                            'url' => 'https://www.youtube.com/watch?v=8Ztjs66-VTo'
-                        ),
-                        array(
-                            'title' => __('Document Chat', 'mxchat'),
-                            'description' => __('Chat with PDF and Word documents for enhanced document analysis.', 'mxchat'),
-                            'url' => 'https://www.youtube.com/watch?v=j_c45WWCTG0'
-                        ),
-                        array(
-                            'title' => __('Perplexity Integration', 'mxchat'),
-                            'description' => __('Enable real-time web search capabilities for your chatbot.', 'mxchat'),
-                            'url' => 'https://youtu.be/wpKkbt24-bo'
-                        ),
-                        array(
-                            'title' => __('Brave Search Intent', 'mxchat'),
-                            'description' => __('Leverage Brave Search for improved query understanding.', 'mxchat'),
-                            'url' => 'https://www.youtube.com/watch?v=7vDL5H7vToc'
-                        ),
-                        array(
-                            'title' => __('Loops Email Capture', 'mxchat'),
-                            'description' => __('Set up email capture with Loops to grow your mailing list.', 'mxchat'),
-                            'url' => 'https://www.youtube.com/watch?v=CNgm5TYDyTc'
-                        ),
-                        array(
-                            'title' => __('AI Agent Testing', 'mxchat'),
-                            'description' => __('Evaluate and improve your chatbot\'s performance and accuracy.', 'mxchat'),
-                            'url' => 'https://www.youtube.com/watch?v=A0jowbpyX54'
-                        ),
-                    );
+					$tutorials = [
+						[
+                        	'title' => __('Quick Setup with MxChat', 'mxchat'),
+                        	'description' => __('Learn how to quickly setup and understand how your chatbot works.', 'mxchat'),
+                        	'url' => 'https://www.youtube.com/watch?v=3BqoiyWaQiM&t',
+						],
+						[
+                        	'title' => __('AI Content Generation', 'mxchat'),
+                        	'description' => __('Generate full blog posts and landing pages with AI—from prompt to publish in minutes.', 'mxchat'),
+                        	'url' => 'https://www.youtube.com/watch?v=n8TeEeHpxs4',
+						],
+						[
+                        	'title' => __('AI Theme Generator', 'mxchat'),
+                        	'description' => __('Learn how to instantly restyle your chatbot using plain English prompts with real-time previews.', 'mxchat'),
+                        	'url' => 'https://www.youtube.com/watch?v=rSQDW2qbtRU&t',
+						],
+						[
+                        	'title' => __('MxChat Forms', 'mxchat'),
+                        	'description' => __('Create and manage smart forms that automatically trigger during chat conversations.', 'mxchat'),
+                        	'url' => 'https://www.youtube.com/watch?v=3MrWy5dRalA',
+						],
+						[
+                        	'title' => __('Admin Assistant Add-on', 'mxchat'),
+                        	'description' => __('Bring a ChatGPT-like experience directly inside your WordPress dashboard.', 'mxchat'),
+                        	'url' => 'https://youtu.be/AdEA1k-UCFM',
+						],
+						[
+                        	'title' => __('Chat Themes', 'mxchat'),
+                        	'description' => __('Customize appearance with real-time previews to match your brand.', 'mxchat'),
+                        	'url' => 'https://youtu.be/MfbB9mZi6ag',
+						],
+						[
+                        	'title' => __('WooCommerce Integration', 'mxchat'),
+                        	'description' => __('Provide product recommendations and shopping assistance to customers.', 'mxchat'),
+                        	'url' => 'https://www.youtube.com/watch?v=WsqAppHRGdA',
+						],
+						[
+                        	'title' => __('Knowledge Base Setup', 'mxchat'),
+                        	'description' => __('Set up your knowledge base using PDFs, sitemaps, and manual entries.', 'mxchat'),
+                        	'url' => 'https://www.youtube.com/watch?v=8Ztjs66-VTo',
+						],
+						[
+                        	'title' => __('Document Chat', 'mxchat'),
+                        	'description' => __('Chat with PDF and Word documents for enhanced document analysis.', 'mxchat'),
+                        	'url' => 'https://www.youtube.com/watch?v=j_c45WWCTG0',
+						],
+						[
+                        	'title' => __('Perplexity Integration', 'mxchat'),
+                        	'description' => __('Enable real-time web search capabilities for your chatbot.', 'mxchat'),
+                        	'url' => 'https://youtu.be/wpKkbt24-bo',
+						],
+						[
+                        	'title' => __('Brave Search Intent', 'mxchat'),
+                        	'description' => __('Leverage Brave Search for improved query understanding.', 'mxchat'),
+                        	'url' => 'https://www.youtube.com/watch?v=7vDL5H7vToc',
+						],
+						[
+                        	'title' => __('Loops Email Capture', 'mxchat'),
+                        	'description' => __('Set up email capture with Loops to grow your mailing list.', 'mxchat'),
+                        	'url' => 'https://www.youtube.com/watch?v=CNgm5TYDyTc',
+						],
+						[
+                        	'title' => __('AI Agent Testing', 'mxchat'),
+                        	'description' => __('Evaluate and improve your chatbot\'s performance and accuracy.', 'mxchat'),
+                        	'url' => 'https://www.youtube.com/watch?v=A0jowbpyX54',
+						],
+					];
 
-                    foreach ($tutorials as $tutorial): ?>
+	foreach ($tutorials as $tutorial): ?>
                     <div class="mxch-tutorial-card">
                         <div class="mxch-tutorial-content">
                             <h3 class="mxch-tutorial-title"><?php echo esc_html($tutorial['title']); ?></h3>
@@ -1260,8 +1261,9 @@ function mxchat_render_settings_page($admin_instance) {
 /**
  * Helper function to render a field with consistent wrapper
  */
-function mxchat_render_field_wrapper($id, $label, $callback, $description = '') {
-    ?>
+function mxchat_render_field_wrapper($id, $label, $callback, $description = '')
+{
+	?>
     <div class="mxch-field">
         <label class="mxch-field-label"><?php echo esc_html($label); ?></label>
         <div class="mxch-field-control">
@@ -1277,40 +1279,41 @@ function mxchat_render_field_wrapper($id, $label, $callback, $description = '') 
 /**
  * Render rate limits as collapsible accordion
  */
-function mxchat_render_rate_limits_accordion($admin_instance) {
-    $all_options = get_option('mxchat_options', []);
-    $rate_limits = array('1', '3', '5', '10', '15', '20', '50', '100', 'unlimited');
-    $timeframes = array(
-        'hourly' => __('Per Hour', 'mxchat'),
-        'daily' => __('Per Day', 'mxchat'),
-        'weekly' => __('Per Week', 'mxchat'),
-        'monthly' => __('Per Month', 'mxchat')
-    );
+function mxchat_render_rate_limits_accordion($admin_instance)
+{
+	$all_options = get_option('mxchat_options', []);
+	$rate_limits = ['1', '3', '5', '10', '15', '20', '50', '100', 'unlimited'];
+	$timeframes = [
+		'hourly' => __('Per Hour', 'mxchat'),
+		'daily' => __('Per Day', 'mxchat'),
+		'weekly' => __('Per Week', 'mxchat'),
+		'monthly' => __('Per Month', 'mxchat'),
+	];
 
-    $roles = wp_roles()->get_names();
-    $roles['logged_out'] = __('Logged Out Users', 'mxchat');
+	$roles = wp_roles()->get_names();
+	$roles['logged_out'] = __('Logged Out Users', 'mxchat');
 
-    echo '<div class="mxch-rate-limits">';
+	echo '<div class="mxch-rate-limits">';
 
-    foreach ($roles as $role_id => $role_name) {
-        $default_limit = ($role_id === 'logged_out') ? '10' : '100';
-        $default_timeframe = 'daily';
-        $default_message = __('Rate limit exceeded. Please try again later.', 'mxchat');
+	foreach ($roles as $role_id => $role_name) {
+		$default_limit = ($role_id === 'logged_out') ? '10' : '100';
+		$default_timeframe = 'daily';
+		$default_message = __('Rate limit exceeded. Please try again later.', 'mxchat');
 
-        $selected_limit = isset($all_options['rate_limits'][$role_id]['limit'])
-            ? $all_options['rate_limits'][$role_id]['limit']
-            : $default_limit;
+		$selected_limit = isset($all_options['rate_limits'][$role_id]['limit'])
+			? $all_options['rate_limits'][$role_id]['limit']
+			: $default_limit;
 
-        $selected_timeframe = isset($all_options['rate_limits'][$role_id]['timeframe'])
-            ? $all_options['rate_limits'][$role_id]['timeframe']
-            : $default_timeframe;
+		$selected_timeframe = isset($all_options['rate_limits'][$role_id]['timeframe'])
+			? $all_options['rate_limits'][$role_id]['timeframe']
+			: $default_timeframe;
 
-        $custom_message = isset($all_options['rate_limits'][$role_id]['message'])
-            ? $all_options['rate_limits'][$role_id]['message']
-            : $default_message;
+		$custom_message = isset($all_options['rate_limits'][$role_id]['message'])
+			? $all_options['rate_limits'][$role_id]['message']
+			: $default_message;
 
-        $timeframe_label = isset($timeframes[$selected_timeframe]) ? $timeframes[$selected_timeframe] : $selected_timeframe;
-        ?>
+		$timeframe_label = isset($timeframes[$selected_timeframe]) ? $timeframes[$selected_timeframe] : $selected_timeframe;
+		?>
         <div class="mxch-rate-limit-item">
             <div class="mxch-rate-limit-header">
                 <span class="mxch-rate-limit-role"><?php echo esc_html($role_name); ?></span>
@@ -1353,7 +1356,7 @@ function mxchat_render_rate_limits_accordion($admin_instance) {
             </div>
         </div>
         <?php
-    }
+	}
 
-    echo '</div>';
+	echo '</div>';
 }

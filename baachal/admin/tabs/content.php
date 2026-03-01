@@ -1,6 +1,6 @@
 <?php
 if (!defined('ABSPATH')) {
-    exit;
+	exit;
 }
 
 // Get content indexer instance
@@ -9,8 +9,8 @@ $indexer = new Baachal_Content_Indexer();
 $stats = $indexer->get_index_stats();
 
 // Get all available post types
-$post_types = get_post_types(array('public' => true), 'objects');
-$indexable_types = get_option('baachal_indexable_post_types', array('post', 'page'));
+$post_types = get_post_types(['public' => true], 'objects');
+$indexable_types = get_option('baachal_indexable_post_types', ['post', 'page']);
 ?>
 
 <div class="baachal-tab-content">
@@ -66,10 +66,12 @@ $indexable_types = get_option('baachal_indexable_post_types', array('post', 'pag
                 <fieldset>
                     <legend class="screen-reader-text"><?php esc_html_e('Select content types to index', 'baachal'); ?></legend>
                     <?php foreach ($post_types as $post_type): ?>
-                        <?php 
-                        // Skip attachment and some system post types
-                        if (in_array($post_type->name, array('attachment', 'revision', 'nav_menu_item'))) continue;
-                        ?>
+                        <?php
+						// Skip attachment and some system post types
+						if (in_array($post_type->name, ['attachment', 'revision', 'nav_menu_item'])) {
+							continue;
+						}
+                    	?>
                         <label style="display: block; margin-bottom: 5px;">
                             <input type="checkbox" name="baachal_indexable_post_types[]" value="<?php echo esc_attr($post_type->name); ?>" <?php checked(in_array($post_type->name, $indexable_types)); ?> />
                             <?php echo esc_html($post_type->label); ?> (<?php echo esc_html($post_type->name); ?>)

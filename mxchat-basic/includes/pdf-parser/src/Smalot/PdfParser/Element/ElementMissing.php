@@ -39,28 +39,28 @@ use Smalot\PdfParser\Element;
  */
 class ElementMissing extends Element
 {
-    public function __construct()
-    {
-        parent::__construct(null, null);
-    }
+	public function __construct()
+	{
+		parent::__construct(null, null);
+	}
 
-    public function equals($value): bool
-    {
-        return false;
-    }
+	public function equals($value): bool
+	{
+		return false;
+	}
 
-    public function contains($value): bool
-    {
-        return false;
-    }
+	public function contains($value): bool
+	{
+		return false;
+	}
 
-    public function getContent(): bool
-    {
-        return false;
-    }
+	public function getContent(): bool
+	{
+		return false;
+	}
 
-    public function __toString(): string
-    {
-        return '';
-    }
+	public function __toString(): string
+	{
+		return '';
+	}
 }
