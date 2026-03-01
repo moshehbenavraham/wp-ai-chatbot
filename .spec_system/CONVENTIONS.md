@@ -138,7 +138,7 @@
 | Code Quality | configured | .github/workflows/quality.yml |
 | Build & Test | configured | .github/workflows/test.yml |
 | Security | configured | .github/workflows/security.yml |
-| Integration | not configured | - |
+| Integration | configured | .github/workflows/integration.yml |
 | Operations | not configured | - |
 
 Platform: GitHub Actions
