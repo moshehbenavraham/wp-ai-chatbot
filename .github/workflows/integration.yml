@@ -1,0 +1,112 @@
+name: Integration
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  wordpress-integration:
+    name: WordPress Integration Tests
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: wordpress_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: mysqli, curl, json, mbstring, openssl
+
+      - name: Install WP-CLI
+        run: |
+          curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+          chmod +x wp-cli.phar
+          sudo mv wp-cli.phar /usr/local/bin/wp
+
+      - name: Set up WordPress
+        run: |
+          mkdir -p /tmp/wordpress
+          cd /tmp/wordpress
+          wp core download --allow-root
+          wp config create \
+            --dbname=wordpress_test \
+            --dbuser=root \
+            --dbpass=root \
+            --dbhost=127.0.0.1 \
+            --allow-root
+          wp core install \
+            --url=http://localhost:8080 \
+            --title="Integration Test" \
+            --admin_user=admin \
+            --admin_password=admin \
+            --admin_email=admin@test.local \
+            --allow-root
+
+      - name: Install and activate plugin
+        run: |
+          ln -s "$GITHUB_WORKSPACE" /tmp/wordpress/wp-content/plugins/wp-ai-chatbot
+          cd /tmp/wordpress
+          wp plugin activate wp-ai-chatbot --allow-root
+          wp plugin list --allow-root
+
+      - name: Start WordPress server
+        run: |
+          cd /tmp/wordpress
+          nohup php -S localhost:8080 > /tmp/wp-server.log 2>&1 &
+          sleep 2
+          curl -sf http://localhost:8080/index.php > /dev/null || {
+            echo "Server failed to start"
+            cat /tmp/wp-server.log
+            exit 1
+          }
+
+      - name: Test - Health endpoint returns healthy
+        run: |
+          response=$(curl -sf "http://localhost:8080/index.php?rest_route=/wp-ai-chatbot/v1/health")
+          echo "$response" | jq .
+          echo "$response" | jq -e '.status == "healthy"'
+
+      - name: Test - Health endpoint structure
+        run: |
+          response=$(curl -sf "http://localhost:8080/index.php?rest_route=/wp-ai-chatbot/v1/health")
+          echo "$response" | jq -e '.checks.php.status == "pass"'
+          echo "$response" | jq -e '.checks.wordpress.status == "pass"'
+          echo "$response" | jq -e '.checks.database.status == "pass"'
+          echo "$response" | jq -e '.checks.database.latency_ms'
+          echo "$response" | jq -e '.checks.extensions.status == "pass"'
+          echo "$response" | jq -e '.checks.memory'
+          echo "$response" | jq -e '.timestamp'
+
+      - name: Test - Backup endpoints require authentication
+        run: |
+          http_code=$(curl -s -o /dev/null -w "%{http_code}" \
+            "http://localhost:8080/index.php?rest_route=/wp-ai-chatbot/v1/backup/export")
+          echo "Export without auth: HTTP $http_code"
+          [ "$http_code" = "403" ]
+
+          http_code=$(curl -s -o /dev/null -w "%{http_code}" \
+            -X POST "http://localhost:8080/index.php?rest_route=/wp-ai-chatbot/v1/backup/import")
+          echo "Import without auth: HTTP $http_code"
+          [ "$http_code" = "403" ]
+
+      - name: Server logs on failure
+        if: failure()
+        run: cat /tmp/wp-server.log 2>/dev/null || true
