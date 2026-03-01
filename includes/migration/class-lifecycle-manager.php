@@ -41,6 +41,7 @@ final class Lifecycle_Manager
 
 	private const CRON_CLEANUP_SESSIONS = 'wpaic_cleanup_sessions';
 	private const CRON_PROCESS_QUEUE = 'wpaic_process_queue';
+	private const CRON_DAILY_CLEANUP = 'wpaic_daily_cleanup';
 
 	// =========================================================================
 	// Lifecycle callbacks
@@ -173,6 +174,46 @@ final class Lifecycle_Manager
 	// =========================================================================
 	// Migration registration
 	// =========================================================================
+
+	/**
+	 * Register Phase 08 table creation migrations (leads + livechat sessions).
+	 *
+	 * Hooked to `wpaic_register_migrations` at priority 20 from Plugin::register_hooks().
+	 * Runs after all 1.0.0 core migrations.
+	 *
+	 * @param  Migration_Registry $registry The migration registry instance.
+	 * @return void
+	 */
+	public static function register_integrations_migrations(Migration_Registry $registry): void
+	{
+		// Lead capture table — integrations domain.
+		$registry->register([
+			'version' => '1.1.0',
+			'domain' => 'integrations',
+			'description' => 'Create leads table',
+			'callback' => [static::class, 'create_leads_table'],
+			'validate' => [
+				[
+					'table' => 'wpaic_leads',
+					'columns' => ['id', 'bot_slug', 'name', 'email', 'status', 'created_at'],
+				],
+			],
+		]);
+
+		// Livechat sessions table — integrations domain.
+		$registry->register([
+			'version' => '1.1.0',
+			'domain' => 'integrations',
+			'description' => 'Create livechat_sessions table',
+			'callback' => [static::class, 'create_livechat_sessions_table'],
+			'validate' => [
+				[
+					'table' => 'wpaic_livechat_sessions',
+					'columns' => ['id', 'session_token', 'status', 'requested_at'],
+				],
+			],
+		]);
+	}
 
 	/**
 	 * Register all core MVP table creation migrations.
@@ -478,6 +519,81 @@ final class Lifecycle_Manager
 ) ENGINE=InnoDB {$charset_collate};");
 	}
 
+	/**
+	 * Create the `wp_wpaic_leads` table.
+	 *
+	 * Stores leads captured via the Lead Capture Tool.
+	 *
+	 * @return void
+	 */
+	public static function create_leads_table(): void
+	{
+		global $wpdb;
+
+		$table = $wpdb->prefix . 'wpaic_leads';
+		$charset_collate = $wpdb->get_charset_collate();
+
+		$sql = "CREATE TABLE {$table} (
+  id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  bot_slug varchar(60) NOT NULL DEFAULT '',
+  session_id varchar(64) NOT NULL DEFAULT '',
+  name varchar(255) NOT NULL DEFAULT '',
+  email varchar(255) NOT NULL DEFAULT '',
+  phone varchar(60) NOT NULL DEFAULT '',
+  company varchar(255) NOT NULL DEFAULT '',
+  interest varchar(255) NOT NULL DEFAULT '',
+  notes text NOT NULL DEFAULT '',
+  status ENUM('new','contacted','converted','dismissed') NOT NULL DEFAULT 'new',
+  page_url varchar(2048) NOT NULL DEFAULT '',
+  ip_hash varchar(64) DEFAULT NULL,
+  created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY  (id),
+  KEY idx_bot_slug (bot_slug),
+  KEY idx_status (status),
+  KEY idx_created_at (created_at),
+  KEY idx_email (email(100))
+) ENGINE=InnoDB {$charset_collate};";
+
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+		dbDelta($sql);
+	}
+
+	/**
+	 * Create the `wp_wpaic_livechat_sessions` table.
+	 *
+	 * Stores live-agent handoff state per chat session.
+	 *
+	 * @return void
+	 */
+	public static function create_livechat_sessions_table(): void
+	{
+		global $wpdb;
+
+		$table = $wpdb->prefix . 'wpaic_livechat_sessions';
+		$charset_collate = $wpdb->get_charset_collate();
+
+		$sql = "CREATE TABLE {$table} (
+  id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  session_token varchar(64) NOT NULL DEFAULT '',
+  status ENUM('bot','pending_agent','agent_connected','closed') NOT NULL DEFAULT 'pending_agent',
+  agent_id bigint(20) UNSIGNED DEFAULT NULL,
+  bot_slug varchar(60) NOT NULL DEFAULT '',
+  handoff_reason text NOT NULL DEFAULT '',
+  page_url varchar(2048) NOT NULL DEFAULT '',
+  requested_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  connected_at datetime DEFAULT NULL,
+  closed_at datetime DEFAULT NULL,
+  PRIMARY KEY  (id),
+  UNIQUE KEY session_token (session_token),
+  KEY idx_status (status),
+  KEY idx_requested_at (requested_at)
+) ENGINE=InnoDB {$charset_collate};";
+
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+		dbDelta($sql);
+	}
+
 	// =========================================================================
 	// Default seeding
 	// =========================================================================
@@ -569,6 +685,11 @@ final class Lifecycle_Manager
 		if (! wp_next_scheduled(self::CRON_PROCESS_QUEUE)) {
 			wp_schedule_event(time(), 'wpaic_every_five_minutes', self::CRON_PROCESS_QUEUE);
 		}
+
+		// Phase 08: daily cleanup for lead retention policy enforcement.
+		if (! wp_next_scheduled(self::CRON_DAILY_CLEANUP)) {
+			wp_schedule_event(time(), 'daily', self::CRON_DAILY_CLEANUP);
+		}
 	}
 
 	/**
@@ -586,6 +707,11 @@ final class Lifecycle_Manager
 		$timestamp = wp_next_scheduled(self::CRON_PROCESS_QUEUE);
 		if ($timestamp) {
 			wp_unschedule_event($timestamp, self::CRON_PROCESS_QUEUE);
+		}
+
+		$timestamp = wp_next_scheduled(self::CRON_DAILY_CLEANUP);
+		if ($timestamp) {
+			wp_unschedule_event($timestamp, self::CRON_DAILY_CLEANUP);
 		}
 	}
 
@@ -612,6 +738,9 @@ final class Lifecycle_Manager
 			$wpdb->prefix . 'wpaic_knowledge',
 			$wpdb->prefix . 'wpaic_usage_daily',
 			$wpdb->prefix . 'wpaic_bots',
+			// Phase 08 tables.
+			$wpdb->prefix . 'wpaic_leads',
+			$wpdb->prefix . 'wpaic_livechat_sessions',
 			$wpdb->prefix . 'wpaic_migrations',
 		];
 	}

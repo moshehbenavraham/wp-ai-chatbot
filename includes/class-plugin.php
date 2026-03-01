@@ -70,6 +70,13 @@ final class Plugin
 			['WPAIC\Migration\Lifecycle_Manager', 'register_core_migrations']
 		);
 
+		// Register Phase 08 integration migrations (priority 20 — after core 1.0.0 tables).
+		add_action(
+			'wpaic_register_migrations',
+			['WPAIC\Migration\Lifecycle_Manager', 'register_integrations_migrations'],
+			20
+		);
+
 		// Register custom cron interval before any event is scheduled.
 		add_filter('cron_schedules', [$this, 'add_cron_schedules']);
 
@@ -169,6 +176,42 @@ final class Plugin
 				'priority' => 10,
 				'accepted_args' => 0,
 			],
+			// Register core content sources when the source registry initialises.
+			'wpaic_register_content_sources' => [
+				'callback' => [$this, 'register_core_content_sources'],
+				'priority' => 10,
+				'accepted_args' => 1,
+			],
+			// Register core embedding providers when the embedding registry initialises.
+			'wpaic_register_embedding_providers' => [
+				'callback' => [$this, 'register_core_embedding_providers'],
+				'priority' => 10,
+				'accepted_args' => 1,
+			],
+			// Register core RAG hooks (retrieval engine context filter) after init.
+			'wpaic_init' => [
+				'callback' => [$this, 'register_core_rag'],
+				'priority' => 20,
+				'accepted_args' => 0,
+			],
+			// Register MCP server tools with the Tool_Registry (Phase 07).
+			'wpaic_register_tools' => [
+				'callback' => [$this, 'register_core_tools'],
+				'priority' => 10,
+				'accepted_args' => 1,
+			],
+			// Register WooCommerce domain modules when WC is active (Phase 08).
+			'wpaic_wc_init' => [
+				'callback' => [$this, 'on_wc_init'],
+				'priority' => 10,
+				'accepted_args' => 0,
+			],
+			// Schedule lead retention cleanup (Phase 08).
+			'wpaic_daily_cleanup' => [
+				'callback' => [$this, 'on_daily_cleanup'],
+				'priority' => 10,
+				'accepted_args' => 0,
+			],
 		];
 	}
 
@@ -229,6 +272,9 @@ final class Plugin
 	 */
 	public function on_init(): void
 	{
+		// Phase 09: Register security and privacy hooks early in init.
+		$this->register_core_security();
+
 		// Register the primary shortcode.
 		add_shortcode('wpaic_chatbot', [$this, 'render_chatbot_shortcode']);
 
@@ -350,7 +396,6 @@ final class Plugin
 	 */
 	public function on_frontend_enqueue(): void
 	{
-		// Phase 05: Chatbot assets enqueued based on display configuration.
 		if (! $this->should_display_chatbot()) {
 			return;
 		}
@@ -442,22 +487,126 @@ final class Plugin
 	}
 
 	// =========================================================================
+	// Phase 08 — WooCommerce, leads, and livechat hooks
+	// =========================================================================
+
+	/**
+	 * `wpaic_wc_init` — initialise WooCommerce domain modules.
+	 *
+	 * Fires from on_init() when WooCommerce is active. Registers the WC products
+	 * content source, WC context provider (cart/orders injection), and WC tools.
+	 *
+	 * @return void
+	 */
+	public function on_wc_init(): void
+	{
+		// Register WC products as a RAG content source.
+		if (
+			class_exists('WPAIC\Rag\Content_Source_Registry')
+			&& class_exists('WPAIC\WooCommerce\WC_Products_Source')
+		) {
+			add_action(
+				'wpaic_register_content_sources',
+				function (Rag\Content_Source_Registry $registry): void {
+					$registry->register('wc_products', new WooCommerce\WC_Products_Source());
+				},
+				20
+			);
+		}
+
+		// Wire the WC context provider into the RAG context filter.
+		if (class_exists('WPAIC\WooCommerce\WC_Context_Provider')) {
+			WooCommerce\WC_Context_Provider::register_hooks();
+		}
+	}
+
+	/**
+	 * `wpaic_daily_cleanup` cron event — run retention-based cleanup tasks.
+	 *
+	 * @return void
+	 */
+	public function on_daily_cleanup(): void
+	{
+		// Phase 08: purge leads past their retention policy.
+		if (class_exists('WPAIC\Integrations\Lead_Manager')) {
+			Integrations\Lead_Manager::cleanup_old_leads();
+		}
+
+		// Phase 09: purge chat sessions past the data retention period.
+		if (class_exists('WPAIC\Security\Privacy_Manager')) {
+			Security\Privacy_Manager::apply_retention_policy();
+		}
+	}
+
+	// =========================================================================
+	// Phase 09 — Security, privacy, and moderation
+	// =========================================================================
+
+	/**
+	 * Register core security and privacy hooks.
+	 *
+	 * Called early in on_init() (before WooCommerce detection and shortcodes).
+	 * Wires Privacy_Manager WP personal data hooks and Content_Moderator
+	 * blocklist filter — both are no-ops when their classes are absent.
+	 *
+	 * @return void
+	 */
+	public function register_core_security(): void
+	{
+		// GDPR personal data export / erase.
+		if (class_exists('WPAIC\Security\Privacy_Manager')) {
+			Security\Privacy_Manager::register_hooks();
+		}
+
+		// Keyword-based message moderation.
+		if (class_exists('WPAIC\Security\Content_Moderator')) {
+			Security\Content_Moderator::register_hooks();
+		}
+	}
+
+	// =========================================================================
 	// Shortcode rendering
 	// =========================================================================
 
 	/**
 	 * Render the [wpaic_chatbot] shortcode.
 	 *
-	 * @param  array  $atts    Shortcode attributes.
+	 * Supported attributes:
+	 *   bot_slug    — Bot slug (default 'default').
+	 *   mode        — 'inline' or 'floating' (default 'inline' for shortcode).
+	 *   title       — Chat panel title override.
+	 *   placeholder — Input placeholder text override.
+	 *   gdpr        — '1' to enable GDPR consent banner.
+	 *
+	 * @param  array  $atts    Shortcode attributes (raw from WP parser).
 	 * @param  string $content Shortcode content (unused).
 	 * @return string HTML output.
 	 */
 	public function render_chatbot_shortcode(array $atts = [], string $content = ''): string
 	{
-		// Phase 05: full shortcode rendering with attribute support.
 		$template = WPAIC_PLUGIN_DIR . 'templates/chatbot-widget.php';
 		if (! file_exists($template)) {
 			return '';
+		}
+
+		// Merge caller atts with shortcode defaults.
+		$atts = shortcode_atts(
+			[
+				'bot_slug' => 'default',
+				'mode' => 'inline',
+				'title' => '',
+				'placeholder' => '',
+				'gdpr' => '',
+			],
+			$atts,
+			'wpaic_chatbot'
+		);
+
+		// Enqueue assets if not already done (shortcode used inside content).
+		if (! wp_script_is('wpaic-chatbot', 'enqueued')) {
+			wp_enqueue_style('wpaic-chatbot', WPAIC_ASSETS_URL . 'css/chatbot.css', [], WPAIC_VERSION);
+			wp_enqueue_script('wpaic-chatbot', WPAIC_ASSETS_URL . 'js/chatbot.js', [], WPAIC_VERSION, true);
+			wp_localize_script('wpaic-chatbot', 'wpaicChatData', $this->get_frontend_script_data());
 		}
 
 		ob_start();
@@ -473,16 +622,40 @@ final class Plugin
 	/**
 	 * Determine whether the chatbot widget should render on the current page.
 	 *
-	 * Returns true when: the chatbot is configured for global display, OR the
-	 * current page is in the allowed pages list, OR a shortcode is present.
-	 * Phase 05 replaces this stub with a full configuration-driven check.
+	 * Global display is enabled by default. Operators may restrict to specific
+	 * page IDs via the `wpaic_widget_page_ids` option (comma-separated list).
+	 * Returns true unconditionally when no restriction is configured.
 	 *
 	 * @return bool
 	 */
 	private function should_display_chatbot(): bool
 	{
-		// Stub: always display when assets exist (overridden in Phase 05).
-		return file_exists(WPAIC_PLUGIN_DIR . 'assets/js/chatbot.js');
+		if (! file_exists(WPAIC_PLUGIN_DIR . 'assets/js/chatbot.js')) {
+			return false;
+		}
+
+		// Check global display toggle (default: enabled).
+		$enabled = get_option('wpaic_widget_display_global', '1');
+		if (! $enabled || '0' === $enabled) {
+			return false;
+		}
+
+		// Optional page-ID restriction (empty = all pages).
+		$page_ids_raw = get_option('wpaic_widget_page_ids', '');
+		if ('' !== $page_ids_raw) {
+			$page_ids = array_filter(array_map('intval', explode(',', $page_ids_raw)));
+			if (! empty($page_ids) && ! in_array((int) get_the_ID(), $page_ids, true)) {
+				return false;
+			}
+		}
+
+		/**
+		 * Filter: extensions can override display decision (e.g. logged-in only).
+		 *
+		 * @since 1.0.0
+		 * @param bool $display Whether to display the chatbot.
+		 */
+		return (bool) apply_filters('wpaic_should_display_chatbot', true);
 	}
 
 	/**
@@ -496,8 +669,14 @@ final class Plugin
 			'ajaxUrl' => admin_url('admin-ajax.php'),
 			'restUrl' => rest_url(WPAIC_REST_NAMESPACE),
 			'nonce' => wp_create_nonce('wpaic_chat_nonce'),
-			'streamEnabled' => false, // Phase 05: driven by wpaic_runtime_stream_enabled option.
+			'streamEnabled' => (bool) get_option('wpaic_runtime_stream_enabled', '1'),
 			'version' => WPAIC_VERSION,
+			'i18n' => [
+				'open_chat' => __('Open chat', 'wp-ai-chatbot'),
+				'close_chat' => __('Close chat', 'wp-ai-chatbot'),
+				'error_generic' => __('An error occurred. Please try again.', 'wp-ai-chatbot'),
+				'error_network' => __('Network error. Please check your connection.', 'wp-ai-chatbot'),
+			],
 		];
 	}
 
@@ -564,6 +743,8 @@ final class Plugin
 		$registry->register('openai', 'WPAIC\Provider\Adapters\OpenAI_Adapter');
 		$registry->register('claude', 'WPAIC\Provider\Adapters\Claude_Adapter');
 		$registry->register('gemini', 'WPAIC\Provider\Adapters\Gemini_Adapter');
+		$registry->register('deepseek', 'WPAIC\Provider\Adapters\DeepSeek_Adapter');
+		$registry->register('grok', 'WPAIC\Provider\Adapters\Grok_Adapter');
 	}
 
 	// =========================================================================
@@ -580,10 +761,37 @@ final class Plugin
 	 *   HTTP probe to the provider's models/info endpoint. Requires
 	 *   `manage_options` capability (admin-only).
 	 *
+	 * Session endpoints: POST/GET/DELETE /sessions, GET /sessions/{token}/history
+	 *
 	 * @return void
 	 */
 	public function register_provider_rest_routes(): void
 	{
+		// Register session CRUD REST routes.
+		if (class_exists('WPAIC\Runtime\Session_Manager')) {
+			Runtime\Session_Manager::register_rest_routes();
+		}
+
+		// Register knowledge base REST routes (Phase 06).
+		if (class_exists('WPAIC\Admin\Pages\Knowledge_Page')) {
+			$this->register_knowledge_rest_routes();
+		}
+
+		// Register tools REST routes (Phase 07).
+		if (class_exists('WPAIC\Admin\Pages\Tools_Page')) {
+			$this->register_tools_rest_routes();
+		}
+
+		// Register chat/leads/livechat REST routes (Phase 08).
+		if (class_exists('WPAIC\Admin\Pages\Chat_Page')) {
+			$this->register_chat_rest_routes();
+		}
+
+		// Register migration REST routes (Phase 10).
+		if (class_exists('WPAIC\Migration\Migration_Runner')) {
+			$this->register_migration_rest_routes();
+		}
+
 		register_rest_route(
 			WPAIC_REST_NAMESPACE,
 			'/providers/validate',
@@ -668,6 +876,332 @@ final class Plugin
 		);
 	}
 
+	// =========================================================================
+	// RAG module wiring (Phase 06)
+	// =========================================================================
+
+	/**
+	 * Register core content source adapters with the content source registry.
+	 *
+	 * Fires on `wpaic_register_content_sources` (triggered lazily on first registry access).
+	 * Registers the built-in Posts_Source. Additional sources can be registered by
+	 * third-party code hooking `wpaic_register_content_sources` at priority > 10.
+	 *
+	 * @param  Rag\Content_Source_Registry $registry The content source registry instance.
+	 * @return void
+	 */
+	public function register_core_content_sources(Rag\Content_Source_Registry $registry): void
+	{
+		if (class_exists('WPAIC\Rag\Adapters\Posts_Source')) {
+			$registry->register('posts', new Rag\Adapters\Posts_Source());
+		}
+
+		if (class_exists('WooCommerce') && class_exists('WPAIC\WooCommerce\WC_Products_Source')) {
+			$registry->register('wc_products', new WooCommerce\WC_Products_Source());
+		}
+	}
+
+	/**
+	 * Register core embedding provider adapters with the embedding registry.
+	 *
+	 * Fires on `wpaic_register_embedding_providers` (triggered lazily on first registry access).
+	 * Registers the OpenAI embedding adapter using the saved API key.
+	 *
+	 * @param  Rag\Embedding_Registry $registry The embedding registry instance.
+	 * @return void
+	 */
+	public function register_core_embedding_providers(Rag\Embedding_Registry $registry): void
+	{
+		if (! class_exists('WPAIC\Rag\Adapters\OpenAI_Embedding')) {
+			return;
+		}
+
+		$api_key = '';
+
+		if (class_exists('WPAIC\Admin\Settings_Manager')) {
+			$api_key = (string) Admin\Settings_Manager::get('wpaic_provider_openai_key', '');
+		}
+
+		$registry->register('openai', new Rag\Adapters\OpenAI_Embedding($api_key));
+	}
+
+	/**
+	 * Register core RAG hooks during `wpaic_init` (priority 20).
+	 *
+	 * Wires the Retrieval_Engine into the `wpaic_rag_context` filter so that
+	 * the Message_Pipeline receives knowledge base context in Stage 2.
+	 *
+	 * @return void
+	 */
+	public function register_core_rag(): void
+	{
+		if (class_exists('WPAIC\Rag\Retrieval_Engine')) {
+			Rag\Retrieval_Engine::register_hooks();
+		}
+	}
+
+	// =========================================================================
+	// Tools module wiring (Phase 07)
+	// =========================================================================
+
+	/**
+	 * Register core tools with the Tool_Registry.
+	 *
+	 * Fires on `wpaic_register_tools` (triggered lazily on first Tool_Registry access).
+	 * Registers webhook tools loaded from the wpaic_webhook_tools option and all
+	 * cached MCP tools via Mcp_Registry. Third-party code can hook the same action
+	 * at priority > 10 to register additional tools.
+	 *
+	 * @param  Tools\Tool_Registry $registry The tool registry instance.
+	 * @return void
+	 */
+	public function register_core_tools(Tools\Tool_Registry $registry): void
+	{
+		// Register webhook tools from stored option.
+		if (class_exists('WPAIC\Tools\Adapters\Webhook_Tool')) {
+			$raw = get_option(Admin\Pages\Tools_Page::WEBHOOKS_OPTION, []);
+			$webhooks = is_array($raw) ? $raw : [];
+
+			foreach ($webhooks as $config) {
+				if (! empty($config['id'])) {
+					$registry->register(new Tools\Adapters\Webhook_Tool($config));
+				}
+			}
+		}
+
+		// Register cached MCP tools via Mcp_Registry.
+		if (class_exists('WPAIC\Mcp\Mcp_Registry')) {
+			Mcp\Mcp_Registry::instance()->register_tools_with_registry($registry);
+		}
+
+		// Phase 08: Register WooCommerce tools when WC is active.
+		if (class_exists('WooCommerce')) {
+			if (class_exists('WPAIC\WooCommerce\WC_Cart_Tool')) {
+				$registry->register(new WooCommerce\WC_Cart_Tool());
+			}
+			if (class_exists('WPAIC\WooCommerce\WC_Orders_Tool')) {
+				$registry->register(new WooCommerce\WC_Orders_Tool());
+			}
+		}
+
+		// Phase 08: Register Lead Capture tool.
+		if (class_exists('WPAIC\Integrations\Lead_Capture_Tool')) {
+			$registry->register(new Integrations\Lead_Capture_Tool());
+		}
+
+		// Phase 08: Register Live Agent Handoff tool.
+		if (class_exists('WPAIC\Integrations\Livechat_Handoff_Tool')) {
+			$registry->register(new Integrations\Livechat_Handoff_Tool());
+		}
+	}
+
+	/**
+	 * Register tools-related REST endpoints.
+	 *
+	 * Called from register_provider_rest_routes() when Tools_Page is available.
+	 *
+	 * @return void
+	 */
+	private function register_tools_rest_routes(): void
+	{
+		$page = new Admin\Pages\Tools_Page();
+
+		$admin_perm = static function (): bool {
+			return current_user_can('manage_options');
+		};
+
+		// Webhook tools.
+		register_rest_route(WPAIC_REST_NAMESPACE, '/tools/webhooks', [
+			['methods' => 'GET',  'callback' => [$page, 'rest_list_webhooks'],   'permission_callback' => $admin_perm],
+			['methods' => 'POST', 'callback' => [$page, 'rest_create_webhook'],  'permission_callback' => $admin_perm,
+				'args' => [
+					'id' => ['required' => true,  'type' => 'string', 'sanitize_callback' => 'sanitize_key'],
+					'name' => ['required' => true,  'type' => 'string', 'sanitize_callback' => 'sanitize_text_field'],
+					'description' => ['required' => true,  'type' => 'string'],
+					'webhook_url' => ['required' => true,  'type' => 'string'],
+					'http_method' => ['required' => false, 'type' => 'string', 'default' => 'POST'],
+					'parameters' => ['required' => false, 'default' => []],
+					'static_params' => ['required' => false, 'default' => []],
+					'permission' => ['required' => false, 'type' => 'string', 'default' => 'none'],
+					'timeout' => ['required' => false, 'type' => 'integer', 'default' => 15],
+					'success_message' => ['required' => false, 'type' => 'string', 'default' => ''],
+					'error_message' => ['required' => false, 'type' => 'string', 'default' => ''],
+				],
+			],
+		]);
+
+		register_rest_route(WPAIC_REST_NAMESPACE, '/tools/webhooks/(?P<id>[a-z0-9_]+)', [
+			['methods' => 'DELETE', 'callback' => [$page, 'rest_delete_webhook'], 'permission_callback' => $admin_perm,
+				'args' => ['id' => ['required' => true, 'type' => 'string']],
+			],
+		]);
+
+		// MCP servers.
+		register_rest_route(WPAIC_REST_NAMESPACE, '/tools/mcp', [
+			['methods' => 'GET',  'callback' => [$page, 'rest_list_mcp'],   'permission_callback' => $admin_perm],
+			['methods' => 'POST', 'callback' => [$page, 'rest_create_mcp'], 'permission_callback' => $admin_perm,
+				'args' => [
+					'id' => ['required' => true,  'type' => 'string', 'sanitize_callback' => 'sanitize_key'],
+					'name' => ['required' => true,  'type' => 'string', 'sanitize_callback' => 'sanitize_text_field'],
+					'url' => ['required' => true,  'type' => 'string'],
+					'headers' => ['required' => false, 'default' => []],
+					'timeout' => ['required' => false, 'type' => 'integer', 'default' => 15],
+				],
+			],
+		]);
+
+		register_rest_route(WPAIC_REST_NAMESPACE, '/tools/mcp/(?P<id>[a-z0-9_]+)', [
+			['methods' => 'DELETE', 'callback' => [$page, 'rest_delete_mcp'], 'permission_callback' => $admin_perm,
+				'args' => ['id' => ['required' => true, 'type' => 'string']],
+			],
+		]);
+
+		register_rest_route(WPAIC_REST_NAMESPACE, '/tools/mcp/(?P<id>[a-z0-9_]+)/test', [
+			['methods' => 'POST', 'callback' => [$page, 'rest_test_mcp'], 'permission_callback' => $admin_perm,
+				'args' => ['id' => ['required' => true, 'type' => 'string']],
+			],
+		]);
+	}
+
+	/**
+	 * Register knowledge base REST endpoints.
+	 *
+	 * Called from register_provider_rest_routes() when Knowledge_Page is available.
+	 * Endpoints:
+	 *   POST   /wp-ai-chatbot/v1/knowledge              — create knowledge context
+	 *   POST   /wp-ai-chatbot/v1/knowledge/{id}/ingest  — trigger ingestion
+	 *   GET    /wp-ai-chatbot/v1/knowledge/{id}/status  — status and stats
+	 *
+	 * @return void
+	 */
+	private function register_knowledge_rest_routes(): void
+	{
+		$page = new Admin\Pages\Knowledge_Page();
+
+		register_rest_route(
+			WPAIC_REST_NAMESPACE,
+			'/knowledge',
+			[
+				'methods' => 'POST',
+				'callback' => [$page, 'rest_create_knowledge'],
+				'permission_callback' => static function (): bool {
+					return current_user_can('manage_options');
+				},
+				'args' => [
+					'name' => ['required' => true, 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field'],
+					'embedding_provider' => ['required' => false, 'type' => 'string', 'sanitize_callback' => 'sanitize_key', 'default' => 'openai'],
+					'embedding_model' => ['required' => false, 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field', 'default' => 'text-embedding-3-small'],
+				],
+			]
+		);
+
+		register_rest_route(
+			WPAIC_REST_NAMESPACE,
+			'/knowledge/(?P<id>\d+)/ingest',
+			[
+				'methods' => 'POST',
+				'callback' => [$page, 'rest_trigger_ingest'],
+				'permission_callback' => static function (): bool {
+					return current_user_can('manage_options');
+				},
+				'args' => [
+					'id' => ['required' => true, 'type' => 'integer', 'minimum' => 1],
+					'source_id' => ['required' => false, 'type' => 'string', 'sanitize_callback' => 'sanitize_key', 'default' => 'posts'],
+					'post_types' => ['required' => false, 'type' => 'array', 'default' => ['post', 'page']],
+				],
+			]
+		);
+
+		register_rest_route(
+			WPAIC_REST_NAMESPACE,
+			'/knowledge/(?P<id>\d+)/status',
+			[
+				'methods' => 'GET',
+				'callback' => [$page, 'rest_get_status'],
+				'permission_callback' => static function (): bool {
+					return current_user_can('manage_options');
+				},
+				'args' => [
+					'id' => ['required' => true, 'type' => 'integer', 'minimum' => 1],
+				],
+			]
+		);
+	}
+
+	/**
+	 * Register chat/leads/livechat REST endpoints (Phase 08).
+	 *
+	 * Endpoints:
+	 *   GET    /wp-ai-chatbot/v1/chat/leads                     — list leads (paginated)
+	 *   POST   /wp-ai-chatbot/v1/chat/leads/{id}/status          — update lead status
+	 *   DELETE /wp-ai-chatbot/v1/chat/leads/{id}                 — delete lead
+	 *   GET    /wp-ai-chatbot/v1/chat/livechat/queue             — pending handoff queue
+	 *   POST   /wp-ai-chatbot/v1/chat/livechat/{token}/status    — update session status
+	 *
+	 * @return void
+	 */
+	private function register_chat_rest_routes(): void
+	{
+		$page = new Admin\Pages\Chat_Page();
+
+		$admin_perm = static function (): bool {
+			return current_user_can('manage_options');
+		};
+
+		// Leads list.
+		register_rest_route(WPAIC_REST_NAMESPACE, '/chat/leads', [
+			'methods' => 'GET',
+			'callback' => [$page, 'rest_list_leads'],
+			'permission_callback' => $admin_perm,
+			'args' => [
+				'per_page' => ['required' => false, 'type' => 'integer', 'default' => 20, 'minimum' => 1, 'maximum' => 100],
+				'page' => ['required' => false, 'type' => 'integer', 'default' => 1,  'minimum' => 1],
+				'status' => ['required' => false, 'type' => 'string',  'default' => ''],
+				'search' => ['required' => false, 'type' => 'string',  'default' => ''],
+			],
+		]);
+
+		// Update lead status.
+		register_rest_route(WPAIC_REST_NAMESPACE, '/chat/leads/(?P<id>\d+)/status', [
+			'methods' => 'POST',
+			'callback' => [$page, 'rest_update_lead_status'],
+			'permission_callback' => $admin_perm,
+			'args' => [
+				'id' => ['required' => true,  'type' => 'integer', 'minimum' => 1],
+				'status' => ['required' => true,  'type' => 'string',  'sanitize_callback' => 'sanitize_key'],
+			],
+		]);
+
+		// Delete lead.
+		register_rest_route(WPAIC_REST_NAMESPACE, '/chat/leads/(?P<id>\d+)', [
+			'methods' => 'DELETE',
+			'callback' => [$page, 'rest_delete_lead'],
+			'permission_callback' => $admin_perm,
+			'args' => [
+				'id' => ['required' => true, 'type' => 'integer', 'minimum' => 1],
+			],
+		]);
+
+		// Livechat pending queue.
+		register_rest_route(WPAIC_REST_NAMESPACE, '/chat/livechat/queue', [
+			'methods' => 'GET',
+			'callback' => [$page, 'rest_get_livechat_queue'],
+			'permission_callback' => $admin_perm,
+		]);
+
+		// Update livechat session status.
+		register_rest_route(WPAIC_REST_NAMESPACE, '/chat/livechat/(?P<token>[a-f0-9\-]{36})/status', [
+			'methods' => 'POST',
+			'callback' => [$page, 'rest_update_livechat_status'],
+			'permission_callback' => $admin_perm,
+			'args' => [
+				'token' => ['required' => true, 'type' => 'string'],
+				'status' => ['required' => true, 'type' => 'string', 'sanitize_callback' => 'sanitize_key'],
+				'agent_id' => ['required' => false, 'type' => 'integer', 'default' => 0],
+			],
+		]);
+	}
+
 	/**
 	 * Probe a provider's API to verify the given key is valid.
 	 *
@@ -716,6 +1250,27 @@ final class Plugin
 				);
 				break;
 
+			case 'deepseek':
+				$response = wp_remote_get('https://api.deepseek.com/v1/models', [
+					'headers' => [
+						'Authorization' => 'Bearer ' . $api_key,
+					],
+					'timeout' => 15,
+					'sslverify' => true,
+				]);
+				break;
+
+			case 'grok':
+			case 'xai':
+				$response = wp_remote_get('https://api.x.ai/v1/models', [
+					'headers' => [
+						'Authorization' => 'Bearer ' . $api_key,
+					],
+					'timeout' => 15,
+					'sslverify' => true,
+				]);
+				break;
+
 			default:
 				return ['error' => sprintf(
 					// translators: %s: provider ID.
@@ -747,5 +1302,120 @@ final class Plugin
 		}
 
 		return ['success' => true];
+	}
+
+	// =========================================================================
+	// Phase 10 — Migration REST routes
+	// =========================================================================
+
+	/**
+	 * Register Migration Assistant REST endpoints.
+	 *
+	 * All endpoints require `manage_options` capability (admin-only).
+	 *
+	 * GET  /migration                               — detect all source plugins.
+	 * GET  /migration/{source}/mapping              — field mapping table.
+	 * POST /migration/{source}/run                  — dry-run or live migration.
+	 * POST /migration/{source}/rollback             — restore from backup.
+	 *
+	 * @return void
+	 */
+	private function register_migration_rest_routes(): void
+	{
+		$admin_perm = static function (): bool {
+			return current_user_can('manage_options');
+		};
+
+		// Detect all source plugins.
+		register_rest_route(WPAIC_REST_NAMESPACE, '/migration', [
+			'methods' => 'GET',
+			'callback' => static function (): \WP_REST_Response {
+				return new \WP_REST_Response(
+					Migration\Migration_Runner::detect_all(),
+					200
+				);
+			},
+			'permission_callback' => $admin_perm,
+		]);
+
+		// Mapping table for a specific source.
+		register_rest_route(WPAIC_REST_NAMESPACE, '/migration/(?P<source>[a-z]+)/mapping', [
+			'methods' => 'GET',
+			'callback' => static function (\WP_REST_Request $request): \WP_REST_Response {
+				$result = Migration\Migration_Runner::get_mapping(
+					sanitize_key($request->get_param('source'))
+				);
+				$status = $result['success'] ? 200 : 404;
+
+				return new \WP_REST_Response($result, $status);
+			},
+			'permission_callback' => $admin_perm,
+			'args' => [
+				'source' => [
+					'required' => true,
+					'type' => 'string',
+					'sanitize_callback' => 'sanitize_key',
+					'enum' => Migration\Migration_Runner::SOURCES,
+				],
+			],
+		]);
+
+		// Run (dry-run or live) for a specific source.
+		register_rest_route(WPAIC_REST_NAMESPACE, '/migration/(?P<source>[a-z]+)/run', [
+			'methods' => 'POST',
+			'callback' => static function (\WP_REST_Request $request): \WP_REST_Response {
+				$dry_run = (bool) $request->get_param('dry_run');
+				$overwrite_conflicts = (bool) $request->get_param('overwrite_conflicts');
+				$result = Migration\Migration_Runner::run(
+					sanitize_key($request->get_param('source')),
+					$dry_run,
+					$overwrite_conflicts
+				);
+				$status = $result['success'] ? 200 : 422;
+
+				return new \WP_REST_Response($result, $status);
+			},
+			'permission_callback' => $admin_perm,
+			'args' => [
+				'source' => [
+					'required' => true,
+					'type' => 'string',
+					'sanitize_callback' => 'sanitize_key',
+					'enum' => Migration\Migration_Runner::SOURCES,
+				],
+				'dry_run' => [
+					'required' => false,
+					'type' => 'boolean',
+					'default' => true,
+				],
+				'overwrite_conflicts' => [
+					'required' => false,
+					'type' => 'boolean',
+					'default' => false,
+				],
+			],
+		]);
+
+		// Rollback for a specific source.
+		register_rest_route(WPAIC_REST_NAMESPACE, '/migration/(?P<source>[a-z]+)/rollback', [
+			'methods' => 'POST',
+			'callback' => static function (\WP_REST_Request $request): \WP_REST_Response {
+				$result = Migration\Migration_Runner::rollback(
+					sanitize_key($request->get_param('source'))
+				);
+				$status = $result['success'] ? 200 : 422;
+
+				return new \WP_REST_Response($result, $status);
+			},
+			'permission_callback' => $admin_perm,
+			'args' => [
+				'source' => [
+					'required' => true,
+					'type' => 'string',
+					'sanitize_callback' => 'sanitize_key',
+					'enum' => Migration\Migration_Runner::SOURCES,
+				],
+			],
+		]);
 	}
 }

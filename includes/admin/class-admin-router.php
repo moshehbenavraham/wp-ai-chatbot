@@ -103,6 +103,7 @@ final class Admin_Router
 			'uwpaic-knowledge' => __('Knowledge Base', 'wp-ai-chatbot'),
 			'uwpaic-security' => __('Security & Privacy', 'wp-ai-chatbot'),
 			'uwpaic-tools' => __('Tools & Integrations', 'wp-ai-chatbot'),
+			'uwpaic-migration' => __('Migration', 'wp-ai-chatbot'),
 			'uwpaic-diagnostics' => __('Diagnostics', 'wp-ai-chatbot'),
 		];
 
@@ -231,13 +232,12 @@ final class Admin_Router
 	{
 		$defaults = [
 			'uwpaic' => 'WPAIC\Admin\Pages\General_Page',
-			// Phase 05 stubs — additional pages in later sessions:
-			// 'uwpaic-providers' => 'WPAIC\Admin\Pages\Providers_Page',
-			// 'uwpaic-chat'      => 'WPAIC\Admin\Pages\Chat_Page',
-			// 'uwpaic-knowledge' => 'WPAIC\Admin\Pages\Knowledge_Page',
-			// 'uwpaic-security'  => 'WPAIC\Admin\Pages\Security_Page',
-			// 'uwpaic-tools'     => 'WPAIC\Admin\Pages\Tools_Page',
-			// 'uwpaic-diagnostics' => 'WPAIC\Admin\Pages\Diagnostics_Page',
+			'uwpaic-knowledge' => 'WPAIC\Admin\Pages\Knowledge_Page',   // Phase 06
+			'uwpaic-tools' => 'WPAIC\Admin\Pages\Tools_Page',       // Phase 07
+			'uwpaic-chat' => 'WPAIC\Admin\Pages\Chat_Page',        // Phase 08
+			'uwpaic-security' => 'WPAIC\Admin\Pages\Security_Page',    // Phase 09
+			'uwpaic-diagnostics' => 'WPAIC\Admin\Pages\Diagnostics_Page', // Phase 09
+			'uwpaic-migration' => 'WPAIC\Admin\Pages\Migration_Page',   // Phase 10
 		];
 
 		foreach ($defaults as $slug => $class_name) {

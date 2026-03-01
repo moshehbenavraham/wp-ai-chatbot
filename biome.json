@@ -14,6 +14,7 @@
 			"!axiachat-ai/assets/js/vendor",
 			"mxchat-basic/**/*.js",
 			"baachal/**/*.js",
+			"assets/**/*.js",
 			"lib/**/*.js",
 			"tests/js/**/*.js",
 			"!**/*.min.js",
@@ -50,6 +51,24 @@
 		}
 	},
 	"overrides": [
+		{
+			"includes": ["assets/**/*.js"],
+			"linter": {
+				"rules": {
+					"style": {
+						"useTemplate": "warn",
+						"useConst": "warn"
+					},
+					"correctness": {
+						"noInnerDeclarations": "warn",
+						"noUnusedVariables": "warn"
+					},
+					"suspicious": {
+						"noRedundantUseStrict": "warn"
+					}
+				}
+			}
+		},
 		{
 			"includes": ["axiachat-ai/**/*.js", "mxchat-basic/**/*.js", "baachal/**/*.js"],
 			"linter": {

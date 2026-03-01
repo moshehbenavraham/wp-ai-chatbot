@@ -1,6 +1,6 @@
 {
 	"name": "wp-ai-chatbot",
-	"version": "1.0.9",
+	"version": "1.0.10",
 	"description": "",
 	"main": "index.js",
 	"directories": {
@@ -36,7 +36,7 @@
 	},
 	"homepage": "https://github.com/moshehbenavraham/wp-ai-chatbot#readme",
 	"lint-staged": {
-		"*.js": "biome check --fix"
+		"*.js": "biome check"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.4.4",
