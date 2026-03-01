@@ -24,7 +24,8 @@
     "phase00-session03-context-pack-decision-log-templates",
     "phase00-session04-phase-readiness-handoff-bundle",
     "phase01-session01-scoring-framework-and-provider-domain",
-    "phase01-session02-runtime-and-migration-domains"
+    "phase01-session02-runtime-and-migration-domains",
+    "phase01-session03-rag-and-admin-domains"
   ],
   "next_session_history": [
     {
@@ -55,6 +56,11 @@
     {
       "date": "2026-03-01",
       "session": "phase01-session02-runtime-and-migration-domains",
+      "status": "completed"
+    },
+    {
+      "date": "2026-03-01",
+      "session": "phase01-session03-rag-and-admin-domains",
       "status": "completed"
     }
   ]
