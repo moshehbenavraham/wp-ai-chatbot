@@ -4,7 +4,7 @@
 **Sessions**: 6 (initial estimate)
 **Estimated Duration**: 6-10 days
 
-**Progress**: 1/6 sessions (17%)
+**Progress**: 2/6 sessions (33%)
 
 ---
 
@@ -21,7 +21,7 @@ All extraction and scoring work uses bounded context packs assembled from the Ph
 | Session | Name | Status | Est. Tasks | Validated |
 |---------|------|--------|------------|-----------|
 | 01 | Scoring Framework and Provider Domain | Complete (2026-03-01) | 18 | PASS |
-| 02 | Runtime and Migration Domains | Not Started | ~16 | - |
+| 02 | Runtime and Migration Domains | Complete (2026-03-01) | 20 | PASS |
 | 03 | RAG and Admin Domains | Not Started | ~18 | - |
 | 04 | Security, Tools, and Integrations Domains | Not Started | ~20 | - |
 | 05 | WooCommerce and Cross-Domain Resolution | Not Started | ~18 | - |
@@ -38,11 +38,18 @@ All extraction and scoring work uses bounded context packs assembled from the Ph
   - 4 decisions: 2 adopt-as-is, 2 adopt-with-modifications
   - 2 carry-forward items for Phase 02 architecture
 
+- **Session 02**: Runtime and Migration Domains (2026-03-01)
+  - Scored DOM-RUNTIME (4 capabilities) and DOM-MIGRATION (3 capabilities) across all 3 sources
+  - 21 feature entries extracted with complete schema coverage
+  - Runtime winners: SRC-AXI (message lifecycle 4.45, session handling 4.30, frontend state 4.10), SRC-MXC (streaming 4.15)
+  - Migration winners: SRC-BAA (lifecycle 4.35, schema versioning 4.10), SRC-AXI (settings migration 3.90)
+  - 7 decisions recorded, 7 carry-forward items for downstream sessions
+
 ---
 
 ## Upcoming Sessions
 
-- Session 02: Runtime and Migration Domains
+- Session 03: RAG and Admin Domains
 
 ---
 
