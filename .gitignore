@@ -11,6 +11,9 @@
 # PHPUnit cache
 .phpunit.cache
 
+# Coverage output
+/coverage/
+
 # Logs
 logs/
 
