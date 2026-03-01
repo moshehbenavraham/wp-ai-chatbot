@@ -1,7 +1,7 @@
 # Considerations
 
 > Institutional memory for AI assistants. Updated between phases via /carryforward.
-> **Line budget**: 600 max | **Last updated**: Phase 00 (2026-02-26)
+> **Line budget**: 600 max | **Last updated**: Phase 00 (2026-03-01)
 
 ---
 
@@ -38,12 +38,19 @@ Proven patterns and anti-patterns. Reference during implementation.
 ### What Worked
 <!-- Max 15 items -->
 
-*None yet - add patterns that prove effective.*
+1. **Anchor-first extraction**: Defining stable anchor IDs before taxonomy or templates prevented ID drift across sessions. Anchors provided a shared reference frame for all downstream artifacts.
+2. **Canonical vocabulary with alias tables**: Establishing 9 domain IDs with explicit alias-to-canonical mapping eliminated ambiguity. The crosswalk document proved essential for consistent classification.
+3. **Template-driven bounded input**: Context pack templates with budget declarations and anchor citation requirements prevented context bloat. The three-source coverage rule ensured parity gap visibility.
+4. **Cross-session consistency validation**: Running explicit ID and field checks across session boundaries caught potential drift early. The 22-check validation in session 04 confirmed alignment.
+5. **Explicit N/A policy**: Requiring `N/A (no matching implementation)` entries with rationale instead of silent omission ensured parity gaps remained visible through scoring and decision workflows.
+6. **Bidirectional template references**: Context pack -> decision log -> carry-forward chain with explicit link fields ensured traceability without requiring full re-reads.
 
 ### What to Avoid
 <!-- Max 10 items -->
 
-*None yet - add anti-patterns discovered during implementation.*
+1. **Raw file dumps in context**: Full-file copies exceed token budgets quickly. Always use curated excerpts scoped to the relevant symbol or section.
+2. **Ad-hoc domain labels**: Using non-canonical terms (e.g., "knowledge base" instead of "rag") causes classification inconsistency. Always normalize through the alias table before recording.
+3. **Implicit N/A omissions**: Skipping entries when a source lacks a capability creates invisible gaps that distort scoring. Always create explicit N/A entries.
 
 ### Tool/Library Notes
 <!-- Max 5 items -->
