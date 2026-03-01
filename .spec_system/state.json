@@ -26,7 +26,8 @@
     "phase01-session01-scoring-framework-and-provider-domain",
     "phase01-session02-runtime-and-migration-domains",
     "phase01-session03-rag-and-admin-domains",
-    "phase01-session04-security-tools-and-integrations-domains"
+    "phase01-session04-security-tools-and-integrations-domains",
+    "phase01-session05-woocommerce-and-cross-domain-resolution"
   ],
   "next_session_history": [
     {
@@ -67,6 +68,11 @@
     {
       "date": "2026-03-01",
       "session": "phase01-session04-security-tools-and-integrations-domains",
+      "status": "completed"
+    },
+    {
+      "date": "2026-03-01",
+      "session": "phase01-session05-woocommerce-and-cross-domain-resolution",
       "status": "completed"
     }
   ]
