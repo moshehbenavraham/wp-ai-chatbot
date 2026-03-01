@@ -143,6 +143,16 @@
 
 Platform: GitHub Actions
 
+## Infrastructure
+
+| Component | Provider | Details |
+|-----------|----------|---------|
+| Platform | WordPress Plugin | PHP >=7.4, self-hosted WP installations |
+| Health | WP REST API | `GET /wp-json/wp-ai-chatbot/v1/health` — PHP, WP, DB, extensions, memory |
+| Security | WP Transient Rate Limiter | `lib/rate-limiter.php` — IP-based, per-endpoint namespace, configurable limits, proxy-aware |
+| Backup | WP REST API + JSON Export | `lib/backup-manager.php` — versioned export/import of plugin options via REST endpoints, admin-only |
+| Deploy | GitHub Actions + GitHub Releases | `.github/workflows/release.yml` — tag `v*` triggers rsync build + ZIP publish via `softprops/action-gh-release@v2` |
+
 ## When In Doubt
 
 - Ask before making irreversible architecture or migration choices.

@@ -1,0 +1,44 @@
+# Development tooling
+/.git
+/.github
+/.husky
+/.spec_system
+/.phpunit.cache
+/.php-cs-fixer.cache
+/.php-cs-fixer.dist.php
+/.gitignore
+/.distignore
+
+# Reference plugins (extraction sources, not distributed)
+/axiachat-ai
+/mxchat-basic
+/baachal
+
+# Dependencies (dev-only; no production Composer deps yet)
+/node_modules
+/vendor
+
+# Test, coverage, and logs
+/tests
+/coverage
+/logs
+
+# Dev config files
+/biome.json
+/phpstan.neon
+/phpstan-baseline.neon
+/phpunit.xml.dist
+/vitest.config.js
+/package.json
+/package-lock.json
+/composer.json
+/composer.lock
+/AGENTS.md
+
+# Documentation (internal dev docs)
+/docs
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+*:Zone.Identifier

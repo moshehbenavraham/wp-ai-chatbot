@@ -2,7 +2,7 @@
   "version": "2.0",
   "project_name": "Ultimate WP AI Chatbot Plugin",
   "description": "Build one ultimate WordPress AI chatbot plugin by combining the strongest implemented features from axiachat-ai, mxchat-basic, and baachal while improving architecture, security, performance, migration safety, and maintainability.",
-  "current_phase": 0,
+  "current_phase": 1,
   "current_session": null,
   "phases": {
     "0": {
@@ -10,13 +10,20 @@
       "description": "Establish extraction taxonomy, anchor index, and reusable planning templates to prevent context drift before capability scoring.",
       "status": "complete",
       "session_count": 4
+    },
+    "1": {
+      "name": "Canonical Capability Matrix and Scoring",
+      "description": "Build canonical matrix of all feature units across 9 domains, score capabilities from 3 source plugins, select winners per domain, and define initial Ultimate v1 scope boundary.",
+      "status": "in_progress",
+      "session_count": 6
     }
   },
   "completed_sessions": [
     "phase00-session01-reference-inventory-baseline",
     "phase00-session02-domain-taxonomy-feature-schema",
     "phase00-session03-context-pack-decision-log-templates",
-    "phase00-session04-phase-readiness-handoff-bundle"
+    "phase00-session04-phase-readiness-handoff-bundle",
+    "phase01-session01-scoring-framework-and-provider-domain"
   ],
   "next_session_history": [
     {
@@ -37,6 +44,11 @@
     {
       "date": "2026-03-01",
       "session": "phase00-session04-phase-readiness-handoff-bundle",
+      "status": "completed"
+    },
+    {
+      "date": "2026-03-01",
+      "session": "phase01-session01-scoring-framework-and-provider-domain",
       "status": "completed"
     }
   ]
