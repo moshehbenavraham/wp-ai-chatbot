@@ -57,13 +57,13 @@ npm test
 
 ## Project Status
 
-Phase 00 (Program Setup and Extraction Schema) is complete. See [PRD](.spec_system/PRD/PRD.md) for the full phase plan and roadmap.
+Phases 00-01 (planning and capability scoring) are complete. Phase 02 (Target Architecture and Module Contracts) is in progress (1/7 sessions). See [PRD](.spec_system/PRD/PRD.md) for the full phase plan and roadmap.
 
 ### Phase Progress
 
 | Phase | Name | Status |
 |-------|------|--------|
 | 00 | Program Setup and Extraction Schema | Complete |
-| 01 | Canonical Capability Matrix and Scoring | In Progress (1/6) |
-| 02 | Target Architecture and Module Contracts | Planned |
+| 01 | Canonical Capability Matrix and Scoring | Complete |
+| 02 | Target Architecture and Module Contracts | In Progress (1/7) |
 | 03-11 | Implementation through GA Readiness | Planned |

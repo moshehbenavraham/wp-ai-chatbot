@@ -32,12 +32,14 @@
 
 ## CI Environment
 
-Three GitHub Actions workflows:
+Five GitHub Actions workflows:
 
 | Workflow | Trigger | File |
 |----------|---------|------|
 | Code Quality | Push/PR | `.github/workflows/quality.yml` |
 | Build & Test | Push/PR | `.github/workflows/test.yml` |
+| Security | Push/PR | `.github/workflows/security.yml` |
+| Integration | Push/PR | `.github/workflows/integration.yml` |
 | Release | Tag `v*` | `.github/workflows/release.yml` |
 
 ## Production Notes

@@ -22,7 +22,7 @@ npm test
 ## CI/CD Pipeline
 
 ```
-Push/PR --> Quality (Biome, PHP-CS-Fixer, PHPStan) --> Test (PHPUnit + Vitest)
+Push/PR --> Quality --> Test --> Security --> Integration
 Tag v* --> Build (rsync) --> ZIP --> GitHub Release
 ```
 
@@ -42,6 +42,23 @@ File: `.github/workflows/test.yml`
 
 - PHPUnit with coverage
 - Vitest with coverage
+
+### Security Workflow
+
+File: `.github/workflows/security.yml`
+
+- Gitleaks secrets scanning
+- CodeQL JavaScript SAST
+- Dependency review on PRs
+- npm + Composer audit
+
+### Integration Workflow
+
+File: `.github/workflows/integration.yml`
+
+- WordPress + MySQL environment (GitHub Actions services)
+- WP-CLI setup and plugin activation
+- REST endpoint smoke tests
 
 ### Release Workflow
 

@@ -175,7 +175,7 @@ This system delivers the product via phases. Each phase is implemented via multi
 |-------|------|----------|-----------------------|--------|
 | 00 | Program Setup and Extraction Schema | 4 | 45k-65k | Complete |
 | 01 | Canonical Capability Matrix and Scoring | 6 | 65k-85k | Complete |
-| 02 | Target Architecture and Module Contracts | TBD | 70k-90k | Planned |
+| 02 | Target Architecture and Module Contracts | 7 | 70k-90k | In Progress (1/7) |
 | 03 | Core Plugin Skeleton, Lifecycle, and Data Foundations | TBD | 60k-85k | Planned |
 | 04 | Provider Orchestration and Model Registry | TBD | 70k-95k | Planned |
 | 05 | Chat Runtime, Sessioning, UX, and Safety Controls | TBD | 70k-95k | Planned |
