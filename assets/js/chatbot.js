@@ -265,27 +265,25 @@
 		var xhr = new XMLHttpRequest();
 		xhr.open('POST', url, true);
 		xhr.onload = function () {
-			if (xhr.status >= 200 && xhr.status < 300) {
-				try {
-					var data = JSON.parse(xhr.responseText);
-					if (data.success) {
-						if (data.data.session_token) {
-							instance.sessionToken = data.data.session_token;
-							setSessionToken(instance.botSlug, instance.sessionToken);
-						}
-						callbacks.onDone(data.data.html || '', data.data.suggestions || []);
-					} else {
-						callbacks.onError((data.data && data.data.message) || wpaicChatData.i18n.error_generic);
+			// Parse WP JSON body for both success (2xx) and error (4xx/5xx) responses.
+			try {
+				var data = JSON.parse(xhr.responseText);
+				if (data.success) {
+					if (data.data.session_token) {
+						instance.sessionToken = data.data.session_token;
+						setSessionToken(instance.botSlug, instance.sessionToken);
 					}
-				} catch (e) {
-					callbacks.onError(wpaicChatData.i18n.error_generic);
+					callbacks.onDone(data.data.html || '', data.data.suggestions || []);
+				} else {
+					var errPayload = data.data && typeof data.data === 'object' ? data.data : {};
+					callbacks.onError(errPayload.message || wpaicChatData.i18n.error_generic, errPayload);
 				}
-			} else {
-				callbacks.onError(wpaicChatData.i18n.error_generic);
+			} catch (e) {
+				callbacks.onError(wpaicChatData.i18n.error_generic, {});
 			}
 		};
 		xhr.onerror = function () {
-			callbacks.onError(wpaicChatData.i18n.error_network);
+			callbacks.onError(wpaicChatData.i18n.error_network, {});
 		};
 		xhr.send(buildFormData(instance, message));
 	}
@@ -351,6 +349,52 @@
 	}
 
 	// =========================================================================
+	// Focus trap helpers
+	// =========================================================================
+
+	var FOCUSABLE_SELECTOR =
+		'a[href], button:not([disabled]):not([tabindex="-1"]), ' +
+		'input:not([disabled]):not([tabindex="-1"]), ' +
+		'select:not([disabled]):not([tabindex="-1"]), ' +
+		'textarea:not([disabled]):not([tabindex="-1"]), ' +
+		'[tabindex]:not([tabindex="-1"])';
+
+	/**
+	 * Trap Tab focus within a container element.
+	 * Returns a cleanup function that removes the listener.
+	 *
+	 * @param  {Element}  container
+	 * @return {Function} cleanup
+	 */
+	function trapFocus(container) {
+		function handler(e) {
+			if (e.key !== 'Tab') return;
+			var focusable = Array.prototype.slice.call(container.querySelectorAll(FOCUSABLE_SELECTOR));
+			if (focusable.length === 0) return;
+
+			var first = focusable[0];
+			var last = focusable[focusable.length - 1];
+
+			if (e.shiftKey) {
+				if (document.activeElement === first) {
+					e.preventDefault();
+					last.focus();
+				}
+			} else {
+				if (document.activeElement === last) {
+					e.preventDefault();
+					first.focus();
+				}
+			}
+		}
+
+		container.addEventListener('keydown', handler);
+		return function cleanup() {
+			container.removeEventListener('keydown', handler);
+		};
+	}
+
+	// =========================================================================
 	// Widget DOM state machine
 	// =========================================================================
 
@@ -386,9 +430,12 @@
 		if (!transcript) return null;
 
 		var row = ce('div', { className: 'wpaic-message wpaic-message--bot wpaic-message--typing' });
-		var bubble = ce('div', { className: 'wpaic-bubble' });
+		var bubble = ce('div', { className: 'wpaic-bubble', 'aria-label': wpaicChatData.i18n.typing || 'Typing…' });
+		// Animated dots: aria-hidden so AT reads the bubble label instead.
 		bubble.innerHTML =
-			'<span class="wpaic-dot"></span><span class="wpaic-dot"></span><span class="wpaic-dot"></span>';
+			'<span class="wpaic-dot" aria-hidden="true"></span>' +
+			'<span class="wpaic-dot" aria-hidden="true"></span>' +
+			'<span class="wpaic-dot" aria-hidden="true"></span>';
 		row.appendChild(bubble);
 		transcript.appendChild(row);
 		transcript.scrollTop = transcript.scrollHeight;
@@ -432,8 +479,23 @@
 	function setInputDisabled(instance, disabled) {
 		var input = qs('.wpaic-input', instance.panel);
 		var btn = qs('.wpaic-send-btn', instance.panel);
-		if (input) input.disabled = disabled;
-		if (btn) btn.disabled = disabled;
+		if (input) {
+			input.disabled = disabled;
+			// aria-disabled mirrors the disabled state for AT that may ignore native disabled.
+			if (disabled) {
+				input.setAttribute('aria-disabled', 'true');
+			} else {
+				input.removeAttribute('aria-disabled');
+			}
+		}
+		if (btn) {
+			btn.disabled = disabled;
+			if (disabled) {
+				btn.setAttribute('aria-disabled', 'true');
+			} else {
+				btn.removeAttribute('aria-disabled');
+			}
+		}
 	}
 
 	function showError(instance, message) {
@@ -443,6 +505,70 @@
 		var row = ce('div', { className: 'wpaic-message wpaic-message--error' });
 		var bubble = ce('div', { className: 'wpaic-bubble' });
 		bubble.textContent = message;
+		row.appendChild(bubble);
+		transcript.appendChild(row);
+		transcript.scrollTop = transcript.scrollHeight;
+	}
+
+	/**
+	 * Show rate limit fallback contact links (email, phone, URL) in the transcript.
+	 * Input remains disabled — server-side limit is still enforced.
+	 *
+	 * @param {object} instance  Widget instance.
+	 * @param {object} errData   Error payload {fallback_email, fallback_phone, fallback_url}.
+	 */
+	function showRateLimitFallback(instance, errData) {
+		var email = errData.fallback_email || '';
+		var phone = errData.fallback_phone || '';
+		var url = errData.fallback_url || '';
+
+		if (!email && !phone && !url) {
+			return; // No fallback configured — nothing to show.
+		}
+
+		var transcript = qs('.wpaic-transcript', instance.panel);
+		if (!transcript) return;
+
+		var row = ce('div', { className: 'wpaic-message wpaic-message--fallback' });
+		var bubble = ce('div', { className: 'wpaic-bubble' });
+		var links = [];
+
+		if (email) {
+			links.push(
+				ce('a', {
+					href: 'mailto:' + email,
+					target: '_blank',
+					rel: 'noopener noreferrer',
+					textContent: email,
+				}),
+			);
+		}
+		if (phone) {
+			links.push(
+				ce('a', {
+					href: 'tel:' + phone.replace(/\s/g, ''),
+					textContent: phone,
+				}),
+			);
+		}
+		if (url) {
+			links.push(
+				ce('a', {
+					href: url,
+					target: '_blank',
+					rel: 'noopener noreferrer',
+					textContent: wpaicChatData.i18n.contact_us || 'Contact us',
+				}),
+			);
+		}
+
+		links.forEach(function (link, idx) {
+			bubble.appendChild(link);
+			if (idx < links.length - 1) {
+				bubble.appendChild(document.createTextNode(' · '));
+			}
+		});
+
 		row.appendChild(bubble);
 		transcript.appendChild(row);
 		transcript.scrollTop = transcript.scrollHeight;
@@ -535,16 +661,27 @@
 				var inp = qs('.wpaic-input', instance.panel);
 				if (inp) inp.focus();
 			},
-			onError: function (msg) {
+			onError: function (msg, errData) {
 				removeTypingIndicator(typingEl);
 				typingEl = null;
 				if (streamBubble && streamBubble.row.parentNode) {
 					streamBubble.row.parentNode.removeChild(streamBubble.row);
 					streamBubble = null;
 				}
+
+				var isRateLimit = errData && errData.code === 'wpaic_rate_limit';
+
 				showError(instance, msg || wpaicChatData.i18n.error_generic);
-				instance.state = 'open';
-				setInputDisabled(instance, false);
+
+				// Show rate limit fallback contact options if provided.
+				if (isRateLimit && errData) {
+					showRateLimitFallback(instance, errData);
+					// Keep input disabled — server will reject further requests within the window.
+					instance.state = 'open';
+				} else {
+					instance.state = 'open';
+					setInputDisabled(instance, false);
+				}
 			},
 		};
 
@@ -605,6 +742,10 @@
 		instance.launcher.setAttribute('aria-expanded', 'true');
 		instance.launcher.setAttribute('aria-label', wpaicChatData.i18n.close_chat);
 
+		// Activate focus trap within the panel.
+		if (instance.focusTrapCleanup) instance.focusTrapCleanup();
+		instance.focusTrapCleanup = trapFocus(instance.panel);
+
 		// Focus first interactive element.
 		setTimeout(function () {
 			var inp = qs('.wpaic-input', instance.panel);
@@ -629,6 +770,13 @@
 		instance.panel.style.display = 'none';
 		instance.launcher.setAttribute('aria-expanded', 'false');
 		instance.launcher.setAttribute('aria-label', wpaicChatData.i18n.open_chat);
+
+		// Release focus trap.
+		if (instance.focusTrapCleanup) {
+			instance.focusTrapCleanup();
+			instance.focusTrapCleanup = null;
+		}
+
 		instance.launcher.focus();
 
 		instance.panel.dispatchEvent(new CustomEvent('wpaic:close', { bubbles: true }));
@@ -662,6 +810,7 @@
 			sessionToken: getSessionToken(botSlug),
 			state: 'idle', // 'idle' | 'open' | 'typing' | 'streaming'
 			gdprAccepted: true,
+			focusTrapCleanup: null,
 		};
 
 		instances[instanceId] = instance;
@@ -795,6 +944,7 @@
 		wpaicChatData.i18n.error_generic = wpaicChatData.i18n.error_generic || 'An error occurred. Please try again.';
 		wpaicChatData.i18n.error_network =
 			wpaicChatData.i18n.error_network || 'Network error. Please check your connection.';
+		wpaicChatData.i18n.typing = wpaicChatData.i18n.typing || 'Typing\u2026';
 
 		initInlineWidgets();
 	}

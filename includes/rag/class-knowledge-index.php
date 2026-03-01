@@ -172,7 +172,7 @@ class Knowledge_Index
 	 * @param  float[] $query_embedding Query embedding vector.
 	 * @param  int     $limit           Maximum results to return.
 	 * @param  float   $min_score       Minimum cosine similarity (0–1).
-	 * @return array<int, array{content: string, title: string, score: float, post_id: int}>
+	 * @return array<int, array{content: string, title: string, score: float, post_id: int, type: string, chunk_index: int}>
 	 */
 	public static function search(
 		int $knowledge_id,
@@ -187,7 +187,7 @@ class Knowledge_Index
 		// Load all chunks with embeddings for this context.
 		$rows = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 			$wpdb->prepare(
-				'SELECT post_id, title, content, embedding FROM `' . $table . '` WHERE knowledge_id = %d AND embedding IS NOT NULL',
+				'SELECT post_id, chunk_index, type, title, content, embedding FROM `' . $table . '` WHERE knowledge_id = %d AND embedding IS NOT NULL',
 				$knowledge_id
 			),
 			ARRAY_A
@@ -217,6 +217,8 @@ class Knowledge_Index
 				'title' => (string) $row['title'],
 				'score' => $score,
 				'post_id' => (int) $row['post_id'],
+				'type' => (string) $row['type'],
+				'chunk_index' => (int) $row['chunk_index'],
 			];
 		}
 

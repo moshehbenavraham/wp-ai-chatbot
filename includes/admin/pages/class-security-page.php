@@ -109,6 +109,35 @@ class Security_Page extends Admin_Page
 			['sanitize_callback' => 'absint', 'default' => 0]
 		);
 
+		// Rate limit message — shown to users when they hit the rate limit.
+		register_setting(
+			'wpaic_security_group',
+			'wpaic_rate_limit_message',
+			[
+				'sanitize_callback' => 'sanitize_text_field',
+				'default' => "I've reached my message limit. Please try again shortly or contact us at [email].",
+			]
+		);
+
+		// Rate limit fallback contact options.
+		register_setting(
+			'wpaic_security_group',
+			'wpaic_rate_limit_fallback_email',
+			['sanitize_callback' => 'sanitize_email', 'default' => '']
+		);
+
+		register_setting(
+			'wpaic_security_group',
+			'wpaic_rate_limit_fallback_phone',
+			['sanitize_callback' => 'sanitize_text_field', 'default' => '']
+		);
+
+		register_setting(
+			'wpaic_security_group',
+			'wpaic_rate_limit_fallback_url',
+			['sanitize_callback' => 'esc_url_raw', 'default' => '']
+		);
+
 		add_settings_section(
 			'wpaic_security_main',
 			__('Rate Limiting', 'wp-ai-chatbot'),
@@ -154,6 +183,49 @@ class Security_Page extends Admin_Page
 			$this->get_slug(),
 			'wpaic_security_moderation_section'
 		);
+
+		add_settings_section(
+			'wpaic_rate_limit_messages_section',
+			__('Rate Limit Messages & Fallback', 'wp-ai-chatbot'),
+			static function (): void {
+				echo '<p class="description">'
+					. esc_html__('Configure the message shown when a user hits the rate limit, and optional fallback contact options.', 'wp-ai-chatbot')
+					. '</p>';
+			},
+			$this->get_slug()
+		);
+
+		add_settings_field(
+			'wpaic_rate_limit_message',
+			__('Rate Limit Message', 'wp-ai-chatbot'),
+			[$this, 'field_rate_limit_message'],
+			$this->get_slug(),
+			'wpaic_rate_limit_messages_section'
+		);
+
+		add_settings_field(
+			'wpaic_rate_limit_fallback_email',
+			__('Fallback Email', 'wp-ai-chatbot'),
+			[$this, 'field_rate_limit_fallback_email'],
+			$this->get_slug(),
+			'wpaic_rate_limit_messages_section'
+		);
+
+		add_settings_field(
+			'wpaic_rate_limit_fallback_phone',
+			__('Fallback Phone', 'wp-ai-chatbot'),
+			[$this, 'field_rate_limit_fallback_phone'],
+			$this->get_slug(),
+			'wpaic_rate_limit_messages_section'
+		);
+
+		add_settings_field(
+			'wpaic_rate_limit_fallback_url',
+			__('Fallback URL (live chat / contact page)', 'wp-ai-chatbot'),
+			[$this, 'field_rate_limit_fallback_url'],
+			$this->get_slug(),
+			'wpaic_rate_limit_messages_section'
+		);
 	}
 
 	/**
@@ -183,7 +255,11 @@ class Security_Page extends Admin_Page
 		add_settings_section(
 			'wpaic_privacy_main',
 			__('Data Retention', 'wp-ai-chatbot'),
-			'__return_false',
+			static function (): void {
+				echo '<p class="description">'
+					. esc_html__('Chat transcripts are retained for 90 days and automatically deleted. Anonymized usage statistics may be retained indefinitely.', 'wp-ai-chatbot')
+					. '</p>';
+			},
 			$this->get_slug()
 		);
 
@@ -303,6 +379,47 @@ class Security_Page extends Admin_Page
 		?>
 		<input type="checkbox" name="wpaic_privacy_anonymize_logs" value="1" <?php checked('1', $val); ?>>
 		<span class="description"><?php esc_html_e('Truncate IP addresses in audit logs to the first three octets.', 'wp-ai-chatbot'); ?></span>
+		<?php
+	}
+
+	/** @internal */
+	public function field_rate_limit_message(): void
+	{
+		$default = "I've reached my message limit. Please try again shortly or contact us at [email].";
+		$val = (string) get_option('wpaic_rate_limit_message', $default);
+		?>
+		<input type="text" name="wpaic_rate_limit_message" value="<?php echo esc_attr($val); ?>" class="large-text" placeholder="<?php echo esc_attr($default); ?>">
+		<p class="description"><?php esc_html_e('Use [email] as a placeholder for the fallback email address.', 'wp-ai-chatbot'); ?></p>
+		<?php
+	}
+
+	/** @internal */
+	public function field_rate_limit_fallback_email(): void
+	{
+		$val = (string) get_option('wpaic_rate_limit_fallback_email', '');
+		?>
+		<input type="email" name="wpaic_rate_limit_fallback_email" value="<?php echo esc_attr($val); ?>" class="regular-text" placeholder="support@example.com">
+		<p class="description"><?php esc_html_e('Replaces [email] in the rate limit message. Shown as a mailto: link in the widget.', 'wp-ai-chatbot'); ?></p>
+		<?php
+	}
+
+	/** @internal */
+	public function field_rate_limit_fallback_phone(): void
+	{
+		$val = (string) get_option('wpaic_rate_limit_fallback_phone', '');
+		?>
+		<input type="text" name="wpaic_rate_limit_fallback_phone" value="<?php echo esc_attr($val); ?>" class="regular-text" placeholder="+1-555-000-0000">
+		<p class="description"><?php esc_html_e('Optional. Displayed as a tel: link alongside the rate limit message.', 'wp-ai-chatbot'); ?></p>
+		<?php
+	}
+
+	/** @internal */
+	public function field_rate_limit_fallback_url(): void
+	{
+		$val = (string) get_option('wpaic_rate_limit_fallback_url', '');
+		?>
+		<input type="url" name="wpaic_rate_limit_fallback_url" value="<?php echo esc_attr($val); ?>" class="regular-text" placeholder="https://example.com/contact">
+		<p class="description"><?php esc_html_e('Optional. Shown as a "Contact us" link (live chat or contact page).', 'wp-ai-chatbot'); ?></p>
 		<?php
 	}
 

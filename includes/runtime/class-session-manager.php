@@ -333,6 +333,7 @@ class Session_Manager
 	 * @param  string $provider_id     Provider canonical ID.
 	 * @param  string $model_id        Model used.
 	 * @param  array  $rag_context_ids Optional array of knowledge chunk IDs used.
+	 * @param  array  $tool_calls      Optional tool call history from Tool_Continuation::run().
 	 * @return int|false               Inserted row ID or false on failure.
 	 */
 	public static function log_message(
@@ -343,30 +344,34 @@ class Session_Manager
 		int $cost_micro = 0,
 		string $provider_id = '',
 		string $model_id = '',
-		array $rag_context_ids = []
+		array $rag_context_ids = [],
+		array $tool_calls = []
 	) {
 		global $wpdb;
 
 		$table = $wpdb->prefix . 'wpaic_messages';
-		$result = $wpdb->insert(
-			$table,
-			[
-				'session_id' => $session_id,
-				'role_user' => $user_message,
-				'role_assistant' => $bot_response,
-				'prompt_tokens' => isset($usage['prompt_tokens']) ? (int) $usage['prompt_tokens'] : 0,
-				'completion_tokens' => isset($usage['completion_tokens']) ? (int) $usage['completion_tokens'] : 0,
-				'total_tokens' => isset($usage['total_tokens']) ? (int) $usage['total_tokens'] : 0,
-				'cost_micro' => $cost_micro,
-				'provider_id' => sanitize_key($provider_id),
-				'model_id' => sanitize_text_field($model_id),
-				'rag_context_ids' => wp_json_encode($rag_context_ids),
-				'created_at' => current_time('mysql', true),
-			],
-			[
-				'%d', '%s', '%s', '%d', '%d', '%d', '%d', '%s', '%s', '%s', '%s',
-			]
-		);
+
+		$row = [
+			'session_id' => $session_id,
+			'role_user' => $user_message,
+			'role_assistant' => $bot_response,
+			'prompt_tokens' => isset($usage['prompt_tokens']) ? (int) $usage['prompt_tokens'] : 0,
+			'completion_tokens' => isset($usage['completion_tokens']) ? (int) $usage['completion_tokens'] : 0,
+			'total_tokens' => isset($usage['total_tokens']) ? (int) $usage['total_tokens'] : 0,
+			'cost_micro' => $cost_micro,
+			'provider_id' => sanitize_key($provider_id),
+			'model_id' => sanitize_text_field($model_id),
+			'rag_context_ids' => wp_json_encode($rag_context_ids),
+			'created_at' => current_time('mysql', true),
+		];
+		$formats = ['%d', '%s', '%s', '%d', '%d', '%d', '%d', '%s', '%s', '%s', '%s'];
+
+		if (! empty($tool_calls)) {
+			$row['tool_calls'] = wp_json_encode($tool_calls);
+			$formats[] = '%s';
+		}
+
+		$result = $wpdb->insert($table, $row, $formats);
 
 		if (false === $result) {
 			return false;

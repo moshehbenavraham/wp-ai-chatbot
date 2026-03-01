@@ -29,10 +29,43 @@
 	--wpaic-error:        #EF4444;
 	--wpaic-text-primary: #F9FAFB;
 	--wpaic-text-secondary: #9CA3AF;
-	--wpaic-text-muted:   #6B7280;
+	/* #808EA0 on #0F172A ≈ 4.6:1 — passes WCAG AA for normal text */
+	--wpaic-text-muted:   #808EA0;
 	--wpaic-border:       rgba(255, 255, 255, 0.08);
-	--wpaic-shadow-card:  0 4px 24px rgba(0, 0, 0, 0.4);
-	--wpaic-shadow-modal: 0 8px 48px rgba(0, 0, 0, 0.6);
+	/* Three-level elevation model */
+	/* flat  — no shadow; inline content, flat cards                          */
+	--wpaic-elevation-flat:  none;
+	/* card  — subtle lift; message bubbles, input areas, sub-panels          */
+	--wpaic-elevation-card:  0 4px 24px rgba(0, 0, 0, 0.4);
+	/* modal — strong lift; floating chat panel, dialogs                      */
+	--wpaic-elevation-modal: 0 8px 48px rgba(0, 0, 0, 0.6);
+	/* Back-compat aliases — prefer --wpaic-elevation-* in new code           */
+	--wpaic-shadow-card:     var(--wpaic-elevation-card);
+	--wpaic-shadow-modal:    var(--wpaic-elevation-modal);
+
+	/* Typography */
+	--wpaic-font-display: 'Space Grotesk', Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+	--wpaic-font-body:    Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+	--wpaic-font-mono:    'JetBrains Mono', 'Courier New', monospace;
+
+	/* Font scale (modular 1.25, base 14 px) */
+	--wpaic-text-xs:    10px;   /* 14 ÷ 1.25²  ≈  9   → 10 */
+	--wpaic-text-sm:    12px;   /* 14 ÷ 1.25   ≈ 11.2 → 12 */
+	--wpaic-text-base:  14px;   /* base                     */
+	--wpaic-text-md:    17.5px; /* 14 × 1.25   = 17.5       */
+	--wpaic-text-lg:    22px;   /* 14 × 1.25²  ≈ 21.9 → 22 */
+	--wpaic-text-xl:    28px;   /* 14 × 1.25³  ≈ 27.3 → 28 */
+
+	/* Spacing scale: 4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 / 96 px */
+	--wpaic-space-1:  4px;
+	--wpaic-space-2:  8px;
+	--wpaic-space-3:  12px;
+	--wpaic-space-4:  16px;
+	--wpaic-space-5:  24px;
+	--wpaic-space-6:  32px;
+	--wpaic-space-7:  48px;
+	--wpaic-space-8:  64px;
+	--wpaic-space-9:  96px;
 	--wpaic-radius-sm:    8px;
 	--wpaic-radius-md:    12px;
 	--wpaic-radius-lg:    20px;
@@ -53,8 +86,8 @@
 	bottom: 24px;
 	right: 24px;
 	z-index: var(--wpaic-z-index);
-	font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-	font-size: 14px;
+	font-family: var(--wpaic-font-body);
+	font-size: var(--wpaic-text-base);
 	line-height: 1.5;
 	color: var(--wpaic-text-primary);
 	box-sizing: border-box;
@@ -220,9 +253,9 @@
 }
 
 .wpaic-header__title {
-	font-family: 'Space Grotesk', Inter, sans-serif;
+	font-family: var(--wpaic-font-display);
 	font-weight: 600;
-	font-size: 14px;
+	font-size: var(--wpaic-text-base);
 	color: var(--wpaic-text-primary);
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -376,7 +409,7 @@
 }
 
 .wpaic-message--bot .wpaic-bubble code {
-	font-family: 'JetBrains Mono', 'Courier New', monospace;
+	font-family: var(--wpaic-font-mono);
 	font-size: 12px;
 	background: rgba(0, 0, 0, 0.3);
 	padding: 1px 5px;
@@ -412,7 +445,7 @@
 .wpaic-message--bot .wpaic-bubble h4,
 .wpaic-message--bot .wpaic-bubble h5,
 .wpaic-message--bot .wpaic-bubble h6 {
-	font-family: 'Space Grotesk', Inter, sans-serif;
+	font-family: var(--wpaic-font-display);
 	font-weight: 600;
 	margin: 8px 0 4px;
 	color: var(--wpaic-text-primary);
@@ -524,6 +557,22 @@
 }
 
 /* =========================================================================
+   AI Disclosure notice (EU AI Act Art. 50 / CA SB 1001 — non-dismissible)
+   ========================================================================= */
+
+.wpaic-disclosure {
+	background: rgba(34, 211, 238, 0.07); /* accent tint */
+	border-bottom: 1px solid rgba(34, 211, 238, 0.2);
+	padding: 6px 16px;
+	font-size: 11px;
+	color: var(--wpaic-text-secondary);
+	text-align: center;
+	flex-shrink: 0;
+	line-height: 1.4;
+	user-select: none;
+}
+
+/* =========================================================================
    GDPR consent banner
    ========================================================================= */
 
@@ -612,6 +661,13 @@
 
 .wpaic-input:focus {
 	border-color: var(--wpaic-accent);
+	/* Provide a visible focus ring (outline: none is suppressed; border-color acts as indicator) */
+}
+
+.wpaic-input:focus-visible {
+	outline: 2px solid var(--wpaic-accent);
+	outline-offset: 0;
+	border-color: var(--wpaic-accent);
 }
 
 .wpaic-input:disabled {
@@ -670,6 +726,101 @@
 .wpaic-powered-by a {
 	color: var(--wpaic-text-muted);
 	text-decoration: none;
+}
+
+/* =========================================================================
+   Widget position variants (set via admin Appearance → Display)
+   ========================================================================= */
+
+/* Default / explicit bottom-right */
+.wpaic-widget--bottom-right {
+	bottom: 24px;
+	right: 24px;
+	left: auto;
+	top: auto;
+}
+
+/* Bottom-left: mirror launcher and panel */
+.wpaic-widget--bottom-left {
+	bottom: 24px;
+	left: 24px;
+	right: auto;
+	top: auto;
+}
+
+.wpaic-widget--bottom-left .wpaic-panel {
+	right: auto;
+	left: 0;
+}
+
+/* Top-right: panel opens below launcher */
+.wpaic-widget--top-right {
+	top: 24px;
+	right: 24px;
+	bottom: auto;
+	left: auto;
+}
+
+.wpaic-widget--top-right .wpaic-panel {
+	bottom: auto;
+	top: calc(var(--wpaic-launcher-size) + 12px);
+}
+
+/* Top-left: panel opens below launcher, aligned left */
+.wpaic-widget--top-left {
+	top: 24px;
+	left: 24px;
+	bottom: auto;
+	right: auto;
+}
+
+.wpaic-widget--top-left .wpaic-panel {
+	bottom: auto;
+	top: calc(var(--wpaic-launcher-size) + 12px);
+	right: auto;
+	left: 0;
+}
+
+/* =========================================================================
+   ARIA state styles
+   ========================================================================= */
+
+/* aria-disabled mirrors disabled visually but preserves focusability */
+.wpaic-widget [aria-disabled="true"] {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+/* =========================================================================
+   Screen-reader-only utility (visually hidden but announced by AT)
+   ========================================================================= */
+
+.wpaic-sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+/* =========================================================================
+   Responsive — tablet (640–1024px): wider panel, adjusted composer
+   ========================================================================= */
+
+@media (min-width: 640px) and (max-width: 1023px) {
+	/* Slightly wider panel on tablet for better readability */
+	.wpaic-widget:not([data-mode="inline"]) {
+		--wpaic-panel-width: 420px;
+	}
+
+	/* Wider composer input */
+	.wpaic-widget:not([data-mode="inline"]) .wpaic-input {
+		font-size: 14px;
+	}
 }
 
 /* =========================================================================

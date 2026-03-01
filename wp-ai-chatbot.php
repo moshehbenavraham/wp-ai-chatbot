@@ -4,7 +4,7 @@
  * Plugin Name:       WP AI Chatbot
  * Plugin URI:        https://github.com/aiwithapex/wp-ai-chatbot
  * Description:       Ultimate AI chatbot plugin for WordPress — provider-agnostic, RAG-enabled, streaming-capable.
- * Version:           1.0.0
+ * Version:           1.0.2
  * Requires at least: 5.0
  * Requires PHP:      7.4
  * Author:            aiwithapex
@@ -22,7 +22,7 @@ if (! defined('ABSPATH')) {
 // Version must match the Plugin Name header — enforced by release workflow.
 // =============================================================================
 
-define('WPAIC_VERSION', '1.0.0');
+define('WPAIC_VERSION', '1.0.2');
 define('WPAIC_MIN_PHP', '7.4');
 define('WPAIC_MIN_WP', '5.0');
 define('WPAIC_TEXT_DOMAIN', 'wp-ai-chatbot');
@@ -45,6 +45,17 @@ define('WPAIC_DEFAULT_RATE_WINDOW', 60);
 
 // Autoloader must be available before any WPAIC class reference.
 require_once WPAIC_INCLUDES_DIR . 'autoloader.php';
+
+// Load Composer vendor autoloader when production dependencies are bundled
+// (e.g. smalot/pdfparser for PDF text extraction). The plugin degrades
+// gracefully when this file is absent — Pdf_Source falls back to its built-in
+// pure-PHP extractor. Run `composer install --no-dev` and bundle vendor/ in
+// the plugin ZIP to enable full PDF parsing.
+$wpaic_vendor_autoload = WPAIC_PLUGIN_DIR . 'vendor/autoload.php';
+if (file_exists($wpaic_vendor_autoload)) {
+	require_once $wpaic_vendor_autoload;
+}
+unset($wpaic_vendor_autoload);
 
 // =============================================================================
 // Phase B: Core infrastructure — loaded before any hook fires.

@@ -69,16 +69,36 @@ class Message_Pipeline
 		$pre = self::stage_preprocess();
 
 		if (is_wp_error($pre)) {
-			wp_send_json_error(
-				['message' => $pre->get_error_message(), 'code' => $pre->get_error_code()],
-				self::error_http_status($pre->get_error_code())
-			);
+			$error_code = $pre->get_error_code();
+			$error_data = $pre->get_error_data($error_code);
+			$response_payload = [
+				'message' => $pre->get_error_message(),
+				'code' => $error_code,
+			];
+
+			// Merge extra data for rate limit errors (fallback contacts, etc.).
+			if ('wpaic_rate_limit' === $error_code && is_array($error_data)) {
+				$response_payload = array_merge($response_payload, $error_data);
+			}
+
+			wp_send_json_error($response_payload, self::error_http_status($error_code));
 
 			return; // wp_send_json_error() calls wp_die()
 		}
 
 		// Stage 2: Context Assembly.
 		$context = self::stage_context($pre);
+
+		// Stage 2.5: Macro Router intercept (Phase 17).
+		// Hook `wpaic_macro_route` to short-circuit the provider call.
+		// Return a non-empty array with a `message` key to bypass Stage 3.
+		$intercept = (array) apply_filters('wpaic_macro_route', [], $pre['message'], $pre, $context);
+
+		if (! empty($intercept['message'])) {
+			self::stage_postprocess($pre, $intercept);
+
+			return;
+		}
 
 		// Stage 3: Provider Dispatch.
 		$dispatch = self::stage_dispatch($pre, $context);
@@ -159,10 +179,30 @@ class Message_Pipeline
 			$passed = (bool) apply_filters('wpaic_rate_limit_check', $passed, $bot_slug, $ip);
 
 			if (! $passed) {
-				return new \WP_Error(
-					'wpaic_rate_limit',
-					__('Too many messages. Please wait a moment before sending another.', 'wp-ai-chatbot')
+				// Build configurable rate limit message with [email] placeholder substitution.
+				$rl_message = (string) get_option(
+					'wpaic_rate_limit_message',
+					__("I've reached my message limit. Please try again shortly.", 'wp-ai-chatbot')
 				);
+				$fallback_email = (string) get_option('wpaic_rate_limit_fallback_email', '');
+				if ('' !== $fallback_email) {
+					$rl_message = str_replace('[email]', $fallback_email, $rl_message);
+				} else {
+					$rl_message = str_replace(' or contact us at [email]', '', $rl_message);
+					$rl_message = str_replace(' or contact us at [email].', '.', $rl_message);
+				}
+
+				// Build error with fallback contact data for the frontend.
+				$error = new \WP_Error('wpaic_rate_limit', $rl_message);
+				$error->add_data([
+					'code' => 'wpaic_rate_limit',
+					'message' => $rl_message,
+					'fallback_email' => $fallback_email,
+					'fallback_phone' => (string) get_option('wpaic_rate_limit_fallback_phone', ''),
+					'fallback_url' => (string) get_option('wpaic_rate_limit_fallback_url', ''),
+				]);
+
+				return $error;
 			}
 		}
 
@@ -502,6 +542,7 @@ class Message_Pipeline
 			'cost_micro' => $cost_micro,
 			'provider_id' => $provider_id,
 			'model_id' => $actual_model,
+			'tool_history' => $dispatch['tool_history'] ?? [],
 		];
 
 		/**
@@ -520,7 +561,9 @@ class Message_Pipeline
 			$log_data['usage'],
 			$log_data['cost_micro'],
 			$log_data['provider_id'],
-			$log_data['model_id']
+			$log_data['model_id'],
+			[],
+			$log_data['tool_history']
 		);
 
 		/**

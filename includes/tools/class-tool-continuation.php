@@ -71,6 +71,10 @@ final class Tool_Continuation
 		$loops = 0;
 		$max_loops = max(1, min(self::MAX_LOOPS, $max_loops));
 
+		// Accumulated history of every tool call + result across all loops.
+		// Stored as JSON in wpaic_messages.tool_calls for the Actions tab.
+		$tool_history = [];
+
 		while (self::is_tool_call_response($response) && $loops < $max_loops) {
 			$loops++;
 
@@ -87,6 +91,21 @@ final class Tool_Continuation
 			// Execute all tool calls in this batch.
 			$executor = Tool_Executor::instance();
 			$batch = $executor->execute_batch($tool_calls, $context);
+
+			// Record each call + result in the history log.
+			foreach ($batch as $item) {
+				$tool_history[] = [
+					'loop' => $loops,
+					'call_id' => $item['call_id'],
+					'tool_id' => $item['tool_id'],
+					'ok' => (bool) $item['result']['ok'],
+					'output' => isset($item['result']['output'])
+						? substr((string) $item['result']['output'], 0, 2000)
+						: '',
+					'error' => $item['result']['message'] ?? $item['result']['error'] ?? '',
+					'duration_ms' => $item['result']['duration_ms'] ?? 0,
+				];
+			}
 
 			// Append the assistant's tool-call request to the message array.
 			$messages[] = self::build_assistant_tool_message($response, $provider->get_id());
@@ -121,6 +140,7 @@ final class Tool_Continuation
 
 		// Add continuation metadata to the final response.
 		$response['tool_loops'] = $loops;
+		$response['tool_history'] = $tool_history;
 
 		return $response;
 	}

@@ -132,6 +132,43 @@ class General_Page extends Admin_Page
 			$this->get_slug(),
 			'wpaic_general_provider_section'
 		);
+
+		// ---- Legal & Compliance (EU AI Act Art. 50 / CA SB 1001) ----
+
+		register_setting(self::OPTION_GROUP, 'wpaic_ai_disclosure_enabled', [
+			'type' => 'integer',
+			'sanitize_callback' => 'absint',
+			'default' => 0,
+		]);
+
+		register_setting(self::OPTION_GROUP, 'wpaic_ai_disclosure_text', [
+			'type' => 'string',
+			'sanitize_callback' => 'sanitize_textarea_field',
+			'default' => 'You are chatting with an AI assistant. Your messages are processed to generate responses.',
+		]);
+
+		add_settings_section(
+			'wpaic_general_compliance_section',
+			__('Legal & Compliance', 'wp-ai-chatbot'),
+			[$this, 'render_compliance_section_description'],
+			$this->get_slug()
+		);
+
+		add_settings_field(
+			'wpaic_ai_disclosure_enabled',
+			__('AI Disclosure Notice', 'wp-ai-chatbot'),
+			[$this, 'render_ai_disclosure_enabled_field'],
+			$this->get_slug(),
+			'wpaic_general_compliance_section'
+		);
+
+		add_settings_field(
+			'wpaic_ai_disclosure_text',
+			__('Disclosure Text', 'wp-ai-chatbot'),
+			[$this, 'render_ai_disclosure_text_field'],
+			$this->get_slug(),
+			'wpaic_general_compliance_section'
+		);
 	}
 
 	// =========================================================================
@@ -282,6 +319,58 @@ class General_Page extends Admin_Page
 		/>
 		<p class="description">
 			<?php esc_html_e('Seconds before an AI provider request times out (5–300).', 'wp-ai-chatbot'); ?>
+		</p>
+		<?php
+	}
+
+	/** Render the compliance section description. */
+	public function render_compliance_section_description(): void
+	{
+		echo '<p>';
+		esc_html_e(
+			'Required disclosures under EU AI Act Article 50 (effective August 2, 2026) '
+			. 'and CA SB 1001. The notice is displayed non-dismissibly in the chat widget header.',
+			'wp-ai-chatbot'
+		);
+		echo '</p>';
+	}
+
+	/** Render the AI disclosure enabled toggle. */
+	public function render_ai_disclosure_enabled_field(): void
+	{
+		$enabled = (bool) get_option('wpaic_ai_disclosure_enabled', 0);
+		?>
+		<label>
+			<input
+				type="checkbox"
+				name="wpaic_ai_disclosure_enabled"
+				id="wpaic_ai_disclosure_enabled"
+				value="1"
+				<?php checked($enabled); ?>
+			/>
+			<?php esc_html_e('Show AI disclosure notice in chat widget header', 'wp-ai-chatbot'); ?>
+		</label>
+		<p class="description">
+			<?php esc_html_e('Recommended. Required for EU deployments from 1 August 2026.', 'wp-ai-chatbot'); ?>
+		</p>
+		<?php
+	}
+
+	/** Render the AI disclosure text textarea. */
+	public function render_ai_disclosure_text_field(): void
+	{
+		$default = 'You are chatting with an AI assistant. Your messages are processed to generate responses.';
+		$value = (string) get_option('wpaic_ai_disclosure_text', $default);
+		?>
+		<textarea
+			id="wpaic_ai_disclosure_text"
+			name="wpaic_ai_disclosure_text"
+			rows="3"
+			cols="60"
+			class="large-text"
+		><?php echo esc_textarea($value); ?></textarea>
+		<p class="description">
+			<?php esc_html_e('Displayed as a non-dismissible notice above the chat input. Keep it concise (one sentence).', 'wp-ai-chatbot'); ?>
 		</p>
 		<?php
 	}

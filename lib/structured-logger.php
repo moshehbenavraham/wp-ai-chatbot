@@ -13,6 +13,92 @@
 if (! defined('STRUCTURED_LOGGER_LOADED')) {
 	define('STRUCTURED_LOGGER_LOADED', true);
 
+	/**
+	 * Global structured log function for use throughout the plugin.
+	 *
+	 * Handles three calling conventions used across the codebase:
+	 *
+	 *   1. Simple:  wpaic_structured_log( $level, $msg, $context, $subsystem = 'plugin' )
+	 *               where $level ∈ {'debug','info','warn','error','critical'}
+	 *
+	 *   2. Subsystem-first:  wpaic_structured_log( $subsystem, $event, $context )
+	 *               where $subsystem is NOT a valid log level (e.g. 'security')
+	 *
+	 *   3. Audit:   wpaic_structured_log( $subsystem, $level, $event, $context )
+	 *               where $subsystem is NOT a valid log level and $context is array
+	 *               (e.g. Tool_Executor: wpaic_structured_log('audit','info','tool_executed',[...]))
+	 *
+	 * All forms write a JSON line to logs/app-{Y-m-d}.log (one line per entry).
+	 * The Audit_Logger::query() reader expects each line to have a 'subsystem' key.
+	 *
+	 * @param  string            $a1  Level or subsystem (see above).
+	 * @param  string            $a2  Message/event or level (see above).
+	 * @param  array|string      $a3  Context array, or event string (form 3).
+	 * @param  array|string      $a4  Subsystem, or context array (form 3).
+	 * @return void
+	 */
+	function wpaic_structured_log(string $a1, string $a2, $a3 = [], $a4 = ''): void
+	{
+		static $valid_levels = ['debug', 'info', 'warn', 'error', 'critical'];
+
+		if (is_array($a3)) {
+			// Forms 1 and 2: third arg is an array (context).
+			if (in_array($a1, $valid_levels, true)) {
+				// Form 1: (level, message, context, subsystem?)
+				$level = $a1;
+				$message = $a2;
+				$context = $a3;
+				$subsystem = is_string($a4) && '' !== $a4 ? $a4 : 'plugin';
+			} else {
+				// Form 2: (subsystem, event, context) — level implicitly 'info'
+				$subsystem = $a1;
+				$level = 'info';
+				$message = $a2;
+				$context = $a3;
+			}
+		} else {
+			// Form 3: (subsystem, level, event, context_array)
+			$subsystem = $a1;
+			$level = in_array($a2, $valid_levels, true) ? $a2 : 'info';
+			$message = is_string($a3) ? $a3 : '';
+			$context = is_array($a4) ? $a4 : [];
+		}
+
+		// Build a flat JSON log entry that Audit_Logger::query() can parse.
+		// Context is merged at the top level so event_type / other fields are
+		// directly accessible as JSON keys (audit entries pre-populate event_type).
+		$entry = array_merge(
+			[
+				'timestamp' => gmdate('Y-m-d\TH:i:s\Z'),
+				'level' => $level,
+				'subsystem' => $subsystem,
+				'msg' => $message,
+			],
+			$context
+		);
+
+		$json_line = wp_json_encode($entry, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+
+		if (false === $json_line) {
+			return;
+		}
+
+		// Write to daily rotating log file: logs/app-{Y-m-d}.log
+		$log_dir = defined('WPAIC_PLUGIN_DIR') ? rtrim(WPAIC_PLUGIN_DIR, '/') . '/logs' : '';
+
+		if ('' !== $log_dir) {
+			if (! is_dir($log_dir)) {
+				wp_mkdir_p($log_dir);
+			}
+			$log_file = $log_dir . '/app-' . gmdate('Y-m-d') . '.log';
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
+			file_put_contents($log_file, $json_line . "\n", FILE_APPEND | LOCK_EX);
+		} elseif (defined('WP_DEBUG') && WP_DEBUG) {
+			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+			error_log('[WPAIC][' . strtoupper($level) . '][' . $subsystem . '] ' . $message);
+		}
+	}
+
 	class Structured_Logger
 	{
 		/** @var string */

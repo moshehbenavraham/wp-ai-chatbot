@@ -102,12 +102,14 @@ abstract class Admin_Page
 						<a
 							href="<?php echo esc_url(add_query_arg('tab', $slug)); ?>"
 							class="nav-tab<?php echo $active_tab === $slug ? ' nav-tab-active' : ''; ?>"
+							<?php if ($active_tab === $slug) : ?>aria-current="page"<?php endif; ?>
 						>
 							<?php echo esc_html($label); ?>
 						</a>
 					<?php endforeach; ?>
 				</nav>
 			<?php endif; ?>
+			<main id="wpaic-main-content" aria-label="<?php esc_attr_e('Settings content', 'wp-ai-chatbot'); ?>">
 		<?php
 	}
 
@@ -118,7 +120,7 @@ abstract class Admin_Page
 	 */
 	protected function render_page_footer(): void
 	{
-		echo '</div><!-- .wpaic-admin-page -->';
+		echo '</main><!-- #wpaic-main-content -->' . "\n" . '</div><!-- .wpaic-admin-page -->';
 	}
 
 	/**

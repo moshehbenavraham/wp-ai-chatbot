@@ -24,6 +24,22 @@ if (! defined('ABSPATH')) {
 	exit;
 }
 
+// Resolve active appearance tokens from the Appearance_Page registry (Phase 12).
+if (class_exists('WPAIC\Admin\Pages\Appearance_Page')) {
+	$wpaic_tokens = \WPAIC\Admin\Pages\Appearance_Page::get_active_tokens();
+} else {
+	// Hardcoded fallback — matches dark-teal defaults in chatbot.css.
+	$wpaic_tokens = [
+		'bg_deep' => '#0F172A',
+		'bg_card' => '#1F2937',
+		'bg_input' => '#111827',
+		'accent' => '#22D3EE',
+		'accent_hover' => '#06B6D4',
+	];
+}
+$wpaic_position = sanitize_key((string) get_option('wpaic_appearance_widget_position', 'bottom-right'));
+$wpaic_show_power_by = (bool) get_option('wpaic_appearance_show_powered_by', 1);
+
 // Merge shortcode atts with option-driven defaults.
 $defaults = [
 	'bot_slug' => 'default',
@@ -52,10 +68,20 @@ $gdpr_message = wp_kses(
 );
 $gdpr_policy_url = esc_url($atts['gdpr_policy_url']);
 
+// AI Disclosure (EU AI Act Art. 50 / CA SB 1001) — non-dismissible.
+$disclosure_enabled = (bool) get_option('wpaic_ai_disclosure_enabled', 0);
+$disclosure_default = 'You are chatting with an AI assistant. Your messages are processed to generate responses.';
+$disclosure_text = (string) get_option('wpaic_ai_disclosure_text', $disclosure_default);
+if ('' === trim($disclosure_text)) {
+	$disclosure_text = $disclosure_default;
+}
+
 // Generate unique instance ID for this widget (allows multiple per page).
 static $instance_counter = 0;
 $instance_counter++;
 $instance_id = 'wpaic-' . $instance_counter;
+$panel_title_id = $instance_id . '-title';
+$panel_status_id = $instance_id . '-status';
 
 // Inline SVG icons (no external requests).
 $icon_chat = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></svg>';
@@ -64,12 +90,19 @@ $icon_bot = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hi
 $icon_send = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>';
 ?>
 <div
-	class="wpaic-widget"
+	class="wpaic-widget wpaic-widget--<?php echo esc_attr($wpaic_position); ?>"
 	data-wpaic-instance="<?php echo esc_attr($instance_id); ?>"
 	data-bot-slug="<?php echo esc_attr($bot_slug); ?>"
 	data-mode="<?php echo esc_attr($mode); ?>"
 	role="region"
 	aria-label="<?php esc_attr_e('AI Chat', 'wp-ai-chatbot'); ?>"
+	style="
+		--wpaic-bg-deep: <?php echo esc_attr($wpaic_tokens['bg_deep']); ?>;
+		--wpaic-bg-card: <?php echo esc_attr($wpaic_tokens['bg_card']); ?>;
+		--wpaic-bg-input: <?php echo esc_attr($wpaic_tokens['bg_input']); ?>;
+		--wpaic-accent: <?php echo esc_attr($wpaic_tokens['accent']); ?>;
+		--wpaic-accent-hover: <?php echo esc_attr($wpaic_tokens['accent_hover']); ?>;
+	"
 >
 	<?php if ('floating' === $mode) : ?>
 	<button
@@ -90,9 +123,11 @@ $icon_send = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-h
 		class="wpaic-panel"
 		id="<?php echo esc_attr($instance_id . '-panel'); ?>"
 		role="dialog"
-		aria-label="<?php echo esc_attr($title); ?>"
+		aria-modal="true"
+		aria-labelledby="<?php echo esc_attr($panel_title_id); ?>"
+		aria-describedby="<?php echo esc_attr($panel_status_id); ?>"
 		aria-hidden="true"
-		aria-live="polite"
+		tabindex="-1"
 	>
 		<!-- Panel header -->
 		<header class="wpaic-header">
@@ -103,8 +138,16 @@ $icon_send = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-h
 ?>
 			</div>
 			<div class="wpaic-header__info">
-				<div class="wpaic-header__title"><?php echo esc_html($title); ?></div>
-				<div class="wpaic-header__status">
+				<div
+					class="wpaic-header__title"
+					id="<?php echo esc_attr($panel_title_id); ?>"
+				><?php echo esc_html($title); ?></div>
+				<div
+					class="wpaic-header__status"
+					id="<?php echo esc_attr($panel_status_id); ?>"
+					aria-live="polite"
+					aria-atomic="true"
+				>
 					<?php esc_html_e('Online', 'wp-ai-chatbot'); ?>
 				</div>
 			</div>
@@ -122,11 +165,32 @@ echo $icon_close;
 			<?php endif; ?>
 		</header>
 
-		<!-- Message transcript -->
-		<div class="wpaic-transcript" role="log" aria-label="<?php esc_attr_e('Chat messages', 'wp-ai-chatbot'); ?>" aria-live="polite"></div>
+		<?php if ($disclosure_enabled) : ?>
+		<!-- AI disclosure notice — non-dismissible (EU AI Act Art. 50 / CA SB 1001) -->
+		<div
+			class="wpaic-disclosure"
+			role="note"
+			aria-label="<?php esc_attr_e('AI disclosure', 'wp-ai-chatbot'); ?>"
+		>
+			<?php echo esc_html($disclosure_text); ?>
+		</div>
+		<?php endif; ?>
+
+		<!-- Message transcript: role=log provides implicit aria-live=polite -->
+		<div
+			class="wpaic-transcript"
+			role="log"
+			aria-label="<?php esc_attr_e('Chat messages', 'wp-ai-chatbot'); ?>"
+			aria-live="polite"
+			aria-relevant="additions"
+		></div>
 
 		<!-- Suggestion chips container (populated by JS) -->
-		<div class="wpaic-suggestions" aria-label="<?php esc_attr_e('Suggested questions', 'wp-ai-chatbot'); ?>"></div>
+		<div
+			class="wpaic-suggestions"
+			role="group"
+			aria-label="<?php esc_attr_e('Suggested questions', 'wp-ai-chatbot'); ?>"
+		></div>
 
 		<?php if ($gdpr_enabled) : ?>
 		<!-- GDPR consent banner -->
@@ -147,7 +211,11 @@ echo $icon_close;
 				}
 ?>
 			</p>
-			<button class="wpaic-consent__accept" type="button">
+			<button
+				class="wpaic-consent__accept"
+				type="button"
+				aria-label="<?php esc_attr_e('I agree to the privacy policy and start chatting', 'wp-ai-chatbot'); ?>"
+			>
 				<?php esc_html_e('I Agree', 'wp-ai-chatbot'); ?>
 			</button>
 		</div>
@@ -194,6 +262,7 @@ echo $icon_close;
 				</button>
 			</form>
 
+			<?php if ($wpaic_show_power_by) : ?>
 			<p class="wpaic-powered-by">
 				<?php
 				printf(
@@ -202,8 +271,9 @@ echo $icon_close;
 					'<a href="https://wordpress.org" target="_blank" rel="noopener noreferrer">',
 					'</a>'
 				);
-?>
+				?>
 			</p>
+			<?php endif; ?>
 		</div>
 	</div>
 </div>

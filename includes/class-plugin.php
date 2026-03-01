@@ -70,6 +70,13 @@ final class Plugin
 			['WPAIC\Migration\Lifecycle_Manager', 'register_core_migrations']
 		);
 
+		// Register v1.0.1 migrations (priority 15 — after core 1.0.0, before integrations).
+		add_action(
+			'wpaic_register_migrations',
+			['WPAIC\Migration\Lifecycle_Manager', 'register_v101_migrations'],
+			15
+		);
+
 		// Register Phase 08 integration migrations (priority 20 — after core 1.0.0 tables).
 		add_action(
 			'wpaic_register_migrations',
@@ -79,6 +86,11 @@ final class Plugin
 
 		// Register custom cron interval before any event is scheduled.
 		add_filter('cron_schedules', [$this, 'add_cron_schedules']);
+
+		// CSV export handler — admin-post.php action (Phase 16).
+		if (class_exists('WPAIC\Admin\Pages\Transcripts_Page')) {
+			add_action('admin_post_wpaic_export_transcripts', ['WPAIC\Admin\Pages\Transcripts_Page', 'handle_export']);
+		}
 
 		// Build the filterable hook array (Baachal pattern).
 		$hooks = apply_filters('wpaic_register_hooks', $this->default_hooks());
@@ -275,6 +287,28 @@ final class Plugin
 		// Phase 09: Register security and privacy hooks early in init.
 		$this->register_core_security();
 
+		// Phase 17: Register Macro Router filter (wpaic_macro_route).
+		if (class_exists('WPAIC\Runtime\Macro_Router')) {
+			Runtime\Macro_Router::register_hooks();
+		}
+
+		// Phase 17: Inject per-bot tool assignments into resolved bot config.
+		// Reads `wpaic_bot_tools_{slug}` option and merges into bot['tools_enabled'].
+		add_filter('wpaic_resolve_bot', static function (array $bot, string $slug): array {
+			$option = get_option("wpaic_bot_tools_{$slug}", null);
+
+			// Only override if an explicit assignment has been saved.
+			if (null !== $option) {
+				if (is_string($option)) {
+					$option = json_decode($option, true) ?: [];
+				}
+				// Store as JSON string so Tool_Registry::get_enabled_for_bot() can decode it.
+				$bot['tools_enabled'] = wp_json_encode(array_values((array) $option));
+			}
+
+			return $bot;
+		}, 10, 2);
+
 		// Register the primary shortcode.
 		add_shortcode('wpaic_chatbot', [$this, 'render_chatbot_shortcode']);
 
@@ -407,6 +441,16 @@ final class Plugin
 			WPAIC_VERSION
 		);
 
+		// Phase 12 — Appearance: optionally load Google Fonts (Space Grotesk, Inter, JetBrains Mono).
+		if (get_option('wpaic_appearance_load_fonts', 0)) {
+			wp_enqueue_style(
+				'wpaic-fonts',
+				'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400&display=swap',
+				[],
+				null
+			);
+		}
+
 		wp_enqueue_script(
 			'wpaic-chatbot',
 			WPAIC_ASSETS_URL . 'js/chatbot.js',
@@ -535,6 +579,50 @@ final class Plugin
 		// Phase 09: purge chat sessions past the data retention period.
 		if (class_exists('WPAIC\Security\Privacy_Manager')) {
 			Security\Privacy_Manager::apply_retention_policy();
+		}
+
+		// Phase 11: rotate structured log files — delete daily log files older than 30 days.
+		$this->prune_log_files(30);
+	}
+
+	/**
+	 * Delete daily structured log files older than $days.
+	 *
+	 * Log files follow the naming pattern: logs/app-YYYY-MM-DD.log
+	 * Files outside the retention window are deleted to prevent unbounded disk growth.
+	 *
+	 * @param  int $days Number of days to retain log files.
+	 * @return void
+	 */
+	private function prune_log_files(int $days): void
+	{
+		if ($days <= 0) {
+			return;
+		}
+
+		$logs_dir = defined('WPAIC_PLUGIN_DIR') ? WPAIC_PLUGIN_DIR . 'logs/' : '';
+		if ('' === $logs_dir || ! is_dir($logs_dir)) {
+			return;
+		}
+
+		$cutoff = time() - ($days * DAY_IN_SECONDS);
+
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.glob_glob
+		$files = glob($logs_dir . 'app-*.log');
+		if (! is_array($files)) {
+			return;
+		}
+
+		foreach ($files as $file) {
+			// Extract date from filename: app-YYYY-MM-DD.log
+			$basename = basename($file, '.log');
+			$date_str = substr($basename, 4); // strip 'app-'
+			$file_time = strtotime($date_str);
+
+			if (false !== $file_time && $file_time < $cutoff) {
+				// phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink
+				@unlink($file);
+			}
 		}
 	}
 
@@ -792,6 +880,11 @@ final class Plugin
 			$this->register_migration_rest_routes();
 		}
 
+		// Register transcripts REST routes (Phase 16).
+		if (class_exists('WPAIC\Admin\Pages\Transcripts_Page')) {
+			$this->register_transcripts_rest_routes();
+		}
+
 		register_rest_route(
 			WPAIC_REST_NAMESPACE,
 			'/providers/validate',
@@ -894,6 +987,14 @@ final class Plugin
 	{
 		if (class_exists('WPAIC\Rag\Adapters\Posts_Source')) {
 			$registry->register('posts', new Rag\Adapters\Posts_Source());
+		}
+
+		if (class_exists('WPAIC\Rag\Adapters\Pdf_Source')) {
+			$registry->register('pdf', new Rag\Adapters\Pdf_Source());
+		}
+
+		if (class_exists('WPAIC\Rag\Adapters\Web_Source')) {
+			$registry->register('web', new Rag\Adapters\Web_Source());
 		}
 
 		if (class_exists('WooCommerce') && class_exists('WPAIC\WooCommerce\WC_Products_Source')) {
@@ -1061,6 +1162,68 @@ final class Plugin
 				'args' => ['id' => ['required' => true, 'type' => 'string']],
 			],
 		]);
+
+		// Action Catalog (Phase 16).
+		register_rest_route(WPAIC_REST_NAMESPACE, '/tools/catalog', [
+			['methods' => 'GET', 'callback' => [$page, 'rest_list_catalog'], 'permission_callback' => $admin_perm],
+		]);
+
+		register_rest_route(WPAIC_REST_NAMESPACE, '/tools/catalog/(?P<id>[^/]+)/test', [
+			['methods' => 'POST', 'callback' => [$page, 'rest_test_tool'], 'permission_callback' => $admin_perm,
+				'args' => [
+					'id' => ['required' => true, 'type' => 'string'],
+					'inputs' => ['required' => false, 'default' => []],
+				],
+			],
+		]);
+
+		// Routing rules (Phase 17).
+		register_rest_route(WPAIC_REST_NAMESPACE, '/tools/routing', [
+			['methods' => 'GET',  'callback' => [$page, 'rest_list_rules'],  'permission_callback' => $admin_perm],
+			['methods' => 'POST', 'callback' => [$page, 'rest_upsert_rule'], 'permission_callback' => $admin_perm,
+				'args' => [
+					'id' => ['required' => false, 'type' => 'string', 'default' => ''],
+					'name' => ['required' => true,  'type' => 'string', 'sanitize_callback' => 'sanitize_text_field'],
+					'pattern' => ['required' => true,  'type' => 'string'],
+					'pattern_type' => ['required' => false, 'type' => 'string', 'default' => 'keyword', 'enum' => ['keyword', 'regex']],
+					'action_type' => ['required' => false, 'type' => 'string', 'default' => 'direct_response', 'enum' => ['direct_response', 'call_tool']],
+					'action_data' => ['required' => true,  'type' => 'string'],
+					'priority' => ['required' => false, 'type' => 'integer', 'default' => 10],
+					'enabled' => ['required' => false, 'type' => 'boolean', 'default' => true],
+				],
+			],
+		]);
+
+		register_rest_route(WPAIC_REST_NAMESPACE, '/tools/routing/(?P<id>[a-z0-9_]+)', [
+			['methods' => 'DELETE', 'callback' => [$page, 'rest_delete_rule'], 'permission_callback' => $admin_perm,
+				'args' => ['id' => ['required' => true, 'type' => 'string']],
+			],
+		]);
+
+		// MCP auth (Phase 17).
+		register_rest_route(WPAIC_REST_NAMESPACE, '/tools/mcp/(?P<id>[a-z0-9_]+)/auth', [
+			['methods' => 'POST', 'callback' => [$page, 'rest_save_mcp_auth'], 'permission_callback' => $admin_perm,
+				'args' => [
+					'id' => ['required' => true,  'type' => 'string'],
+					'auth_type' => ['required' => true,  'type' => 'string', 'enum' => ['none', 'api_key', 'bearer', 'custom']],
+					'auth_header_name' => ['required' => false, 'type' => 'string', 'default' => ''],
+					'value' => ['required' => false, 'type' => 'string', 'default' => ''],
+				],
+			],
+		]);
+
+		// Bot tool assignments (Phase 17).
+		register_rest_route(WPAIC_REST_NAMESPACE, '/tools/bots/(?P<slug>[a-z0-9_-]+)/tools', [
+			['methods' => 'GET', 'callback' => [$page, 'rest_get_bot_tools'], 'permission_callback' => $admin_perm,
+				'args' => ['slug' => ['required' => true, 'type' => 'string']],
+			],
+			['methods' => 'PUT', 'callback' => [$page, 'rest_save_bot_tools'], 'permission_callback' => $admin_perm,
+				'args' => [
+					'slug' => ['required' => true,  'type' => 'string'],
+					'enabled' => ['required' => false, 'default' => []],
+				],
+			],
+		]);
 	}
 
 	/**
@@ -1068,9 +1231,13 @@ final class Plugin
 	 *
 	 * Called from register_provider_rest_routes() when Knowledge_Page is available.
 	 * Endpoints:
-	 *   POST   /wp-ai-chatbot/v1/knowledge              — create knowledge context
-	 *   POST   /wp-ai-chatbot/v1/knowledge/{id}/ingest  — trigger ingestion
-	 *   GET    /wp-ai-chatbot/v1/knowledge/{id}/status  — status and stats
+	 *   POST   /wp-ai-chatbot/v1/knowledge                     — create knowledge context
+	 *   POST   /wp-ai-chatbot/v1/knowledge/{id}/ingest         — trigger ingestion
+	 *   GET    /wp-ai-chatbot/v1/knowledge/{id}/status         — status and stats
+	 *   GET    /wp-ai-chatbot/v1/knowledge/{id}/search         — search console (Phase 15)
+	 *   GET    /wp-ai-chatbot/v1/knowledge/web-sources         — list web source entries
+	 *   POST   /wp-ai-chatbot/v1/knowledge/web-sources         — create/update web source
+	 *   DELETE /wp-ai-chatbot/v1/knowledge/web-sources/{id}   — delete web source
 	 *
 	 * @return void
 	 */
@@ -1078,15 +1245,17 @@ final class Plugin
 	{
 		$page = new Admin\Pages\Knowledge_Page();
 
+		$admin_perm = static function (): bool {
+			return current_user_can('manage_options');
+		};
+
 		register_rest_route(
 			WPAIC_REST_NAMESPACE,
 			'/knowledge',
 			[
 				'methods' => 'POST',
 				'callback' => [$page, 'rest_create_knowledge'],
-				'permission_callback' => static function (): bool {
-					return current_user_can('manage_options');
-				},
+				'permission_callback' => $admin_perm,
 				'args' => [
 					'name' => ['required' => true, 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field'],
 					'embedding_provider' => ['required' => false, 'type' => 'string', 'sanitize_callback' => 'sanitize_key', 'default' => 'openai'],
@@ -1101,9 +1270,7 @@ final class Plugin
 			[
 				'methods' => 'POST',
 				'callback' => [$page, 'rest_trigger_ingest'],
-				'permission_callback' => static function (): bool {
-					return current_user_can('manage_options');
-				},
+				'permission_callback' => $admin_perm,
 				'args' => [
 					'id' => ['required' => true, 'type' => 'integer', 'minimum' => 1],
 					'source_id' => ['required' => false, 'type' => 'string', 'sanitize_callback' => 'sanitize_key', 'default' => 'posts'],
@@ -1118,9 +1285,60 @@ final class Plugin
 			[
 				'methods' => 'GET',
 				'callback' => [$page, 'rest_get_status'],
-				'permission_callback' => static function (): bool {
-					return current_user_can('manage_options');
-				},
+				'permission_callback' => $admin_perm,
+				'args' => [
+					'id' => ['required' => true, 'type' => 'integer', 'minimum' => 1],
+				],
+			]
+		);
+
+		// Phase 15: search console endpoint.
+		register_rest_route(
+			WPAIC_REST_NAMESPACE,
+			'/knowledge/(?P<id>\d+)/search',
+			[
+				'methods' => 'GET',
+				'callback' => [$page, 'rest_search'],
+				'permission_callback' => $admin_perm,
+				'args' => [
+					'id' => ['required' => true, 'type' => 'integer', 'minimum' => 1],
+					'query' => ['required' => true, 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field'],
+					'limit' => ['required' => false, 'type' => 'integer', 'default' => 5, 'minimum' => 1, 'maximum' => 20],
+				],
+			]
+		);
+
+		// Phase 15: web source management endpoints.
+		register_rest_route(
+			WPAIC_REST_NAMESPACE,
+			'/knowledge/web-sources',
+			[
+				[
+					'methods' => 'GET',
+					'callback' => [$page, 'rest_list_web_sources'],
+					'permission_callback' => $admin_perm,
+				],
+				[
+					'methods' => 'POST',
+					'callback' => [$page, 'rest_upsert_web_source'],
+					'permission_callback' => $admin_perm,
+					'args' => [
+						'url' => ['required' => true, 'type' => 'string'],
+						'label' => ['required' => false, 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field', 'default' => ''],
+						'depth' => ['required' => false, 'type' => 'integer', 'default' => 1, 'minimum' => 1, 'maximum' => 3],
+						'id' => ['required' => false, 'type' => 'integer', 'default' => 0],
+					],
+				],
+			]
+		);
+
+		register_rest_route(
+			WPAIC_REST_NAMESPACE,
+			'/knowledge/web-sources/(?P<id>\d+)',
+			[
+				'methods' => 'DELETE',
+				'callback' => [$page, 'rest_delete_web_source'],
+				'permission_callback' => $admin_perm,
 				'args' => [
 					'id' => ['required' => true, 'type' => 'integer', 'minimum' => 1],
 				],
@@ -1415,6 +1633,77 @@ final class Plugin
 					'sanitize_callback' => 'sanitize_key',
 					'enum' => Migration\Migration_Runner::SOURCES,
 				],
+			],
+		]);
+	}
+
+	// =========================================================================
+	// Transcripts & Usage REST endpoints (Phase 16)
+	// =========================================================================
+
+	/**
+	 * Register Transcripts & Usage REST endpoints.
+	 *
+	 * Called from register_provider_rest_routes() when Transcripts_Page is available.
+	 * All endpoints require `manage_options` capability.
+	 *
+	 * GET    /transcripts/sessions           — paginated sessions list with filters
+	 * GET    /transcripts/sessions/{id}      — session + full message thread
+	 * DELETE /transcripts/sessions/{id}      — delete session and all its messages
+	 * GET    /transcripts/usage              — 30-day aggregated usage stats
+	 *
+	 * @return void
+	 */
+	private function register_transcripts_rest_routes(): void
+	{
+		$page = new Admin\Pages\Transcripts_Page();
+
+		$admin_perm = static function (): bool {
+			return current_user_can('manage_options');
+		};
+
+		// Session list with optional filters.
+		register_rest_route(WPAIC_REST_NAMESPACE, '/transcripts/sessions', [
+			[
+				'methods' => 'GET',
+				'callback' => [$page, 'rest_list_sessions'],
+				'permission_callback' => $admin_perm,
+				'args' => [
+					'per_page' => ['required' => false, 'type' => 'integer', 'default' => 25, 'minimum' => 1, 'maximum' => 100],
+					'page' => ['required' => false, 'type' => 'integer', 'default' => 1, 'minimum' => 1],
+					'status' => ['required' => false, 'type' => 'string', 'default' => ''],
+					'date_from' => ['required' => false, 'type' => 'string', 'default' => ''],
+					'date_to' => ['required' => false, 'type' => 'string', 'default' => ''],
+				],
+			],
+		]);
+
+		// Single session with full message thread.
+		register_rest_route(WPAIC_REST_NAMESPACE, '/transcripts/sessions/(?P<id>\d+)', [
+			[
+				'methods' => 'GET',
+				'callback' => [$page, 'rest_get_session'],
+				'permission_callback' => $admin_perm,
+				'args' => [
+					'id' => ['required' => true, 'type' => 'integer', 'minimum' => 1],
+				],
+			],
+			[
+				'methods' => 'DELETE',
+				'callback' => [$page, 'rest_delete_session'],
+				'permission_callback' => $admin_perm,
+				'args' => [
+					'id' => ['required' => true, 'type' => 'integer', 'minimum' => 1],
+				],
+			],
+		]);
+
+		// Aggregated usage statistics.
+		register_rest_route(WPAIC_REST_NAMESPACE, '/transcripts/usage', [
+			[
+				'methods' => 'GET',
+				'callback' => [$page, 'rest_usage_stats'],
+				'permission_callback' => $admin_perm,
 			],
 		]);
 	}

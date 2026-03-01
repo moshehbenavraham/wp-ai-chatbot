@@ -216,6 +216,32 @@ final class Lifecycle_Manager
 	}
 
 	/**
+	 * Register v1.0.1 migrations — adds tool_calls column to messages table.
+	 *
+	 * Hooked to `wpaic_register_migrations` at priority 15.
+	 * dbDelta is idempotent: re-running create_messages_table() adds the
+	 * tool_calls column to existing tables without touching existing data.
+	 *
+	 * @param  Migration_Registry $registry The migration registry instance.
+	 * @return void
+	 */
+	public static function register_v101_migrations(Migration_Registry $registry): void
+	{
+		$registry->register([
+			'version' => '1.0.1',
+			'domain' => 'runtime',
+			'description' => 'Add tool_calls column to messages table',
+			'callback' => [static::class, 'create_messages_table'],
+			'validate' => [
+				[
+					'table' => 'wpaic_messages',
+					'columns' => ['id', 'session_id', 'role', 'message', 'tool_calls', 'created_at'],
+				],
+			],
+		]);
+	}
+
+	/**
 	 * Register all core MVP table creation migrations.
 	 *
 	 * Hooked to `wpaic_register_migrations` from Plugin::register_hooks().
@@ -369,6 +395,7 @@ final class Lifecycle_Manager
   completion_tokens int(10) UNSIGNED DEFAULT NULL,
   cost_micros bigint(20) DEFAULT NULL,
   rag_context longtext DEFAULT NULL,
+  tool_calls longtext DEFAULT NULL,
   created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY  (id),
   KEY idx_session_id (session_id,id),

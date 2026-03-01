@@ -175,8 +175,9 @@ final class Mcp_Registry
 			}
 		));
 
-		// Clear cached tool list for this server.
+		// Clear cached tool list and auth credentials for this server.
 		delete_option(self::TOOLS_OPTION_PREFIX . $id);
+		$this->delete_auth($id);
 
 		return $this->save_servers($servers);
 	}
@@ -187,6 +188,9 @@ final class Mcp_Registry
 
 	/**
 	 * Return (or lazily create) an Mcp_Client for a given server ID.
+	 *
+	 * Auth headers (encrypted) are resolved from Settings_Manager and merged
+	 * into the client config so no plaintext credentials are stored in options.
 	 *
 	 * @param  string $server_id
 	 * @return Mcp_Client|null  Null if the server is not found or disabled.
@@ -221,9 +225,173 @@ final class Mcp_Registry
 		 */
 		$config = (array) apply_filters('wpaic_mcp_server_config', $config, $id);
 
+		// Merge decrypted auth headers (Phase 17). These override any header
+		// values stored in plain text in the server config array.
+		$auth_headers = $this->get_auth_headers($id);
+		if (! empty($auth_headers)) {
+			$existing_headers = $config['headers'] ?? [];
+			if (is_string($existing_headers)) {
+				$existing_headers = json_decode($existing_headers, true) ?: [];
+			}
+			$config['headers'] = array_merge((array) $existing_headers, $auth_headers);
+		}
+
 		$this->clients[$id] = new Mcp_Client($config);
 
 		return $this->clients[$id];
+	}
+
+	// =========================================================================
+	// Auth header management (Phase 17)
+	// =========================================================================
+
+	/**
+	 * Resolve decrypted auth headers for a server.
+	 *
+	 * Auth configuration is stored as two separate pieces:
+	 *   1. Non-sensitive: auth_type + auth_header_name in the server config array.
+	 *   2. Sensitive: the header VALUE is encrypted via Settings_Manager under
+	 *      `wpaic_mcp_auth_value_{server_id}`.
+	 *
+	 * Supported auth_type values:
+	 *   'none'     — no auth headers injected
+	 *   'api_key'  — injects `{auth_header_name}: {decrypted_value}` (e.g. X-API-Key)
+	 *   'bearer'   — injects `Authorization: Bearer {decrypted_value}`
+	 *   'custom'   — injects `{auth_header_name}: {decrypted_value}`
+	 *
+	 * @param  string $server_id
+	 * @return array  Header key → value map (empty if auth not configured or no value).
+	 */
+	public function get_auth_headers(string $server_id): array
+	{
+		$id = sanitize_key($server_id);
+		$servers = $this->get_servers();
+
+		$auth_type = 'none';
+		$auth_header_name = '';
+
+		foreach ($servers as $s) {
+			if (sanitize_key($s['id'] ?? '') === $id) {
+				$auth_type = (string) ($s['auth_type'] ?? 'none');
+				$auth_header_name = (string) ($s['auth_header_name'] ?? '');
+				break;
+			}
+		}
+
+		if ('none' === $auth_type) {
+			return [];
+		}
+
+		// Decrypt the stored auth value.
+		$option_key = "wpaic_mcp_auth_value_{$id}";
+
+		if (class_exists('WPAIC\Admin\Settings_Manager')) {
+			$value = (string) \WPAIC\Admin\Settings_Manager::get($option_key, '');
+		} else {
+			$value = (string) get_option($option_key, '');
+		}
+
+		if ('' === $value) {
+			return [];
+		}
+
+		if ('bearer' === $auth_type) {
+			return ['Authorization' => 'Bearer ' . $value];
+		}
+
+		// api_key or custom: use the configured header name.
+		$header_name = '' !== $auth_header_name ? $auth_header_name : 'Authorization';
+
+		return [$header_name => $value];
+	}
+
+	/**
+	 * Save auth configuration for a server.
+	 *
+	 * The header NAME and auth_type are stored in the server config (non-sensitive).
+	 * The header VALUE is stored encrypted via Settings_Manager.
+	 *
+	 * @param  string $server_id   Server ID.
+	 * @param  string $auth_type   'none' | 'api_key' | 'bearer' | 'custom'
+	 * @param  string $header_name Header name (for api_key/custom types; ignored for bearer).
+	 * @param  string $value       Secret value (will be encrypted).
+	 * @return bool
+	 */
+	public function save_auth(string $server_id, string $auth_type, string $header_name, string $value): bool
+	{
+		$id = sanitize_key($server_id);
+
+		if ('' === $id) {
+			return false;
+		}
+
+		$valid_types = ['none', 'api_key', 'bearer', 'custom'];
+		$auth_type = in_array($auth_type, $valid_types, true) ? $auth_type : 'none';
+
+		// Persist non-sensitive config into the server record.
+		$servers = $this->get_servers();
+		$found = false;
+
+		foreach ($servers as $i => $existing) {
+			if (sanitize_key($existing['id'] ?? '') === $id) {
+				$servers[$i]['auth_type'] = $auth_type;
+				$servers[$i]['auth_header_name'] = sanitize_text_field($header_name);
+				$found = true;
+				break;
+			}
+		}
+
+		if (! $found) {
+			return false; // Server must exist before saving auth.
+		}
+
+		// Invalidate cached client so it will be rebuilt with new headers.
+		unset($this->clients[$id]);
+
+		$option_key = "wpaic_mcp_auth_value_{$id}";
+
+		// If 'none', clear the stored value.
+		if ('none' === $auth_type || '' === $value) {
+			// Clear the encrypted secret.
+			delete_option($option_key);
+
+			// Clear auth config from server record too.
+			foreach ($servers as $i => $existing) {
+				if (sanitize_key($existing['id'] ?? '') === $id) {
+					unset($servers[$i]['auth_type'], $servers[$i]['auth_header_name']);
+					break;
+				}
+			}
+
+			return $this->save_servers($servers);
+		}
+
+		// Persist the server config updates (auth_type + header_name).
+		$saved_config = $this->save_servers($servers);
+
+		// Encrypt and save the secret value via Settings_Manager.
+		if (class_exists('WPAIC\Admin\Settings_Manager')) {
+			\WPAIC\Admin\Settings_Manager::get_instance()->set($option_key, $value);
+		} else {
+			update_option($option_key, $value, false);
+		}
+
+		return $saved_config;
+	}
+
+	/**
+	 * Remove all auth configuration for a server (called on server delete).
+	 *
+	 * @param  string $server_id
+	 * @return void
+	 */
+	public function delete_auth(string $server_id): void
+	{
+		$id = sanitize_key($server_id);
+		$option_key = "wpaic_mcp_auth_value_{$id}";
+
+		delete_option($option_key);
+		unset($this->clients[$id]);
 	}
 
 	// =========================================================================
