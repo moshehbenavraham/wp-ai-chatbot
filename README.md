@@ -17,14 +17,28 @@ npm test
 
 ```
 .
-|-- axiachat-ai/           # Reference plugin (read-only)
-|-- baachal/               # Reference plugin (read-only)
-|-- mxchat-basic/          # Reference plugin (read-only)
-|-- docs/                  # Project documentation and feature maps
-|-- lib/                   # Shared infrastructure libraries
-|-- tests/                 # PHP and JS test suites
-|-- .spec_system/          # Specification-driven delivery system
-|-- .github/workflows/     # CI/CD pipelines
+|-- wp-ai-chatbot.php      # Main plugin bootstrap (constants, lifecycle hooks)
+|-- uninstall.php          # Clean uninstall handler
+|-- includes/              # Plugin PHP classes (autoloaded via WPAIC\ namespace)
+|   |-- admin/             # Admin pages, router, settings manager
+|   |-- migration/         # Lifecycle manager, migration registry, migrators
+|   |-- provider/          # Provider interface, registry, adapters (OpenAI/Claude/Gemini)
+|   |-- rag/               # Content sources, embeddings, chunker, ingestion, retrieval
+|   |-- runtime/           # Session manager, message pipeline, output formatter
+|   |-- security/          # Encryption, sanitizer, auth enforcer, audit logger, moderator
+|   |-- tools/             # Tool interface, registry, executor, continuation loop
+|   |-- mcp/               # MCP client, registry, tool adapter
+|   |-- woocommerce/       # WooCommerce/HPOS integration
+|   \-- integrations/      # Third-party integrations
+|-- admin/                 # Admin CSS/JS assets
+|-- assets/                # Frontend CSS/JS/images
+|-- templates/             # PHP templates (chatbot-widget.php)
+|-- lib/                   # Shared infrastructure (health, rate limiter, backup, logger)
+|-- tests/                 # PHP and JS test suites (215 PHP + 26 JS)
+|-- docs/                  # Project documentation
+|-- languages/             # i18n (POT file)
+|-- .spec_system/          # Specification-driven delivery artifacts
+|-- .github/workflows/     # CI/CD pipelines (6 workflows)
 \-- logs/                  # Runtime log output (gitignored)
 ```
 
@@ -33,8 +47,13 @@ npm test
 - [Getting Started](docs/onboarding.md)
 - [Development Guide](docs/development.md)
 - [Architecture](docs/ARCHITECTURE.md)
+- [Admin Guide](docs/admin-guide.md)
+- [Migration Guide](docs/migration-guide.md)
+- [REST API Reference](docs/api/rest-endpoints.md)
 - [Deployment](docs/deployment.md)
 - [Contributing](CONTRIBUTING.md)
+- [Known Limitations](docs/known-limitations.md)
+- [Changelog](docs/CHANGELOG.md)
 
 ## Tech Stack
 
@@ -57,13 +76,15 @@ npm test
 
 ## Project Status
 
-Phases 00-01 (planning and capability scoring) are complete. Phase 02 (Target Architecture and Module Contracts) is in progress (1/7 sessions). See [PRD](.spec_system/PRD/PRD.md) for the full phase plan and roadmap.
+All 21 phases are complete. The plugin is GA-ready. See [GA Checklist](docs/ga-checklist.md) for full readiness status and [PRD](.spec_system/PRD/PRD.md) for the original phase plan.
 
-### Phase Progress
+### Phase Summary
 
-| Phase | Name | Status |
-|-------|------|--------|
-| 00 | Program Setup and Extraction Schema | Complete |
-| 01 | Canonical Capability Matrix and Scoring | Complete |
-| 02 | Target Architecture and Module Contracts | In Progress (1/7) |
-| 03-11 | Implementation through GA Readiness | Planned |
+| Phases | Scope | Status |
+|--------|-------|--------|
+| 00-02 | Planning, capability scoring, architecture contracts | Complete |
+| 03-07 | Core skeleton, providers, runtime, RAG, tools | Complete |
+| 08-11 | WooCommerce, security hardening, migration, GA docs | Complete |
+| 12-14 | Design system, admin UX, WCAG 2.2 AA accessibility | Complete |
+| 15-16 | PDF/web sources, transcripts, usage dashboard | Complete |
+| 17-21 | Advanced integrations, test suite, logging, final QA | Complete |

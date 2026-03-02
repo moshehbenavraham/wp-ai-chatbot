@@ -1,6 +1,6 @@
 # WP AI Chatbot — GA Readiness Checklist
 
-> Version 1.0.0 · Last updated 2026-03-01
+> Version 1.0.2 · Last updated 2026-03-02
 
 All items must be checked before publishing to the WordPress.org plugin directory.
 
@@ -140,15 +140,26 @@ All items must be checked before publishing to the WordPress.org plugin director
 - [x] GA Checklist (this file)
 - [x] CHANGELOG.md
 
+## Completed Post-GA Phases
+
+- [x] Design system — tokens, palettes, typography (Phase 12)
+- [x] Interaction patterns — toasts, modals, drawers, validation (Phase 13)
+- [x] WCAG 2.2 AA — keyboard nav, focus traps, ARIA, responsive (Phase 14)
+- [x] PDF + web scraper content sources (Phase 15)
+- [x] Transcripts + usage dashboard + action catalog (Phase 16)
+- [x] Advanced integrations — macro router, MCP auth, bot tools (Phase 17)
+- [x] Unit test suite — 168 PHP tests, 279 assertions (Phase 18)
+- [x] Integration tests + JS tests — 215 PHP / 26 JS total (Phase 19)
+- [x] Logging foundation + tool call history (Phase 20)
+- [x] Final quality pass + operations CI (Phase 21)
+
 ## Deferred (Not Blocking GA)
 
-- [ ] Design system (Phase 12)
-- [ ] Interaction patterns (Phase 13)
-- [ ] Full WCAG 2.2 AA audit (Phase 14)
-- [ ] PDF + web scraper content sources (Phase 15)
-- [ ] Transcripts + admin dashboards (Phase 16)
-- [ ] Advanced integrations (Phase 17)
-- [ ] E2E test suite (Phase 18)
+- [ ] 5-year server-side GDPR consent records (see known-limitations.md)
+- [ ] Appointment scheduling (Bookly/Amelia integration)
+- [ ] Translation toolbar
+- [ ] Usage chart/graph visualization
+- [ ] Full tools x roles permission matrix
 
 ---
 
@@ -161,9 +172,10 @@ All items must be checked before publishing to the WordPress.org plugin director
 | Chat Widget | ✅ Ready | |
 | Security / Privacy | ✅ Ready | 5-year consent records deferred |
 | Legal / Compliance | ✅ Ready | EU AI Act Art. 50 & CA SB 1001 addressed |
-| RAG Pipeline | ✅ Ready | PDF/web scraper deferred to Phase 15 |
-| Tools / MCP | ✅ Ready | |
-| Admin UI | ✅ Ready | Transcripts/dashboards deferred to Phase 16 |
+| RAG Pipeline | ✅ Ready | PDF + web scraper included |
+| Tools / MCP | ✅ Ready | Macro router + MCP auth included |
+| Admin UI | ✅ Ready | All 9 admin pages complete |
 | Migration | ✅ Ready | |
-| CI/CD | ✅ Ready | |
+| CI/CD | ✅ Ready | 6 workflows + Dependabot |
+| Testing | ✅ Ready | 215 PHP + 26 JS tests |
 | Documentation | ✅ Ready | |

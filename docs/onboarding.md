@@ -46,10 +46,15 @@ docker run --rm -v "$(pwd):/app" -w /app composer:2 install
 
 | Directory | Purpose |
 |-----------|---------|
-| `axiachat-ai/`, `mxchat-basic/`, `baachal/` | Read-only reference plugins |
-| `lib/` | Shared infrastructure libraries |
-| `tests/php/`, `tests/js/` | Test suites |
+| `includes/` | Plugin PHP classes (autoloaded via `WPAIC\` namespace) |
+| `admin/` | Admin CSS/JS assets |
+| `assets/` | Frontend CSS/JS/images |
+| `templates/` | PHP templates (chatbot widget) |
+| `lib/` | Shared infrastructure (health, rate limiter, backup, logger) |
+| `tests/php/`, `tests/js/` | Test suites (215 PHP + 26 JS) |
 | `docs/` | Project documentation |
+| `languages/` | i18n POT file |
+| `axiachat-ai/`, `mxchat-basic/`, `baachal/` | Read-only reference plugins |
 | `.spec_system/` | Specification-driven delivery artifacts |
 
 ## Common Issues

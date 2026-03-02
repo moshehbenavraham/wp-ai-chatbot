@@ -27,26 +27,24 @@
  * @since   1.0.0
  */
 
-(function (global) {
-	'use strict';
-
+((global) => {
 	// =========================================================================
 	// Module constants
 	// =========================================================================
 
-	var AUTOSAVE_DEBOUNCE_MS = 500;
-	var AUTOSAVE_SUCCESS_MS = 800;
-	var TOAST_DEFAULT_DURATION = 3000; // 3s default; 5s max recommended
-	var PROGRESS_BAR_DELAY_MS = 3000; // Progress bar appears after this delay
-	var MAX_CONCURRENT_ANIMS = 3; // Per viewport quadrant
-	var SCROLL_REVEAL_DURATION = 600; // Must match --wpaic-dur-reveal in CSS
-	var ANIM_EXIT_FALLBACK_MS = 400; // Safety timeout for exit animations
+	const AUTOSAVE_DEBOUNCE_MS = 500;
+	const AUTOSAVE_SUCCESS_MS = 800;
+	const TOAST_DEFAULT_DURATION = 3000; // 3s default; 5s max recommended
+	const PROGRESS_BAR_DELAY_MS = 3000; // Progress bar appears after this delay
+	const MAX_CONCURRENT_ANIMS = 3; // Per viewport quadrant
+	const SCROLL_REVEAL_DURATION = 600; // Must match --wpaic-dur-reveal in CSS
+	const ANIM_EXIT_FALLBACK_MS = 400; // Safety timeout for exit animations
 
 	// =========================================================================
 	// Reduced-motion query (read once, stable for the session)
 	// =========================================================================
 
-	var prefersReducedMotion = global.matchMedia && global.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	const prefersReducedMotion = global.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 
 	// =========================================================================
 	// Animation concurrency controller
@@ -54,7 +52,7 @@
 	// how many animations are active in each region.
 	// =========================================================================
 
-	var animCounts = { TL: 0, TR: 0, BL: 0, BR: 0 };
+	const animCounts = { TL: 0, TR: 0, BL: 0, BR: 0 };
 
 	/**
 	 * Return the viewport quadrant key for an element's current position.
@@ -63,9 +61,9 @@
 	 * @return {string}  'TL' | 'TR' | 'BL' | 'BR'
 	 */
 	function quadrantOf(el) {
-		var rect = el.getBoundingClientRect();
-		var col = rect.left < global.innerWidth / 2 ? 'L' : 'R';
-		var row = rect.top < global.innerHeight / 2 ? 'T' : 'B';
+		const rect = el.getBoundingClientRect();
+		const col = rect.left < global.innerWidth / 2 ? 'L' : 'R';
+		const row = rect.top < global.innerHeight / 2 ? 'T' : 'B';
 		return row + col;
 	}
 
@@ -88,9 +86,9 @@
 	 * @param {number}  durationMs
 	 */
 	function trackAnimation(el, durationMs) {
-		var key = quadrantOf(el);
+		const key = quadrantOf(el);
 		animCounts[key] = (animCounts[key] || 0) + 1;
-		setTimeout(function () {
+		setTimeout(() => {
 			animCounts[key] = Math.max(0, (animCounts[key] || 1) - 1);
 		}, durationMs);
 	}
@@ -116,10 +114,10 @@
 	 * @return {Element}
 	 */
 	function ce(tag, attrs, children) {
-		var el = document.createElement(tag);
+		const el = document.createElement(tag);
 
 		if (attrs) {
-			Object.keys(attrs).forEach(function (k) {
+			Object.keys(attrs).forEach((k) => {
 				if (k === 'className') {
 					el.className = attrs[k];
 				} else if (k === 'textContent') {
@@ -133,10 +131,10 @@
 		}
 
 		if (children) {
-			children.forEach(function (c) {
+			children.forEach((c) => {
 				if (typeof c === 'string') {
 					el.appendChild(document.createTextNode(c));
-				} else if (c && c.nodeType) {
+				} else if (c?.nodeType) {
 					el.appendChild(c);
 				}
 			});
@@ -153,7 +151,7 @@
 	 * @return {Element|null}
 	 */
 	function svgIcon(type) {
-		var paths = {
+		const paths = {
 			success:
 				'<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>',
 			error: '<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>',
@@ -166,7 +164,7 @@
 
 		if (!paths[type]) return null;
 
-		var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+		const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
 		svg.setAttribute('viewBox', '0 0 20 20');
 		svg.setAttribute('fill', 'currentColor');
 		svg.setAttribute('width', '18');
@@ -185,7 +183,7 @@
 	 * @param {number}   fallbackMs
 	 */
 	function onAnimEnd(el, callback, fallbackMs) {
-		var called = false;
+		let called = false;
 
 		function done() {
 			if (called) return;
@@ -203,7 +201,7 @@
 	// Transient notifications — bottom-right, auto-dismiss (default 3s).
 	// =========================================================================
 
-	var _toastContainer = null;
+	let _toastContainer = null;
 
 	function getToastContainer() {
 		if (!_toastContainer) {
@@ -219,7 +217,7 @@
 		return _toastContainer;
 	}
 
-	var toast = {
+	const toast = {
 		/**
 		 * Show a toast notification.
 		 *
@@ -231,28 +229,28 @@
 		 *   @param {boolean} opts.dismissible  Show × button. Default: true
 		 * @return {Element}  The toast element.
 		 */
-		show: function (message, type, opts) {
+		show: (message, type, opts) => {
 			type = type || 'info';
 			opts = opts || {};
 
-			var duration = opts.duration !== undefined ? opts.duration : TOAST_DEFAULT_DURATION;
-			var dismissible = opts.dismissible !== false;
+			const duration = opts.duration !== undefined ? opts.duration : TOAST_DEFAULT_DURATION;
+			const dismissible = opts.dismissible !== false;
 
-			var el = ce('div', {
-				className: 'wpaic-toast wpaic-toast--' + type,
+			const el = ce('div', {
+				className: `wpaic-toast wpaic-toast--${type}`,
 				role: 'status',
 				'aria-live': 'assertive',
 				'aria-atomic': 'true',
 			});
 
 			// Icon.
-			var iconEl = ce('span', { className: 'wpaic-toast__icon wpaic-toast__icon--' + type });
-			var iconNode = svgIcon(type);
+			const iconEl = ce('span', { className: `wpaic-toast__icon wpaic-toast__icon--${type}` });
+			const iconNode = svgIcon(type);
 			if (iconNode) iconEl.appendChild(iconNode);
 			el.appendChild(iconEl);
 
 			// Body.
-			var bodyEl = ce('div', { className: 'wpaic-toast__body' });
+			const bodyEl = ce('div', { className: 'wpaic-toast__body' });
 			if (opts.title) {
 				bodyEl.appendChild(ce('div', { className: 'wpaic-toast__title', textContent: opts.title }));
 			}
@@ -261,14 +259,14 @@
 
 			// Dismiss button.
 			if (dismissible) {
-				var dismissBtn = ce('button', {
+				const dismissBtn = ce('button', {
 					className: 'wpaic-toast__dismiss',
 					type: 'button',
 					'aria-label': 'Dismiss notification',
 				});
-				var closeIcon = svgIcon('close');
+				const closeIcon = svgIcon('close');
 				if (closeIcon) dismissBtn.appendChild(closeIcon);
-				dismissBtn.addEventListener('click', function () {
+				dismissBtn.addEventListener('click', () => {
 					toast._dismiss(el);
 				});
 				el.appendChild(dismissBtn);
@@ -278,7 +276,7 @@
 
 			// Auto-dismiss.
 			if (duration > 0) {
-				setTimeout(function () {
+				setTimeout(() => {
 					toast._dismiss(el);
 				}, duration);
 			}
@@ -287,12 +285,12 @@
 		},
 
 		/** @private */
-		_dismiss: function (el) {
+		_dismiss: (el) => {
 			if (!el.parentNode) return;
 			el.classList.add('wpaic-toast--exiting');
 			onAnimEnd(
 				el,
-				function () {
+				() => {
 					if (el.parentNode) el.parentNode.removeChild(el);
 				},
 				350,
@@ -305,7 +303,7 @@
 	// Persistent in-page banners — top of content area, manual dismiss.
 	// =========================================================================
 
-	var banner = {
+	const banner = {
 		/**
 		 * Insert a dismissible banner at the top of a container element.
 		 *
@@ -316,29 +314,29 @@
 		 *   @param {boolean} opts.dismissible  Default: true
 		 * @return {Element}  The banner element.
 		 */
-		show: function (container, message, type, opts) {
+		show: (container, message, type, opts) => {
 			type = type || 'info';
 			opts = opts || {};
-			var dismissible = opts.dismissible !== false;
+			const dismissible = opts.dismissible !== false;
 
-			var el = ce('div', {
-				className: 'wpaic-banner wpaic-banner--' + type,
+			const el = ce('div', {
+				className: `wpaic-banner wpaic-banner--${type}`,
 				role: 'alert',
 			});
 
-			var bodyEl = ce('div', { className: 'wpaic-banner__body' });
+			const bodyEl = ce('div', { className: 'wpaic-banner__body' });
 			bodyEl.innerHTML = message; // Admin context — caller controls content.
 			el.appendChild(bodyEl);
 
 			if (dismissible) {
-				var dismissBtn = ce('button', {
+				const dismissBtn = ce('button', {
 					className: 'wpaic-banner__dismiss',
 					type: 'button',
 					'aria-label': 'Dismiss',
 				});
-				var closeIcon = svgIcon('close');
+				const closeIcon = svgIcon('close');
 				if (closeIcon) dismissBtn.appendChild(closeIcon);
-				dismissBtn.addEventListener('click', function () {
+				dismissBtn.addEventListener('click', () => {
 					banner.dismiss(el);
 				});
 				el.appendChild(dismissBtn);
@@ -355,8 +353,8 @@
 		 *
 		 * @param {Element} el  The banner element returned by banner.show().
 		 */
-		dismiss: function (el) {
-			if (el && el.parentNode) {
+		dismiss: (el) => {
+			if (el?.parentNode) {
 				el.parentNode.removeChild(el);
 			}
 		},
@@ -367,7 +365,7 @@
 	// Confirmation dialogs for destructive actions only. Returns a Promise.
 	// =========================================================================
 
-	var modal = {
+	const modal = {
 		_triggerEl: null,
 
 		/**
@@ -381,15 +379,15 @@
 		 *   @param {boolean} opts.destructive   true = red confirm button. Default: true
 		 * @return {Promise<boolean>}  Resolves true on confirm, false on cancel/escape.
 		 */
-		confirm: function (opts) {
+		confirm: (opts) => {
 			opts = opts || {};
 
-			return new Promise(function (resolve) {
+			return new Promise((resolve) => {
 				// Store focus so we can restore it on close.
 				modal._triggerEl = document.activeElement;
 
 				// Backdrop overlay.
-				var overlay = ce('div', {
+				const overlay = ce('div', {
 					className: 'wpaic-modal-overlay',
 					role: 'dialog',
 					'aria-modal': 'true',
@@ -398,10 +396,10 @@
 				});
 
 				// Modal panel.
-				var modalEl = ce('div', { className: 'wpaic-modal' });
+				const modalEl = ce('div', { className: 'wpaic-modal' });
 
 				// Header.
-				var header = ce('div', { className: 'wpaic-modal__header' });
+				const header = ce('div', { className: 'wpaic-modal__header' });
 				header.appendChild(
 					ce('h2', {
 						className: 'wpaic-modal__title',
@@ -421,19 +419,19 @@
 				);
 
 				// Footer.
-				var footer = ce('div', { className: 'wpaic-modal__footer' });
+				const footer = ce('div', { className: 'wpaic-modal__footer' });
 
-				var cancelBtn = ce('button', {
+				const cancelBtn = ce('button', {
 					className: 'wpaic-modal__btn-cancel',
 					type: 'button',
 					textContent: opts.cancelLabel || 'Cancel',
 				});
 
-				var confirmClass = 'wpaic-modal__btn-confirm';
+				let confirmClass = 'wpaic-modal__btn-confirm';
 				if (opts.destructive === false) {
 					confirmClass += ' wpaic-modal__btn-confirm--primary';
 				}
-				var confirmBtn = ce('button', {
+				const confirmBtn = ce('button', {
 					className: confirmClass,
 					type: 'button',
 					textContent: opts.confirmLabel || 'Confirm',
@@ -446,20 +444,20 @@
 				document.body.appendChild(overlay);
 
 				// Default focus: cancel button (safer for destructive modals).
-				setTimeout(function () {
+				setTimeout(() => {
 					cancelBtn.focus();
 				}, 50);
 
 				// Focus trap — cycle between cancel and confirm only.
-				var focusable = [cancelBtn, confirmBtn];
+				const focusable = [cancelBtn, confirmBtn];
 
-				overlay.addEventListener('keydown', function (e) {
+				overlay.addEventListener('keydown', (e) => {
 					if (e.key === 'Escape') {
 						closeModal(false);
 						return;
 					}
 					if (e.key === 'Tab') {
-						var idx = focusable.indexOf(document.activeElement);
+						let idx = focusable.indexOf(document.activeElement);
 						idx = e.shiftKey
 							? (idx - 1 + focusable.length) % focusable.length
 							: (idx + 1) % focusable.length;
@@ -469,20 +467,20 @@
 				});
 
 				// Backdrop click closes with cancel.
-				overlay.addEventListener('click', function (e) {
+				overlay.addEventListener('click', (e) => {
 					if (e.target === overlay) closeModal(false);
 				});
 
-				cancelBtn.addEventListener('click', function () {
+				cancelBtn.addEventListener('click', () => {
 					closeModal(false);
 				});
-				confirmBtn.addEventListener('click', function () {
+				confirmBtn.addEventListener('click', () => {
 					closeModal(true);
 				});
 
 				function closeModal(confirmed) {
 					overlay.classList.add('wpaic-modal-overlay--exiting');
-					onAnimEnd(overlay, function () {
+					onAnimEnd(overlay, () => {
 						if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
 					});
 					// Restore focus to the triggering element.
@@ -500,7 +498,7 @@
 	// Slide-in panel for routine settings edits. Supports focus trap + Escape.
 	// =========================================================================
 
-	var drawer = {
+	const drawer = {
 		_overlay: null,
 		_triggerEl: null,
 		_focusTrapCleanup: null,
@@ -513,7 +511,7 @@
 		 *   @param {Element}  opts.content  DOM subtree to place in the drawer body.
 		 *   @param {Function} [opts.onClose] Callback fired after drawer fully closes.
 		 */
-		open: function (opts) {
+		open: (opts) => {
 			opts = opts || {};
 
 			// Close any already-open drawer first.
@@ -523,8 +521,8 @@
 
 			drawer._triggerEl = document.activeElement;
 
-			var overlay = ce('div', { className: 'wpaic-drawer-overlay' });
-			var drawerEl = ce('div', {
+			const overlay = ce('div', { className: 'wpaic-drawer-overlay' });
+			const drawerEl = ce('div', {
 				className: 'wpaic-drawer',
 				role: 'dialog',
 				'aria-modal': 'true',
@@ -532,21 +530,21 @@
 			});
 
 			// Header.
-			var header = ce('div', { className: 'wpaic-drawer__header' });
+			const header = ce('div', { className: 'wpaic-drawer__header' });
 			header.appendChild(ce('h2', { className: 'wpaic-drawer__title', textContent: opts.title || '' }));
 
-			var closeBtn = ce('button', {
+			const closeBtn = ce('button', {
 				className: 'wpaic-drawer__close',
 				type: 'button',
 				'aria-label': 'Close panel',
 			});
-			var closeIcon = svgIcon('close');
+			const closeIcon = svgIcon('close');
 			if (closeIcon) closeBtn.appendChild(closeIcon);
 			header.appendChild(closeBtn);
 			drawerEl.appendChild(header);
 
 			// Body.
-			var bodyEl = ce('div', { className: 'wpaic-drawer__body' });
+			const bodyEl = ce('div', { className: 'wpaic-drawer__body' });
 			if (opts.content) bodyEl.appendChild(opts.content);
 			drawerEl.appendChild(bodyEl);
 
@@ -560,8 +558,8 @@
 			drawer._focusTrapCleanup = installFocusTrap(drawerEl);
 
 			// Focus first interactive element inside the drawer.
-			setTimeout(function () {
-				var firstFocusable = qs(
+			setTimeout(() => {
+				const firstFocusable = qs(
 					'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
 					drawerEl,
 				);
@@ -573,16 +571,16 @@
 			}, 50);
 
 			// Escape closes the drawer.
-			drawerEl.addEventListener('keydown', function (e) {
+			drawerEl.addEventListener('keydown', (e) => {
 				if (e.key === 'Escape') drawer.close(opts.onClose);
 			});
 
 			// Backdrop click closes.
-			overlay.addEventListener('click', function (e) {
+			overlay.addEventListener('click', (e) => {
 				if (e.target === overlay) drawer.close(opts.onClose);
 			});
 
-			closeBtn.addEventListener('click', function () {
+			closeBtn.addEventListener('click', () => {
 				drawer.close(opts.onClose);
 			});
 		},
@@ -592,10 +590,10 @@
 		 *
 		 * @param {Function} [callback]  Called after the close animation finishes.
 		 */
-		close: function (callback) {
+		close: (callback) => {
 			if (!drawer._overlay) return;
 
-			var overlay = drawer._overlay;
+			const overlay = drawer._overlay;
 			drawer._overlay = null;
 
 			// Release focus trap.
@@ -607,7 +605,7 @@
 			overlay.classList.add('wpaic-drawer-overlay--exiting');
 			onAnimEnd(
 				overlay,
-				function () {
+				() => {
 					if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
 					if (typeof callback === 'function') callback();
 				},
@@ -626,7 +624,7 @@
 	// Inline validation on blur; full validation on submit. Field-level errors.
 	// =========================================================================
 
-	var validate = {
+	const validate = {
 		/**
 		 * Attach validation to a form.
 		 *
@@ -636,22 +634,22 @@
 		 * @param {object}  [opts]
 		 *   @param {Function} opts.onSuccess  Called with (formEl) when submit passes.
 		 */
-		init: function (formEl, rules, opts) {
+		init: (formEl, rules, opts) => {
 			opts = opts || {};
 
 			// Blur: validate individual field.
-			Object.keys(rules).forEach(function (name) {
-				var field = formEl.querySelector('[name="' + name + '"]');
+			Object.keys(rules).forEach((name) => {
+				const field = formEl.querySelector(`[name="${name}"]`);
 				if (!field) return;
 
-				field.addEventListener('blur', function () {
+				field.addEventListener('blur', () => {
 					validate._validateField(field, rules[name]);
 				});
 
 				// Re-validate on input once the error has been shown.
-				field.addEventListener('input', function () {
-					var wrapper = validate._getWrapper(field);
-					if (wrapper && wrapper.classList.contains('wpaic-field--error')) {
+				field.addEventListener('input', () => {
+					const wrapper = validate._getWrapper(field);
+					if (wrapper?.classList.contains('wpaic-field--error')) {
 						validate._validateField(field, rules[name]);
 					}
 				});
@@ -660,7 +658,7 @@
 			// Submit: validate all fields before allowing submission.
 			formEl.addEventListener(
 				'submit',
-				function (e) {
+				(e) => {
 					if (!validate._validateAll(formEl, rules)) {
 						e.preventDefault();
 						e.stopImmediatePropagation();
@@ -682,9 +680,9 @@
 		 * @param  {Function[]} validators
 		 * @return {boolean}
 		 */
-		_validateField: function (field, validators) {
-			var error = null;
-			for (var i = 0; i < validators.length; i++) {
+		_validateField: (field, validators) => {
+			let error = null;
+			for (let i = 0; i < validators.length; i++) {
 				error = validators[i](field.value);
 				if (error) break;
 			}
@@ -699,12 +697,12 @@
 		 * @param  {object}  rules
 		 * @return {boolean}
 		 */
-		_validateAll: function (formEl, rules) {
-			var allValid = true;
-			var firstInvalid = null;
+		_validateAll: (formEl, rules) => {
+			let allValid = true;
+			let firstInvalid = null;
 
-			Object.keys(rules).forEach(function (name) {
-				var field = formEl.querySelector('[name="' + name + '"]');
+			Object.keys(rules).forEach((name) => {
+				const field = formEl.querySelector(`[name="${name}"]`);
 				if (!field) return;
 				if (!validate._validateField(field, rules[name])) {
 					allValid = false;
@@ -722,11 +720,11 @@
 		 * @param  {Element}       field
 		 * @return {Element|null}
 		 */
-		_getWrapper: function (field) {
-			var node = field.parentNode;
-			for (var i = 0; i < 3; i++) {
+		_getWrapper: (field) => {
+			let node = field.parentNode;
+			for (let i = 0; i < 3; i++) {
 				if (!node) break;
-				if (node.classList && node.classList.contains('wpaic-field')) return node;
+				if (node.classList?.contains('wpaic-field')) return node;
 				node = node.parentNode;
 			}
 			return null;
@@ -739,29 +737,29 @@
 		 * @param {Element}      field    The input/select/textarea.
 		 * @param {string|null}  error    Error message, or null for valid.
 		 */
-		_setFieldState: function (wrapper, field, error) {
+		_setFieldState: (wrapper, field, error) => {
 			// Remove any previous error message.
 			if (wrapper) {
 				wrapper.classList.remove('wpaic-field--error', 'wpaic-field--valid');
-				var prev = wrapper.querySelector('.wpaic-field-error');
+				const prev = wrapper.querySelector('.wpaic-field-error');
 				if (prev) prev.parentNode.removeChild(prev);
 			}
 
 			if (error) {
 				if (wrapper) wrapper.classList.add('wpaic-field--error');
 
-				var errId = 'wpaic-err-' + (field.name || field.id || Math.random().toString(36).slice(2));
+				const errId = `wpaic-err-${field.name || field.id || Math.random().toString(36).slice(2)}`;
 				field.setAttribute('aria-invalid', 'true');
 				field.setAttribute('aria-describedby', errId);
 
-				var errEl = ce('span', {
+				const errEl = ce('span', {
 					className: 'wpaic-field-error',
 					id: errId,
 					role: 'alert',
 					textContent: error,
 				});
 
-				var target = wrapper || field.parentNode;
+				const target = wrapper || field.parentNode;
 				if (target) target.appendChild(errEl);
 			} else {
 				if (wrapper) wrapper.classList.add('wpaic-field--valid');
@@ -775,19 +773,14 @@
 	// Validator factory functions (composable — pass to validate.init rules)
 	// =========================================================================
 
-	var validators = {
+	const validators = {
 		/**
 		 * Require a non-empty value.
 		 * @param  {string}   [msg]
 		 * @return {Function}
 		 */
-		required: function (msg) {
-			return function (val) {
-				return val === null || val === undefined || String(val).trim() === ''
-					? msg || 'This field is required.'
-					: null;
-			};
-		},
+		required: (msg) => (val) =>
+			val === null || val === undefined || String(val).trim() === '' ? msg || 'This field is required.' : null,
 
 		/**
 		 * Enforce a minimum character length.
@@ -795,11 +788,7 @@
 		 * @param  {string}   [msg]
 		 * @return {Function}
 		 */
-		minLength: function (n, msg) {
-			return function (val) {
-				return val.length < n ? msg || 'Minimum ' + n + ' characters required.' : null;
-			};
-		},
+		minLength: (n, msg) => (val) => (val.length < n ? msg || `Minimum ${n} characters required.` : null),
 
 		/**
 		 * Enforce a maximum character length.
@@ -807,27 +796,21 @@
 		 * @param  {string}   [msg]
 		 * @return {Function}
 		 */
-		maxLength: function (n, msg) {
-			return function (val) {
-				return val.length > n ? msg || 'Maximum ' + n + ' characters allowed.' : null;
-			};
-		},
+		maxLength: (n, msg) => (val) => (val.length > n ? msg || `Maximum ${n} characters allowed.` : null),
 
 		/**
 		 * Validate a URL (requires protocol).
 		 * @param  {string}   [msg]
 		 * @return {Function}
 		 */
-		url: function (msg) {
-			return function (val) {
-				if (!val) return null;
-				try {
-					new URL(val);
-					return null;
-				} catch (e) {
-					return msg || 'Please enter a valid URL (including https://).';
-				}
-			};
+		url: (msg) => (val) => {
+			if (!val) return null;
+			try {
+				new URL(val);
+				return null;
+			} catch (_e) {
+				return msg || 'Please enter a valid URL (including https://).';
+			}
 		},
 
 		/**
@@ -835,11 +818,9 @@
 		 * @param  {string}   [msg]
 		 * @return {Function}
 		 */
-		email: function (msg) {
-			return function (val) {
-				if (!val) return null;
-				return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val) ? null : msg || 'Please enter a valid email address.';
-			};
+		email: (msg) => (val) => {
+			if (!val) return null;
+			return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val) ? null : msg || 'Please enter a valid email address.';
 		},
 
 		/**
@@ -848,11 +829,9 @@
 		 * @param  {string}   msg
 		 * @return {Function}
 		 */
-		pattern: function (pattern, msg) {
-			return function (val) {
-				if (!val) return null;
-				return pattern.test(val) ? null : msg || 'Invalid format.';
-			};
+		pattern: (pattern, msg) => (val) => {
+			if (!val) return null;
+			return pattern.test(val) ? null : msg || 'Invalid format.';
 		},
 	};
 
@@ -861,7 +840,7 @@
 	// Debounced save (500ms) → inline spinner → 800ms green checkmark.
 	// =========================================================================
 
-	var autosave = {
+	const autosave = {
 		/**
 		 * Attach autosave behaviour to a form or specific input element.
 		 *
@@ -870,12 +849,12 @@
 		 * @param {Element}  [statusEl] Element to render the autosave indicator inside.
 		 * @return {Element}  The autosave indicator element.
 		 */
-		init: function (triggerEl, saveFn, statusEl) {
-			var indicator = autosave._createIndicator(statusEl);
-			var debounceTimer = null;
+		init: (triggerEl, saveFn, statusEl) => {
+			const indicator = autosave._createIndicator(statusEl);
+			let debounceTimer = null;
 
 			// Watch all inputs within a form, or the single element directly.
-			var targets =
+			const targets =
 				triggerEl.tagName === 'FORM'
 					? qsa(
 							'input:not([type="submit"]):not([type="button"]):not([type="reset"]), select, textarea',
@@ -883,11 +862,11 @@
 						)
 					: [triggerEl];
 
-			targets.forEach(function (input) {
-				['input', 'change'].forEach(function (eventName) {
-					input.addEventListener(eventName, function () {
+			targets.forEach((input) => {
+				['input', 'change'].forEach((eventName) => {
+					input.addEventListener(eventName, () => {
 						clearTimeout(debounceTimer);
-						debounceTimer = setTimeout(function () {
+						debounceTimer = setTimeout(() => {
 							autosave._doSave(saveFn, indicator);
 						}, AUTOSAVE_DEBOUNCE_MS);
 					});
@@ -898,8 +877,8 @@
 		},
 
 		/** @private Create the status indicator element. */
-		_createIndicator: function (container) {
-			var el = ce('span', {
+		_createIndicator: (container) => {
+			const el = ce('span', {
 				className: 'wpaic-autosave wpaic-autosave--hidden',
 				'aria-live': 'polite',
 				'aria-atomic': 'true',
@@ -909,7 +888,7 @@
 		},
 
 		/** @private Execute the save and update the indicator. */
-		_doSave: function (saveFn, indicator) {
+		_doSave: (saveFn, indicator) => {
 			// Show saving state: spinner + label.
 			indicator.className = 'wpaic-autosave';
 			indicator.innerHTML = '';
@@ -917,7 +896,7 @@
 			indicator.appendChild(document.createTextNode('\u00a0Saving\u2026'));
 
 			// Invoke the save function; normalise to Promise.
-			var promise;
+			let promise;
 			try {
 				promise = saveFn();
 			} catch (e) {
@@ -928,28 +907,28 @@
 			}
 
 			promise
-				.then(function () {
+				.then(() => {
 					// Show success state: checkmark + label.
 					indicator.innerHTML = '';
-					var checkEl = ce('span', { className: 'wpaic-autosave__check', 'aria-hidden': 'true' });
-					var checkIcon = svgIcon('check');
+					const checkEl = ce('span', { className: 'wpaic-autosave__check', 'aria-hidden': 'true' });
+					const checkIcon = svgIcon('check');
 					if (checkIcon) checkEl.appendChild(checkIcon);
 					indicator.appendChild(checkEl);
 					indicator.appendChild(document.createTextNode('\u00a0Saved'));
 					indicator.className = 'wpaic-autosave';
 
 					// Auto-hide after 800ms.
-					setTimeout(function () {
+					setTimeout(() => {
 						indicator.className = 'wpaic-autosave wpaic-autosave--hidden';
 					}, AUTOSAVE_SUCCESS_MS);
 				})
-				.catch(function () {
+				.catch(() => {
 					// Show error state.
 					indicator.innerHTML = '';
 					indicator.appendChild(document.createTextNode('Save failed'));
 					indicator.className = 'wpaic-autosave';
 
-					setTimeout(function () {
+					setTimeout(() => {
 						indicator.className = 'wpaic-autosave wpaic-autosave--hidden';
 					}, 4000);
 				});
@@ -961,7 +940,7 @@
 	// Skeleton placeholders, inline spinners, and delayed progress bars.
 	// =========================================================================
 
-	var loading = {
+	const loading = {
 		/**
 		 * Replace element content with skeleton placeholder lines.
 		 *
@@ -971,20 +950,20 @@
 		 *   @param {string}  opts.width  CSS width for full lines. Default: '100%'
 		 * @return {Function}  restore() — removes skeleton and restores original content.
 		 */
-		skeleton: function (el, opts) {
+		skeleton: (el, opts) => {
 			opts = opts || {};
-			var lines = opts.lines || 3;
-			var fullWidth = opts.width || '100%';
-			var savedHtml = el.innerHTML;
-			var savedClass = el.className;
+			const lines = opts.lines || 3;
+			const fullWidth = opts.width || '100%';
+			const savedHtml = el.innerHTML;
+			const savedClass = el.className;
 
 			el.innerHTML = '';
-			el.className = (savedClass ? savedClass + ' ' : '') + 'wpaic-skeleton-wrapper';
+			el.className = `${savedClass ? `${savedClass} ` : ''}wpaic-skeleton-wrapper`;
 
-			for (var i = 0; i < lines; i++) {
+			for (let i = 0; i < lines; i++) {
 				// Last line is shorter to suggest the end of a paragraph.
-				var lineWidth = i === lines - 1 ? '60%' : fullWidth;
-				var line = ce('div', { className: 'wpaic-skeleton' });
+				const lineWidth = i === lines - 1 ? '60%' : fullWidth;
+				const line = ce('div', { className: 'wpaic-skeleton' });
 				line.style.height = '14px';
 				line.style.width = lineWidth;
 				line.style.marginBottom = i < lines - 1 ? '8px' : '0';
@@ -1005,19 +984,19 @@
 		 * @param {string}  [label]  Label to show during loading.
 		 * @return {Function}  restore() — re-enables button and restores original label.
 		 */
-		spinner: function (btn, label) {
-			var savedText = btn.textContent;
-			var savedDisabled = btn.disabled;
+		spinner: (btn, label) => {
+			const savedText = btn.textContent;
+			const savedDisabled = btn.disabled;
 
 			btn.disabled = true;
 			btn.setAttribute('aria-busy', 'true');
 			btn.innerHTML = '';
 
-			var spinEl = ce('span', { className: 'wpaic-spinner wpaic-spinner--sm', 'aria-hidden': 'true' });
+			const spinEl = ce('span', { className: 'wpaic-spinner wpaic-spinner--sm', 'aria-hidden': 'true' });
 			btn.appendChild(spinEl);
 
 			if (label) {
-				btn.appendChild(document.createTextNode('\u00a0' + label));
+				btn.appendChild(document.createTextNode(`\u00a0${label}`));
 			}
 
 			return function restore() {
@@ -1034,11 +1013,11 @@
 		 * @param {Element} container  Element to append the progress bar into.
 		 * @return {Function}  finish() — clears the delay and removes the progress bar.
 		 */
-		progress: function (container) {
-			var barEl = null;
-			var delayTimer = setTimeout(function () {
+		progress: (container) => {
+			let barEl = null;
+			const delayTimer = setTimeout(() => {
 				barEl = ce('div', { className: 'wpaic-progress' });
-				var bar = ce('div', {
+				const bar = ce('div', {
 					className: 'wpaic-progress__bar',
 					role: 'progressbar',
 					'aria-label': 'Loading',
@@ -1051,7 +1030,7 @@
 
 			return function finish() {
 				clearTimeout(delayTimer);
-				if (barEl && barEl.parentNode) {
+				if (barEl?.parentNode) {
 					barEl.parentNode.removeChild(barEl);
 				}
 			};
@@ -1064,7 +1043,7 @@
 		 * @param {Element} toggleEl  The toggle switch element.
 		 * @return {Function}  restore() — removes loading state.
 		 */
-		toggleSpinner: function (toggleEl) {
+		toggleSpinner: (toggleEl) => {
 			toggleEl.classList.add('wpaic-toggle--loading');
 			return function restore() {
 				toggleEl.classList.remove('wpaic-toggle--loading');
@@ -1079,18 +1058,18 @@
 	// Minimum animation duration: 600ms (--wpaic-dur-reveal).
 	// =========================================================================
 
-	var _revealObserver = null;
+	let _revealObserver = null;
 
 	function initScrollReveal() {
 		// Feature-detect IntersectionObserver.
 		if (typeof global.IntersectionObserver !== 'function') return;
 
 		_revealObserver = new global.IntersectionObserver(
-			function (entries) {
-				entries.forEach(function (entry) {
+			(entries) => {
+				entries.forEach((entry) => {
 					if (!entry.isIntersecting) return;
 
-					var el = entry.target;
+					const el = entry.target;
 
 					// Respect concurrent animation cap.
 					if (!canAnimate(el)) return;
@@ -1107,7 +1086,7 @@
 		);
 
 		// Observe all .wpaic-reveal elements present at boot time.
-		qsa('.wpaic-reveal').forEach(function (el) {
+		qsa('.wpaic-reveal').forEach((el) => {
 			_revealObserver.observe(el);
 		});
 	}
@@ -1125,7 +1104,7 @@
 		// Don't duplicate if already present (e.g. SPAs with multiple boot cycles).
 		if (qs('.wpaic-skip-link')) return;
 
-		var link = ce('a', {
+		const link = ce('a', {
 			className: 'wpaic-skip-link',
 			href: '#wpaic-main-content',
 			textContent: 'Skip to main content',
@@ -1158,7 +1137,7 @@
 	// to trap Tab/Shift+Tab within all focusable drawer elements.
 	// =========================================================================
 
-	var FOCUSABLE_SELECTOR =
+	const FOCUSABLE_SELECTOR =
 		'a[href], button:not([disabled]):not([tabindex="-1"]), ' +
 		'input:not([disabled]):not([tabindex="-1"]), ' +
 		'select:not([disabled]):not([tabindex="-1"]), ' +
@@ -1174,10 +1153,10 @@
 	function installFocusTrap(container) {
 		function handler(e) {
 			if (e.key !== 'Tab') return;
-			var focusable = Array.prototype.slice.call(container.querySelectorAll(FOCUSABLE_SELECTOR));
+			const focusable = Array.prototype.slice.call(container.querySelectorAll(FOCUSABLE_SELECTOR));
 			if (focusable.length === 0) return;
-			var first = focusable[0];
-			var last = focusable[focusable.length - 1];
+			const first = focusable[0];
+			const last = focusable[focusable.length - 1];
 			if (e.shiftKey) {
 				if (document.activeElement === first) {
 					e.preventDefault();
@@ -1200,7 +1179,7 @@
 	// Public API — window.WPAICAdmin
 	// =========================================================================
 
-	var WPAICAdmin = {
+	const WPAICAdmin = {
 		version: '1.0.0',
 		toast: toast,
 		banner: banner,
@@ -1233,9 +1212,9 @@
 		 *
 		 * @param {Element} [root]  Scope element. Defaults to document.
 		 */
-		observeReveal: function (root) {
+		observeReveal: (root) => {
 			if (!_revealObserver) return;
-			qsa('.wpaic-reveal', root).forEach(function (el) {
+			qsa('.wpaic-reveal', root).forEach((el) => {
 				_revealObserver.observe(el);
 			});
 		},

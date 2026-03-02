@@ -1,0 +1,588 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP AI Chatbot 1.0.2\n"
+"Report-Msgid-Bugs-To: https://github.com/aiwithapex/wp-ai-chatbot/issues\n"
+"POT-Creation-Date: 2026-03-02 14:08+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: WP AI Chatbot POT Generator\n"
+"X-Domain: wp-ai-chatbot\n"
+
+
+#: includes/tools/class-tool-executor.php:208
+msgid "This action requires you to be logged in."\nmsgstr ""\n\n#: includes/tools/class-tool-executor.php:220
+msgid "This action requires administrator access."\nmsgstr ""\n\n#: includes/tools/class-tool-executor.php:249
+msgid "You do not have permission to use this action."\nmsgstr ""\n\n#: includes/tools/adapters/class-webhook-tool.php:127
+msgid "Webhook URL is not valid."\nmsgstr ""\n\n#: includes/tools/adapters/class-webhook-tool.php:132
+msgid "Webhook target host is not allowed."\nmsgstr ""\n\n#: includes/tools/adapters/class-webhook-tool.php:218
+msgid "Webhook request failed (HTTP %d)."\nmsgstr ""\n\n#: includes/security/class-sanitizer.php:114
+msgid "Invalid or non-HTTPS URL."\nmsgstr ""\n\n#: includes/security/class-sanitizer.php:120
+msgid "Invalid IP address."\nmsgstr ""\n\n#: includes/security/class-sanitizer.php:126
+msgid "Invalid or oversized JSON."\nmsgstr ""\n\n#: includes/security/class-auth-enforcer.php:99
+msgid "Security check failed. Please refresh the page and try again."\nmsgstr ""\n\n#: includes/security/class-auth-enforcer.php:100
+msgid "Forbidden"\nmsgstr ""\n\n#: includes/security/class-auth-enforcer.php:121
+msgid "You do not have permission to perform this action."\nmsgstr ""\n\n#: includes/security/class-auth-enforcer.php:169
+msgid "Security verification failed."\nmsgstr ""\n\n#: includes/security/class-privacy-manager.php:72
+msgid "WP AI Chatbot — Chat Sessions"\nmsgstr ""\n\n#: includes/security/class-privacy-manager.php:77
+msgid "WP AI Chatbot — Lead Data"\nmsgstr ""\n\n#: includes/security/class-privacy-manager.php:160
+msgid "Chat Sessions"\nmsgstr ""\n\n#: includes/security/class-privacy-manager.php:163 includes/admin/pages/class-chat-page.php:437 includes/admin/pages/class-chat-page.php:508
+msgid "Bot"\nmsgstr ""\n\n#: includes/security/class-privacy-manager.php:164 includes/admin/pages/class-transcripts-page.php:137
+msgid "Messages"\nmsgstr ""\n\n#: includes/security/class-privacy-manager.php:165 includes/admin/pages/class-transcripts-page.php:140
+msgid "Started"\nmsgstr ""\n\n#: includes/security/class-privacy-manager.php:166
+msgid "Last Active"\nmsgstr ""\n\n#: includes/security/class-privacy-manager.php:216
+msgid "Lead Capture Data"\nmsgstr ""\n\n#: includes/security/class-privacy-manager.php:219 includes/admin/pages/class-tools-page.php:233 includes/admin/pages/class-tools-page.php:963 includes/admin/pages/class-chat-page.php:433 includes/admin/pages/class-knowledge-page.php:310
+msgid "Name"\nmsgstr ""\n\n#: includes/security/class-privacy-manager.php:220 includes/admin/pages/class-chat-page.php:435
+msgid "Phone"\nmsgstr ""\n\n#: includes/security/class-privacy-manager.php:221
+msgid "Company"\nmsgstr ""\n\n#: includes/security/class-privacy-manager.php:222 includes/admin/pages/class-chat-page.php:436
+msgid "Interest"\nmsgstr ""\n\n#: includes/security/class-privacy-manager.php:223 includes/admin/pages/class-transcripts-page.php:109 includes/admin/pages/class-tools-page.php:279 includes/admin/pages/class-tools-page.php:963 includes/admin/pages/class-diagnostics-page.php:194 includes/admin/pages/class-migration-page.php:283 includes/admin/pages/class-chat-page.php:438 includes/admin/pages/class-knowledge-page.php:311
+msgid "Status"\nmsgstr ""\n\n#: includes/security/class-privacy-manager.php:224 includes/admin/pages/class-transcripts-page.php:530 includes/admin/pages/class-chat-page.php:439
+msgid "Date"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:52 includes/admin/class-admin-router.php:107
+msgid "Transcripts & Usage"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:59
+msgid "Chat Transcripts"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:60
+msgid "Usage & Cost"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:61
+msgid "Export"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:111
+msgid "All"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:112
+msgid "Active"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:113
+msgid "Closed"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:114
+msgid "Expired"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:118
+msgid "From"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:122
+msgid "To"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:126
+msgid "Filter"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:134
+msgid "Token"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:136
+msgid "Provider / Model"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:138
+msgid "Tokens"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:139
+msgid "Cost"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:142
+msgid "Expires In"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:144 includes/admin/pages/class-tools-page.php:237 includes/admin/pages/class-tools-page.php:746 includes/admin/pages/class-knowledge-page.php:314
+msgid "Actions"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:149
+msgid "Loading sessions…"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:166
+msgid "Message Inspection"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:169
+msgid "Close inspection modal"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:178
+msgid "Sources"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:248
+msgid "Failed to load sessions."\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:256
+msgid "No sessions found."\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:272
+msgid "View"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:273 includes/admin/pages/class-tools-page.php:253 includes/admin/pages/class-knowledge-page.php:692
+msgid "Delete"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:279
+msgid "Error loading sessions."\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:308
+msgid "Delete Session?"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:309
+msgid "This will permanently delete the session and all its messages. This cannot be undone."\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:313
+msgid "Delete this session and all messages?"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:324
+msgid "Session deleted."\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:344
+msgid "No messages recorded for this session."\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:372
+msgid "Session Transcript"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:427
+msgid "No RAG context was used for this message."\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:452
+msgid "No tool calls were made for this message."\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:509
+msgid "Sessions (30d)"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:513
+msgid "Messages (30d)"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:517
+msgid "Tokens (30d)"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:521
+msgid "Cost (30d)"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:526
+msgid "Daily Breakdown by Provider / Model"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:531
+msgid "Provider"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:532
+msgid "Model"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:533
+msgid "Conversations"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:534
+msgid "Prompt Tokens"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:535
+msgid "Completion Tokens"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:536
+msgid "Total Tokens"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:537
+msgid "Cost (USD)"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:541
+msgid "Loading…"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:565
+msgid "No usage data recorded yet."\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:583
+msgid "Failed to load usage data."\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:596
+msgid "Export chat sessions and transcripts as a CSV file. Choose a date range to limit the export."\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:608
+msgid "From Date"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:612
+msgid "To Date"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:616
+msgid "Status Filter"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:619
+msgid "All Statuses"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:628
+msgid "Download CSV"\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:727 includes/runtime/class-session-manager.php:180
+msgid "Session not found."\nmsgstr ""\n\n#: includes/admin/pages/class-transcripts-page.php:873
+msgid "Insufficient permissions."\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:54 includes/admin/class-admin-router.php:106
+msgid "Tools & Integrations"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:88
+msgid "Tool Execution"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:95
+msgid "Enable Tools"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:103
+msgid "Max Continuation Loops"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:122
+msgid "Message Routing"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:129
+msgid "Enable Macro Router"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:151
+msgid "Webhook Tools"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:153
+msgid "Register HTTP webhook endpoints as AI tools. Each webhook is exposed to the LLM as a callable function."\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:162
+msgid "+ Add Webhook Tool"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:167
+msgid "MCP Servers"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:169
+msgid "Connect Model Context Protocol servers. Tools discovered from each server are automatically made available to the AI."\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:178
+msgid "+ Add MCP Server"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:208
+msgid "Allow the AI to call registered tools during conversations"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:217
+msgid "Maximum tool call → continuation cycles per request (1–10). Default: 5."\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:232
+msgid "ID"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:234 includes/admin/pages/class-knowledge-page.php:658
+msgid "URL"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:235
+msgid "Method"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:236 includes/admin/pages/class-tools-page.php:744
+msgid "Permission"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:242
+msgid "No webhook tools configured."\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:280
+msgid "Tools"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:286
+msgid "No MCP servers configured."\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:301 includes/admin/pages/class-diagnostics-page.php:289
+msgid "Enabled"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:301
+msgid "Disabled"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:307 includes/admin/pages/class-tools-page.php:734
+msgid "Test"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:314
+msgid "Auth"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:355
+msgid "Invalid webhook ID. Use lowercase letters, digits, and underscores (2–64 chars)."\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:362
+msgid "A webhook tool with this ID already exists."\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:417
+msgid "Webhook tool not found."\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:453
+msgid "MCP support is not available."\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:459
+msgid "Server ID is required."\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:474
+msgid "Failed to save server configuration."\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:517
+msgid "Server not found."\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:578
+msgid "Action Catalog"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:580
+msgid "All registered tools (native, webhook, and MCP) available to the AI. Use the Test button to execute a tool with sample inputs."\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:587
+msgid "Loading catalog…"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:632
+msgid "This tool has no input parameters."\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:657
+msgid "Run Test"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:663
+msgid "Test Tool"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:689
+msgid "Running…"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:699
+msgid "Result"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:699
+msgid "Error"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:717
+msgid "Failed to load catalog."\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:722
+msgid "No tools are currently registered. Enable Tools above, then add Webhook or MCP tools, or register native tools via wpaic_register_tools."\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:741
+msgid "Name / ID"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:742 includes/admin/pages/class-knowledge-page.php:894
+msgid "Type"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:743
+msgid "Description"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:745
+msgid "Params"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:762
+msgid "Error loading catalog."\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:820
+msgid "Tool system is not available."\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:834
+msgid "Tool not found."\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:887
+msgid "Match incoming messages against routing rules before calling the AI provider"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:889
+msgid "When a rule matches, the configured response is returned directly without consuming API tokens."\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:906
+msgid "Routing Rules"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:908
+msgid "Define pattern-based rules to route messages before they reach the AI provider. Rules are evaluated in priority order (lowest number = first)."\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:915
+msgid "Loading rules…"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:919
+msgid "+ Add Rule"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:942
+msgid "No routing rules configured. Click \"+ Add Rule\" to create one."\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:958
+msgid "On"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:958
+msgid "Off"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:963
+msgid "Priority"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:963
+msgid "Pattern"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:963
+msgid "Action"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:963
+msgid "Response/Tool"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:967
+msgid "Failed to load rules."\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:974
+msgid "Rule Name"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:976
+msgid "Pattern Type"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:983
+msgid "Action Type"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:988
+msgid "Response Text / Tool ID"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:996
+msgid "Save Rule"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:1002
+msgid "Edit Rule"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:1002
+msgid "New Routing Rule"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:1024
+msgid "Saving…"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:1029
+msgid "Saved!"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:1034
+msgid "Error saving."\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:1039 includes/admin/pages/class-knowledge-page.php:748
+msgid "Request failed."\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:1059
+msgid "Delete Rule"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:1059
+msgid "Delete this routing rule? This cannot be undone."\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:1060
+msgid "Delete this routing rule?"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:1097
+msgid "Bot Tool Assignments"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:1099
+msgid "Control which tools are available per bot. Enter a bot slug and select enabled tools. Tools not assigned here default to none (opt-in per bot)."\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:1108
+msgid "Bot Slug"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:1114
+msgid "Load Assignments"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:1121
+msgid "Save Assignments"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:1156
+msgid "No tools are registered yet."\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:1174
+msgid "Failed to load."\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:1197
+msgid "Error."\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:1217
+msgid "Auth Type"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:1225
+msgid "Header Name"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:1228
+msgid "Secret Value"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:1228
+msgid "leave blank to keep existing"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:1230
+msgid "Save Auth"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:1235
+msgid "Configure Auth"\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:1315
+msgid "Macro Router is not available."\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:1332
+msgid "Rule must have a non-empty pattern and action data."\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:1354
+msgid "Rule not found."\nmsgstr ""\n\n#: includes/admin/pages/class-tools-page.php:1385
+msgid "Failed to save auth config. Ensure the server exists."\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:52 includes/admin/class-admin-router.php:109
+msgid "Diagnostics"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:59
+msgid "Audit Logs"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:60
+msgid "Health Check"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:61
+msgid "System Info"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:79 includes/admin/pages/class-general-page.php:182 includes/admin/pages/class-appearance-page.php:285 includes/admin/pages/class-security-page.php:474
+msgid "You do not have permission to access this page."\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:122
+msgid "Recent Audit Events"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:124
+msgid "No audit log entries found for the past 7 days."\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:130
+msgid "Time"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:131
+msgid "Level"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:132
+msgid "Event"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:133
+msgid "Context"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:163
+msgid "Showing up to %d most recent audit events."\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:189
+msgid "System Health"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:193
+msgid "Check"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:195 includes/admin/pages/class-migration-page.php:454
+msgid "Details"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:238
+msgid "PHP Version"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:245
+msgid "WordPress Version"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:252
+msgid "OpenSSL Extension"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:255
+msgid "Available"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:256
+msgid "Missing — API key encryption disabled."\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:261
+msgid "cURL Extension"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:263
+msgid "Missing — provider calls will fail."\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:268
+msgid "mbstring Extension"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:270
+msgid "Missing — some text processing functions degraded."\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:277
+msgid "PHP Memory Limit"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:285
+msgid "WP-Cron"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:288
+msgid "DISABLE_WP_CRON is set — session cleanup and ingestion crons will not fire automatically."\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:295
+msgid "Database Connection"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:297
+msgid "Connected"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:297
+msgid "Connection failed."\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:304
+msgid "Plugin DB Tables"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:307
+msgid "All core tables present."\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:308
+msgid "Sessions table missing — run plugin activation or visit Settings."\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:317
+msgid "AI Provider Key"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:320
+msgid "At least one provider API key is configured."\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:321
+msgid "No provider API key found — chatbot will not respond."\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:343
+msgid "System Information"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:350
+msgid "Copy as Text"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:409
+msgid "Plugin"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:410
+msgid "Version"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:411
+msgid "Plugin File"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:412
+msgid "Debug Mode"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:414
+msgid "WordPress"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:415
+msgid "WP Version"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:416
+msgid "Site URL"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:417
+msgid "Multisite"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:418
+msgid "Active Theme"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:419 includes/admin/pages/class-chat-page.php:59
+msgid "WooCommerce"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:421
+msgid "PHP Environment"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:423
+msgid "Max Execution Time"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:424
+msgid "Memory Limit"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:425
+msgid "Upload Max Size"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:426
+msgid "OpenSSL"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:427
+msgid "cURL"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:428
+msgid "mbstring"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:430
+msgid "Database"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:431
+msgid "MySQL Version"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:432
+msgid "Table Prefix"\nmsgstr ""\n\n#: includes/admin/pages/class-diagnostics-page.php:434
+msgid "Loaded Modules"\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:50
+msgid "Migration Assistant"\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:59
+msgid "Overview"\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:60
+msgid "AxiaChat AI"\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:61
+msgid "MxChat Basic"\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:62
+msgid "Baachal"\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:125
+msgid "The Migration Assistant scans your database for settings from legacy chatbot plugins and imports them into WP AI Chatbot. Run a dry-run first to preview every change before committing."\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:132
+msgid "Detected"\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:132
+msgid "Not found"\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:145
+msgid "Last migrated: %s"\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:151
+msgid "Rollback available"\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:154
+msgid "View Mapping"\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:161
+msgid "How migration works"\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:163
+msgid "Click a source tab and review the mapping table."\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:164
+msgid "Run Dry-Run to preview what will change without writing anything."\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:165
+msgid "Click Run Live Migration to apply. A backup is saved automatically."\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:166
+msgid "If anything looks wrong, click Rollback to restore the previous state."\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:187
+msgid "No data found for %s. The plugin may not be installed or may have been removed."\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:217
+msgid "Dry-Run Preview"\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:229
+msgid "Run Live Migration"\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:242
+msgid "Rollback"\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:272
+msgid "No migration mappings defined for this source."\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:280
+msgid "Field"\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:281
+msgid "Source Value"\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:282
+msgid "Current WPAIC Value"\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:284
+msgid "WPAIC Option"\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:293
+msgid "No source"\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:295
+msgid "Conflict"\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:297
+msgid "OK"\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:299
+msgid "Ready"\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:332
+msgid "Conflicting fields will be skipped unless you enable \"Overwrite conflicts\"."\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:367
+msgid "Run live migration? This will overwrite matching WPAIC settings. A backup will be saved."\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:373
+msgid "Roll back to the previous state? This cannot be undone."\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:379
+msgid "Working…"\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:387
+msgid "Overwrite existing WPAIC values on conflict? (Cancel = skip conflicts)"\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:415
+msgid "Request failed: "\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:433
+msgid "dry-run"\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:437
+msgid "Rollback complete. Restored "\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:438
+msgid "options."\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:444
+msgid "Dry-run complete"\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:445
+msgid "Migration complete"\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:448
+msgid "settings would be / were applied"\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:449
+msgid "skipped (no source value)"\nmsgstr ""\n\n#: includes/admin/pages/class-migration-page.php:450
+msgid "skipped due to conflicts"\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:52 includes/admin/class-admin-router.php:102
+msgid "Chat Behavior"\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:60
+msgid "Lead Capture"\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:61
+msgid "Live Agent Handoff"\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:62
+msgid "Leads Inbox"\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:160
+msgid "WooCommerce detected — %d published products found."\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:168
+msgid "WooCommerce is not active. Install and activate WooCommerce to enable product integration."\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:176
+msgid "Enable WooCommerce Integration"\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:185
+msgid "Allow the chatbot to use product data, cart, and order context"\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:190
+msgid "Inject Cart Context"\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:203
+msgid "Inject Order History Context"\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:211
+msgid "Include recent orders for logged-in customers in the system prompt"\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:213
+msgid "Product catalog can be indexed via Knowledge Base → Add Source → WooCommerce Products."\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:236
+msgid "Enable Lead Capture"\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:244
+msgid "Allow the chatbot to collect and save visitor contact information"\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:249
+msgid "Email Notification"\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:257
+msgid "Send an email notification when a new lead is captured"\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:263
+msgid "Notification Email"\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:273
+msgid "Leave blank to use the admin email address."\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:278
+msgid "Retention Period (days)"\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:289
+msgid "Automatically delete leads older than this many days. Set to 0 to keep forever."\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:293
+msgid "Store IP Hash"\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:324
+msgid "Enable Live Agent Handoff"\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:332
+msgid "Allow the chatbot to transfer visitors to a human agent on request"\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:338
+msgid "Agent Email"\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:348
+msgid "Email address to notify when a visitor requests a live agent."\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:352
+msgid "Notify on Request"\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:360
+msgid "Send an email when a visitor requests a live agent"\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:366
+msgid "Queue Message"\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:375
+msgid "Message shown to the visitor while they wait for an agent to connect."\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:414
+msgid "Total"\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:415
+msgid "Today"\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:416
+msgid "This Month"\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:427
+msgid "Export CSV"\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:434
+msgid "Email"\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:446
+msgid "No leads captured yet. Enable Lead Capture in the Lead Capture tab to start collecting leads."\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:497
+msgid "Pending Queue"\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:507
+msgid "Session"\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:509
+msgid "Reason"\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:510
+msgid "Requested"\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:611
+msgid "Failed to update lead status."\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:629
+msgid "Failed to delete lead."\nmsgstr ""\n\n#: includes/admin/pages/class-chat-page.php:661
+msgid "Failed to update livechat status."\nmsgstr ""\n\n#: includes/admin/pages/class-general-page.php:49
+msgid "WP AI Chatbot — General Settings"\nmsgstr ""\n\n#: includes/admin/pages/class-general-page.php:98
+msgid "Provider Configuration"\nmsgstr ""\n\n#: includes/admin/pages/class-general-page.php:106
+msgid "Default AI Provider"\nmsgstr ""\n\n#: includes/admin/pages/class-general-page.php:114
+msgid "API Keys"\nmsgstr ""\n\n#: includes/admin/pages/class-general-page.php:122
+msgid "Default Model"\nmsgstr ""\n\n#: includes/admin/pages/class-general-page.php:130
+msgid "Request Timeout (seconds)"\nmsgstr ""\n\n#: includes/admin/pages/class-general-page.php:152
+msgid "Legal & Compliance"\nmsgstr ""\n\n#: includes/admin/pages/class-general-page.php:159
+msgid "AI Disclosure Notice"\nmsgstr ""\n\n#: includes/admin/pages/class-general-page.php:167
+msgid "Disclosure Text"\nmsgstr ""\n\n#: includes/admin/pages/class-general-page.php:191 includes/admin/pages/class-appearance-page.php:300
+msgid "Save Settings"\nmsgstr ""\n\n#: includes/admin/pages/class-general-page.php:235
+msgid "The AI provider used when no shortcode attribute overrides it."\nmsgstr ""\n\n#: includes/admin/pages/class-general-page.php:244
+msgid "OpenAI API Key"\nmsgstr ""\n\n#: includes/admin/pages/class-general-page.php:245
+msgid "Anthropic Claude API Key"\nmsgstr ""\n\n#: includes/admin/pages/class-general-page.php:246
+msgid "Google Gemini API Key"\nmsgstr ""\n\n#: includes/admin/pages/class-general-page.php:247
+msgid "DeepSeek API Key"\nmsgstr ""\n\n#: includes/admin/pages/class-general-page.php:248
+msgid "xAI Grok API Key"\nmsgstr ""\n\n#: includes/admin/pages/class-general-page.php:261
+msgid "API key stored"\nmsgstr ""\n\n#: includes/admin/pages/class-general-page.php:271
+msgid "Enter new key to replace"\nmsgstr ""\n\n#: includes/admin/pages/class-general-page.php:272
+msgid "Enter API key"\nmsgstr ""\n\n#: includes/admin/pages/class-general-page.php:282
+msgid "Enter only the key you wish to update. Leave blank to keep the current value."\nmsgstr ""\n\n#: includes/admin/pages/class-general-page.php:300
+msgid "Model slug used when no shortcode attribute specifies a model."\nmsgstr ""\n\n#: includes/admin/pages/class-general-page.php:321
+msgid "Seconds before an AI provider request times out (5–300)."\nmsgstr ""\n\n#: includes/admin/pages/class-general-page.php:351
+msgid "Show AI disclosure notice in chat widget header"\nmsgstr ""\n\n#: includes/admin/pages/class-general-page.php:354
+msgid "Recommended. Required for EU deployments from 1 August 2026."\nmsgstr ""\n\n#: includes/admin/pages/class-general-page.php:373
+msgid "Displayed as a non-dismissible notice above the chat input. Keep it concise (one sentence)."\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:52
+msgid "WP AI Chatbot — Knowledge Base"\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:135
+msgid "Name is required."\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:155
+msgid "Failed to create knowledge context."\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:182
+msgid "Unknown content source."\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:192
+msgid "No items found to index."\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:205
+msgid "%d items queued for indexing."\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:233
+msgid "Knowledge context not found."\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:292
+msgid "Knowledge Contexts"\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:298
+msgid "+ New Knowledge Context"\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:302
+msgid "No knowledge contexts yet. Create one to start indexing your content."\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:312
+msgid "Chunks"\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:313
+msgid "Embedding"\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:336
+msgid "Ingest"\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:345
+msgid "Refresh"\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:388
+msgid "URL is required."\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:424
+msgid "Invalid ID."\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:454
+msgid "Query parameter is required."\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:478
+msgid "Configured embedding provider is not available. Check your API key."\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:567
+msgid "Global RAG Settings"\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:573
+msgid "Embedding Provider"\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:592
+msgid "Embedding Model"\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:597
+msgid "For OpenAI: text-embedding-3-small (recommended)"\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:600
+msgid "Chunk Size (chars)"\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:605
+msgid "~4 chars per token. 4000 chars ≈ 1000 tokens."\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:608
+msgid "Chunk Overlap (chars)"\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:613
+msgid "Characters re-included at the start of each chunk for context continuity."\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:616
+msgid "Minimum Similarity Score"\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:621
+msgid "0.0–1.0. Higher = stricter relevance. Default: 0.3"\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:624
+msgid "Save RAG Settings"\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:644
+msgid "Web Page Sources"\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:645
+msgid "Configure URLs to crawl and index as knowledge base content. After adding a URL, trigger indexing via the Ingest button on the knowledge context (source: Web Pages)."\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:659
+msgid "Label"\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:660
+msgid "My Site"\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:661
+msgid "Crawl Depth"\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:664
+msgid "Add URL"\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:672
+msgid "Depth"\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:678
+msgid "No web sources configured yet."\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:722
+msgid "Please enter a URL."\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:757
+msgid "Delete this web source?"\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:808
+msgid "Search Console"\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:809
+msgid "Test retrieval quality by entering a query. Results show matched chunks, similarity scores, and source documents."\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:812
+msgid "No knowledge contexts found. Create one and index content first."\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:823
+msgid "Knowledge Context"\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:837
+msgid "Query"\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:838
+msgid "e.g. How do I reset my password?"\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:841
+msgid "Results"\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:845
+msgid "Test Search"\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:865
+msgid "Please enter a query."\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:870
+msgid "Searching…"\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:880
+msgid "Error:"\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:885
+msgid "No results found. Try a different query or lower the minimum similarity score."\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:889
+msgid "Results:"\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:893
+msgid "Score"\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:895
+msgid "Title"\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:896
+msgid "Content Preview"\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:897
+msgid "Source"\nmsgstr ""\n\n#: includes/admin/pages/class-knowledge-page.php:920
+msgid "Request failed. Check browser console for details."\nmsgstr ""\n\n#: includes/admin/pages/class-appearance-page.php:158
+msgid "WP AI Chatbot — Appearance"\nmsgstr ""\n\n#: includes/admin/pages/class-appearance-page.php:165
+msgid "Color Palette"\nmsgstr ""\n\n#: includes/admin/pages/class-appearance-page.php:166
+msgid "Display"\nmsgstr ""\n\n#: includes/admin/pages/class-appearance-page.php:206
+msgid "Preset Palettes"\nmsgstr ""\n\n#: includes/admin/pages/class-appearance-page.php:247
+msgid "Widget Display"\nmsgstr ""\n\n#: includes/admin/pages/class-appearance-page.php:254
+msgid "Widget Position"\nmsgstr ""\n\n#: includes/admin/pages/class-appearance-page.php:262
+msgid "Branding"\nmsgstr ""\n\n#: includes/admin/pages/class-appearance-page.php:270
+msgid "Web Fonts"\nmsgstr ""\n\n#: includes/admin/pages/class-appearance-page.php:315
+msgid "Choose a preset color palette for your chat widget. Select \"Custom\" to fine-tune individual colors."\nmsgstr ""\n\n#: includes/admin/pages/class-appearance-page.php:326
+msgid "Control where the floating widget appears, whether to show the \"Powered by\" footer, and font loading."\nmsgstr ""\n\n#: includes/admin/pages/class-appearance-page.php:354
+msgid "Background (deep)"\nmsgstr ""\n\n#: includes/admin/pages/class-appearance-page.php:355
+msgid "Background (card)"\nmsgstr ""\n\n#: includes/admin/pages/class-appearance-page.php:356
+msgid "Background (input)"\nmsgstr ""\n\n#: includes/admin/pages/class-appearance-page.php:357
+msgid "Accent color"\nmsgstr ""\n\n#: includes/admin/pages/class-appearance-page.php:358
+msgid "Accent hover"\nmsgstr ""\n\n#: includes/admin/pages/class-appearance-page.php:449
+msgid "Custom"\nmsgstr ""\n\n#: includes/admin/pages/class-appearance-page.php:459
+msgid "Custom Color Tokens"\nmsgstr ""\n\n#: includes/admin/pages/class-appearance-page.php:542
+msgid "Bottom right (default)"\nmsgstr ""\n\n#: includes/admin/pages/class-appearance-page.php:543
+msgid "Bottom left"\nmsgstr ""\n\n#: includes/admin/pages/class-appearance-page.php:544
+msgid "Top right"\nmsgstr ""\n\n#: includes/admin/pages/class-appearance-page.php:545
+msgid "Top left"\nmsgstr ""\n\n#: includes/admin/pages/class-appearance-page.php:556
+msgid "Corner of the viewport where the floating launcher appears."\nmsgstr ""\n\n#: includes/admin/pages/class-appearance-page.php:574
+msgid "Show \"Powered by WP AI Chatbot\" footer link"\nmsgstr ""\n\n#: includes/admin/pages/class-appearance-page.php:577
+msgid "Uncheck to remove the branding footer from the chat panel."\nmsgstr ""\n\n#: includes/admin/pages/class-appearance-page.php:595
+msgid "Load Space Grotesk, Inter, and JetBrains Mono from Google Fonts"\nmsgstr ""\n\n#: includes/admin/pages/class-appearance-page.php:598
+msgid "Adds a Google Fonts CDN request. Disable if you self-host fonts or prefer system fallbacks."\nmsgstr ""\n\n#: includes/admin/pages/class-security-page.php:46 includes/admin/class-admin-router.php:105
+msgid "Security & Privacy"\nmsgstr ""\n\n#: includes/admin/pages/class-security-page.php:53
+msgid "Security"\nmsgstr ""\n\n#: includes/admin/pages/class-security-page.php:54
+msgid "Privacy"\nmsgstr ""\n\n#: includes/admin/pages/class-security-page.php:55
+msgid "Moderation"\nmsgstr ""\n\n#: includes/admin/pages/class-security-page.php:143
+msgid "Rate Limiting"\nmsgstr ""\n\n#: includes/admin/pages/class-security-page.php:150
+msgid "Enable Rate Limiting"\nmsgstr ""\n\n#: includes/admin/pages/class-security-page.php:158
+msgid "Max Requests"\nmsgstr ""\n\n#: includes/admin/pages/class-security-page.php:166
+msgid "Window (seconds)"\nmsgstr ""\n\n#: includes/admin/pages/class-security-page.php:181
+msgid "Enable Moderation"\nmsgstr ""\n\n#: includes/admin/pages/class-security-page.php:189
+msgid "Rate Limit Messages & Fallback"\nmsgstr ""\n\n#: includes/admin/pages/class-security-page.php:192
+msgid "Configure the message shown when a user hits the rate limit, and optional fallback contact options."\nmsgstr ""\n\n#: includes/admin/pages/class-security-page.php:200
+msgid "Rate Limit Message"\nmsgstr ""\n\n#: includes/admin/pages/class-security-page.php:208
+msgid "Fallback Email"\nmsgstr ""\n\n#: includes/admin/pages/class-security-page.php:216
+msgid "Fallback Phone"\nmsgstr ""\n\n#: includes/admin/pages/class-security-page.php:224
+msgid "Fallback URL (live chat / contact page)"\nmsgstr ""\n\n#: includes/admin/pages/class-security-page.php:257
+msgid "Data Retention"\nmsgstr ""\n\n#: includes/admin/pages/class-security-page.php:260
+msgid "Chat transcripts are retained for 90 days and automatically deleted. Anonymized usage statistics may be retained indefinitely."\nmsgstr ""\n\n#: includes/admin/pages/class-security-page.php:268
+msgid "Retain Chat Sessions For (days)"\nmsgstr ""\n\n#: includes/admin/pages/class-security-page.php:276
+msgid "Anonymise IP in Audit Logs"\nmsgstr ""\n\n#: includes/admin/pages/class-security-page.php:303
+msgid "Keyword Blocklist"\nmsgstr ""\n\n#: includes/admin/pages/class-security-page.php:305
+msgid "Messages matching any of these terms will be blocked before they reach the AI model. One term per line."\nmsgstr ""\n\n#: includes/admin/pages/class-security-page.php:312
+msgid "Blocked Terms"\nmsgstr ""\n\n#: includes/admin/pages/class-security-page.php:329
+msgid "Limit chat requests per IP address."\nmsgstr ""\n\n#: includes/admin/pages/class-security-page.php:339
+msgid "Maximum chat requests allowed within the window."\nmsgstr ""\n\n#: includes/admin/pages/class-security-page.php:349
+msgid "Rolling window duration in seconds."\nmsgstr ""\n\n#: includes/admin/pages/class-security-page.php:359
+msgid "Enable keyword-based message moderation. Configure terms in the Moderation tab."\nmsgstr ""\n\n#: includes/admin/pages/class-security-page.php:370
+msgid "Sessions older than this are purged daily. Set to 0 to retain indefinitely."\nmsgstr ""\n\n#: includes/admin/pages/class-security-page.php:381
+msgid "Truncate IP addresses in audit logs to the first three octets."\nmsgstr ""\n\n#: includes/admin/pages/class-security-page.php:392
+msgid "Use [email] as a placeholder for the fallback email address."\nmsgstr ""\n\n#: includes/admin/pages/class-security-page.php:402
+msgid "Replaces [email] in the rate limit message. Shown as a mailto: link in the widget."\nmsgstr ""\n\n#: includes/admin/pages/class-security-page.php:412
+msgid "Optional. Displayed as a tel: link alongside the rate limit message."\nmsgstr ""\n\n#: includes/admin/pages/class-security-page.php:422
+msgid "Optional. Shown as a \"Contact us\" link (live chat or contact page)."\nmsgstr ""\n\n#: includes/admin/pages/class-security-page.php:440
+msgid "Enable blocklist moderation"\nmsgstr ""\n\n#: includes/admin/pages/class-security-page.php:443
+msgid "Blocked terms (one per line):"\nmsgstr ""\n\n#: includes/admin/pages/class-security-page.php:453
+msgid "Response message when blocked (leave blank for default):"\nmsgstr ""\n\n#: includes/admin/pages/class-security-page.php:533
+msgid "Personal Data Tools"\nmsgstr ""\n\n#: includes/admin/pages/class-security-page.php:538
+msgid "Use the built-in %s to export or erase user chat sessions and lead capture records."\nmsgstr ""\n\n#: includes/admin/pages/class-security-page.php:539
+msgid "Personal Data tools"\nmsgstr ""\n\n#: includes/admin/class-admin-page.php:100
+msgid "Settings tabs"\nmsgstr ""\n\n#: includes/admin/class-admin-page.php:112
+msgid "Settings content"\nmsgstr ""\n\n#: includes/admin/class-admin-router.php:87 includes/admin/class-admin-router.php:281
+msgid "WP AI Chatbot"\nmsgstr ""\n\n#: includes/admin/class-admin-router.php:100
+msgid "General Settings"\nmsgstr ""\n\n#: includes/admin/class-admin-router.php:101
+msgid "Providers & Models"\nmsgstr ""\n\n#: includes/admin/class-admin-router.php:103
+msgid "Appearance"\nmsgstr ""\n\n#: includes/admin/class-admin-router.php:104
+msgid "Knowledge Base"\nmsgstr ""\n\n#: includes/admin/class-admin-router.php:108
+msgid "Migration"\nmsgstr ""\n\n#: includes/admin/class-admin-router.php:285
+msgid "Unknown admin page: %s"\nmsgstr ""\n\n#: includes/migration/class-lifecycle-manager.php:66
+msgid "WP AI Chatbot requires PHP %1$s or higher. Your server is running PHP %2$s."\nmsgstr ""\n\n#: includes/migration/class-lifecycle-manager.php:80
+msgid "WP AI Chatbot requires WordPress %1$s or higher. You are running %2$s."\nmsgstr ""\n\n#: includes/provider/adapters/class-openai-compatible-adapter.php:681 includes/provider/adapters/class-claude-adapter.php:765 includes/provider/adapters/class-gemini-adapter.php:761
+msgid "The AI service is not configured. Please contact the site administrator."\nmsgstr ""\n\n#: includes/provider/adapters/class-openai-compatible-adapter.php:682 includes/provider/adapters/class-claude-adapter.php:766 includes/provider/adapters/class-gemini-adapter.php:762
+msgid "The AI service is temporarily busy. Please try again in a moment."\nmsgstr ""\n\n#: includes/provider/adapters/class-openai-compatible-adapter.php:683 includes/provider/adapters/class-claude-adapter.php:767 includes/provider/adapters/class-gemini-adapter.php:763
+msgid "Could not reach the AI service. Please check your connection and try again."\nmsgstr ""\n\n#: includes/provider/adapters/class-openai-compatible-adapter.php:684 includes/provider/adapters/class-claude-adapter.php:768 includes/provider/adapters/class-gemini-adapter.php:764
+msgid "The AI service returned an error. Please try again."\nmsgstr ""\n\n#: includes/provider/adapters/class-openai-compatible-adapter.php:685 includes/provider/adapters/class-claude-adapter.php:769 includes/provider/adapters/class-gemini-adapter.php:765
+msgid "The AI service returned an unexpected response. Please try again."\nmsgstr ""\n\n#: includes/provider/adapters/class-openai-compatible-adapter.php:686 includes/provider/adapters/class-claude-adapter.php:770 includes/provider/adapters/class-gemini-adapter.php:766
+msgid "The streaming connection was interrupted. Please try again."\nmsgstr ""\n\n#: includes/provider/adapters/class-openai-compatible-adapter.php:695 includes/provider/adapters/class-claude-adapter.php:779 includes/provider/adapters/class-gemini-adapter.php:776 includes/runtime/class-message-pipeline.php:507 includes/class-plugin.php:768
+msgid "An error occurred. Please try again."\nmsgstr ""\n\n#: includes/provider/adapters/class-gemini-adapter.php:767
+msgid "Your message was blocked by the content safety filter. Please rephrase and try again."\nmsgstr ""\n\n#: includes/mcp/class-mcp-tool-adapter.php:135
+msgid "MCP server \"%s\" is not configured or is disabled."\nmsgstr ""\n\n#: includes/mcp/class-mcp-client.php:174
+msgid "MCP server is not connected."\nmsgstr ""\n\n#: includes/mcp/class-mcp-client.php:188
+msgid "MCP tool call failed."\nmsgstr ""\n\n#: includes/rag/adapters/class-web-source.php:63
+msgid "Web Pages"\nmsgstr ""\n\n#: includes/rag/adapters/class-openai-embedding.php:99
+msgid "Empty embedding response."\nmsgstr ""\n\n#: includes/rag/adapters/class-openai-embedding.php:143
+msgid "OpenAI API key is not configured."\nmsgstr ""\n\n#: includes/rag/adapters/class-openai-embedding.php:155
+msgid "Failed to encode embedding request."\nmsgstr ""\n\n#: includes/rag/adapters/class-posts-source.php:47
+msgid "Posts & Pages"\nmsgstr ""\n\n#: includes/rag/adapters/class-pdf-source.php:48
+msgid "PDF Files"\nmsgstr ""\n\n#: includes/rag/adapters/class-pdf-source.php:176
+msgid "--- Page %d ---"\nmsgstr ""\n\n#: includes/woocommerce/class-wc-cart-tool.php:39
+msgid "Add Product to Cart"\nmsgstr ""\n\n#: includes/woocommerce/class-wc-cart-tool.php:84 includes/woocommerce/class-wc-orders-tool.php:82
+msgid "WooCommerce is not available on this site."\nmsgstr ""\n\n#: includes/woocommerce/class-wc-cart-tool.php:95
+msgid "A valid product ID is required."\nmsgstr ""\n\n#: includes/woocommerce/class-wc-cart-tool.php:105
+msgid "Product not found or not available for purchase."\nmsgstr ""\n\n#: includes/woocommerce/class-wc-cart-tool.php:115
+msgid "\"%s\" is currently out of stock."\nmsgstr ""\n\n#: includes/woocommerce/class-wc-cart-tool.php:129
+msgid "Could not add \"%s\" to the cart. Please try again or add it manually."\nmsgstr ""\n\n#: includes/woocommerce/class-wc-cart-tool.php:149
+msgid "%1$d × \"%2$s\" added to your cart."\nmsgstr ""\n\n#: includes/woocommerce/class-wc-products-source.php:46
+msgid "WooCommerce Products"\nmsgstr ""\n\n#: includes/woocommerce/class-wc-orders-tool.php:42
+msgid "Get Customer Orders"\nmsgstr ""\n\n#: includes/woocommerce/class-wc-orders-tool.php:93
+msgid "You need to be logged in to view your orders."\nmsgstr ""\n\n#: includes/woocommerce/class-wc-orders-tool.php:109
+msgid "You have no orders yet."\nmsgstr ""\n\n#: includes/runtime/class-session-manager.php:121
+msgid "Failed to create chat session."\nmsgstr ""\n\n#: includes/runtime/class-session-manager.php:131
+msgid "Session created but could not be retrieved."\nmsgstr ""\n\n#: includes/runtime/class-session-manager.php:167
+msgid "Invalid session token format."\nmsgstr ""\n\n#: includes/runtime/class-session-manager.php:187
+msgid "Session has ended or expired."\nmsgstr ""\n\n#: includes/runtime/class-session-manager.php:195
+msgid "Session has expired."\nmsgstr ""\n\n#: includes/runtime/class-session-manager.php:200
+msgid "Session ownership validation failed."\nmsgstr ""\n\n#: includes/runtime/class-session-manager.php:295
+msgid "Access denied."\nmsgstr ""\n\n#: includes/runtime/class-session-manager.php:627
+msgid "Could not close session."\nmsgstr ""\n\n#: includes/runtime/class-message-pipeline.php:126
+msgid "Security check failed. Please refresh the page."\nmsgstr ""\n\n#: includes/runtime/class-message-pipeline.php:211
+msgid "Message cannot be empty."\nmsgstr ""\n\n#: includes/runtime/class-message-pipeline.php:224
+msgid "Message exceeds the %d character limit."\nmsgstr ""\n\n#: includes/runtime/class-message-pipeline.php:247
+msgid "Duplicate message detected. Please wait before resending."\nmsgstr ""\n\n#: includes/runtime/class-message-pipeline.php:398
+msgid "The AI provider is temporarily unavailable. Please try again later."\nmsgstr ""\n\n#: includes/runtime/class-message-pipeline.php:670
+msgid "Stream error. Please try again."\nmsgstr ""\n\n#: includes/runtime/class-message-pipeline.php:928
+msgid "Relevant context from the knowledge base:"\nmsgstr ""\n\n#: includes/integrations/class-livechat-manager.php:90
+msgid "An agent will be with you shortly. Please hold on…"\nmsgstr ""\n\n#: includes/integrations/class-livechat-manager.php:124
+msgid "Live agent support is not currently available."\nmsgstr ""\n\n#: includes/integrations/class-livechat-manager.php:163
+msgid "Could not queue your request. Please try again."\nmsgstr ""\n\n#: includes/integrations/class-livechat-manager.php:295
+msgid "You are now connected with a live agent."\nmsgstr ""\n\n#: includes/integrations/class-livechat-manager.php:297
+msgid "This live chat session has been closed."\nmsgstr ""\n\n#: includes/integrations/class-livechat-manager.php:320
+msgid "[%s] Live Agent Requested"\nmsgstr ""\n\n#: includes/integrations/class-lead-capture-tool.php:41
+msgid "Capture Lead"\nmsgstr ""\n\n#: includes/integrations/class-lead-capture-tool.php:83
+msgid "Thank you! Your information has been saved. We will be in touch soon."\nmsgstr ""\n\n#: includes/integrations/class-lead-capture-tool.php:93
+msgid "Lead capture is not currently available. Please use the contact form instead."\nmsgstr ""\n\n#: includes/integrations/class-lead-capture-tool.php:100
+msgid "Please provide at least your name, email address, or phone number."\nmsgstr ""\n\n#: includes/integrations/class-lead-capture-tool.php:107
+msgid "Could not save your information. Please try again."\nmsgstr ""\n\n#: includes/integrations/class-livechat-handoff-tool.php:39
+msgid "Request Live Agent"\nmsgstr ""\n\n#: includes/integrations/class-livechat-handoff-tool.php:79
+msgid "Could not initiate handoff: no active session found."\nmsgstr ""\n\n#: includes/integrations/class-lead-manager.php:111
+msgid "Lead capture is not currently enabled."\nmsgstr ""\n\n#: includes/integrations/class-lead-manager.php:126
+msgid "At least a name, email address, or phone number is required."\nmsgstr ""\n\n#: includes/integrations/class-lead-manager.php:153
+msgid "Failed to save lead information. Please try again."\nmsgstr ""\n\n#: includes/integrations/class-lead-manager.php:494
+msgid "[%s] New Lead Captured"\nmsgstr ""\n\n#: includes/class-plugin.php:245
+msgid "Every 5 Minutes (WP AI Chatbot)"\nmsgstr ""\n\n#: includes/class-plugin.php:504
+msgid "Chat runtime is not yet initialised."\nmsgstr ""\n\n#: includes/class-plugin.php:766 templates/chatbot-widget.php:111
+msgid "Open chat"\nmsgstr ""\n\n#: includes/class-plugin.php:767 templates/chatbot-widget.php:158
+msgid "Close chat"\nmsgstr ""\n\n#: includes/class-plugin.php:769
+msgid "Network error. Please check your connection."\nmsgstr ""\n\n#: includes/class-plugin.php:942
+msgid "API key is empty. Please enter a key to validate."\nmsgstr ""\n\n#: includes/class-plugin.php:969
+msgid "API key validated successfully."\nmsgstr ""\n\n#: includes/class-plugin.php:1498
+msgid "Provider \"%s\" does not support key validation."\nmsgstr ""\n\n#: includes/class-plugin.php:1510
+msgid "Invalid API key — authentication rejected by the provider."\nmsgstr ""\n\n#: includes/class-plugin.php:1514
+msgid "Rate limit reached. The key appears valid but the account is throttled."\nmsgstr ""\n\n#: templates/chatbot-widget.php:47
+msgid "AI Assistant"\nmsgstr ""\n\n#: templates/chatbot-widget.php:48
+msgid "Type a message…"\nmsgstr ""\n\n#: templates/chatbot-widget.php:52
+msgid "By chatting you agree to our privacy policy."\nmsgstr ""\n\n#: templates/chatbot-widget.php:98
+msgid "AI Chat"\nmsgstr ""\n\n#: templates/chatbot-widget.php:151
+msgid "Online"\nmsgstr ""\n\n#: templates/chatbot-widget.php:173
+msgid "AI disclosure"\nmsgstr ""\n\n#: templates/chatbot-widget.php:183
+msgid "Chat messages"\nmsgstr ""\n\n#: templates/chatbot-widget.php:192
+msgid "Suggested questions"\nmsgstr ""\n\n#: templates/chatbot-widget.php:204
+msgid "privacy policy"\nmsgstr ""\n\n#: templates/chatbot-widget.php:206
+msgid "By chatting you agree to our %s."\nmsgstr ""\n\n#: templates/chatbot-widget.php:217
+msgid "I agree to the privacy policy and start chatting"\nmsgstr ""\n\n#: templates/chatbot-widget.php:219
+msgid "I Agree"\nmsgstr ""\n\n#: templates/chatbot-widget.php:230
+msgid "Leave this field empty"\nmsgstr ""\n\n#: templates/chatbot-widget.php:247
+msgid "Your message"\nmsgstr ""\n\n#: templates/chatbot-widget.php:256
+msgid "Send message"\nmsgstr ""\n\n#: templates/chatbot-widget.php:270
+msgid "Powered by %1$sWP AI Chatbot%2$s"\nmsgstr ""\n\n#: wp-ai-chatbot.php:79
+msgid "WP AI Chatbot requires PHP %1$s or higher. Your server is running PHP %2$s. Please upgrade PHP."\nmsgstr ""\n\n#: wp-ai-chatbot.php:102
+msgid "WP AI Chatbot requires WordPress %1$s or higher. You are running %2$s. Please upgrade WordPress."\nmsgstr ""\n\n

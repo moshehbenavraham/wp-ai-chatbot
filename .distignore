@@ -14,9 +14,8 @@
 /mxchat-basic
 /baachal
 
-# Dependencies (dev-only; no production Composer deps yet)
+# Node dependencies (not shipped)
 /node_modules
-/vendor
 
 # Test, coverage, and logs
 /tests

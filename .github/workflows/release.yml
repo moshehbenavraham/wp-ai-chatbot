@@ -19,6 +19,29 @@ jobs:
         id: version
         run: echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
 
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer:v2
+
+      - name: Install production Composer dependencies
+        run: composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Node dependencies and minify assets
+        run: |
+          npm ci
+          npx esbuild assets/js/chatbot.js --bundle=false --minify --outfile=assets/js/chatbot.min.js
+          npx esbuild admin/js/admin.js --bundle=false --minify --outfile=admin/js/admin.min.js
+          npx esbuild assets/css/chatbot.css --bundle=false --minify --outfile=assets/css/chatbot.min.css
+          npx esbuild admin/css/admin.css --bundle=false --minify --outfile=admin/css/admin.min.css
+
       - name: Build release ZIP
         run: |
           mkdir -p build

@@ -32,7 +32,7 @@
 
 ## CI Environment
 
-Five GitHub Actions workflows:
+Six GitHub Actions workflows:
 
 | Workflow | Trigger | File |
 |----------|---------|------|
@@ -41,6 +41,7 @@ Five GitHub Actions workflows:
 | Security | Push/PR | `.github/workflows/security.yml` |
 | Integration | Push/PR | `.github/workflows/integration.yml` |
 | Release | Tag `v*` | `.github/workflows/release.yml` |
+| Operations | Weekly (Mon 08:00 UTC) + manual | `.github/workflows/operations.yml` |
 
 ## Production Notes
 

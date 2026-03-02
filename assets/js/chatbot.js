@@ -12,26 +12,24 @@
 
 /* global wpaicChatData */
 
-(function (global) {
-	'use strict';
-
+((global) => {
 	// =========================================================================
 	// Module constants
 	// =========================================================================
 
-	var VERSION = '1.0.0';
-	var INSTANCE_ATTR = 'data-wpaic-instance';
-	var SESSION_KEY_PREFIX = 'wpaic_session_';
-	var COOKIE_KEY_PREFIX = 'wpaic_sid_';
-	var COOKIE_DAYS = 30;
-	var TYPING_DELAY_MS = 300;
-	var MAX_SUGGESTIONS = 5;
+	const VERSION = '1.0.0';
+	const INSTANCE_ATTR = 'data-wpaic-instance';
+	const SESSION_KEY_PREFIX = 'wpaic_session_';
+	const COOKIE_KEY_PREFIX = 'wpaic_sid_';
+	const COOKIE_DAYS = 30;
+	const TYPING_DELAY_MS = 300;
+	const MAX_SUGGESTIONS = 5;
 
 	// =========================================================================
 	// Instance registry (supports multiple widgets per page)
 	// =========================================================================
 
-	var instances = {};
+	const instances = {};
 
 	// =========================================================================
 	// DOM helpers
@@ -46,9 +44,9 @@
 	}
 
 	function ce(tag, attrs, children) {
-		var el = document.createElement(tag);
+		const el = document.createElement(tag);
 		if (attrs) {
-			Object.keys(attrs).forEach(function (k) {
+			Object.keys(attrs).forEach((k) => {
 				if (k === 'className') {
 					el.className = attrs[k];
 				} else if (k === 'textContent') {
@@ -59,7 +57,7 @@
 			});
 		}
 		if (children) {
-			children.forEach(function (c) {
+			children.forEach((c) => {
 				if (typeof c === 'string') {
 					el.appendChild(document.createTextNode(c));
 				} else if (c) {
@@ -75,19 +73,19 @@
 	// =========================================================================
 
 	function getSessionToken(botSlug) {
-		var key = SESSION_KEY_PREFIX + botSlug;
+		const key = SESSION_KEY_PREFIX + botSlug;
 		try {
 			return localStorage.getItem(key) || '';
-		} catch (e) {
+		} catch (_e) {
 			return getCookie(COOKIE_KEY_PREFIX + botSlug);
 		}
 	}
 
 	function setSessionToken(botSlug, token) {
-		var key = SESSION_KEY_PREFIX + botSlug;
+		const key = SESSION_KEY_PREFIX + botSlug;
 		try {
 			localStorage.setItem(key, token);
-		} catch (e) {
+		} catch (_e) {
 			// Fall back to cookie.
 		}
 		// Always write cookie as backup.
@@ -97,32 +95,33 @@
 	function clearSessionToken(botSlug) {
 		try {
 			localStorage.removeItem(SESSION_KEY_PREFIX + botSlug);
-		} catch (e) {
+		} catch (_e) {
 			// ignore
 		}
 		setCookie(COOKIE_KEY_PREFIX + botSlug, '', -1);
 	}
 
 	function getCookie(name) {
-		var match = document.cookie.match(new RegExp('(?:^|;\\s*)' + name + '=([^;]*)'));
+		const match = document.cookie.match(new RegExp(`(?:^|;\\s*)${name}=([^;]*)`));
 		return match ? decodeURIComponent(match[1]) : '';
 	}
 
 	function setCookie(name, value, days) {
-		var expires = '';
+		let expires = '';
 		if (days) {
-			var d = new Date();
+			const d = new Date();
 			d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
-			expires = '; expires=' + d.toUTCString();
+			expires = `; expires=${d.toUTCString()}`;
 		}
-		document.cookie = name + '=' + encodeURIComponent(value) + expires + '; path=/; SameSite=Lax';
+		// biome-ignore lint/suspicious/noDocumentCookie: required for cookie fallback session storage
+		document.cookie = `${name}=${encodeURIComponent(value)}${expires}; path=/; SameSite=Lax`;
 	}
 
 	// =========================================================================
 	// XSS-safe HTML sanitization (DOMParser allowlist)
 	// =========================================================================
 
-	var ALLOWED_TAGS = [
+	const ALLOWED_TAGS = [
 		'A',
 		'STRONG',
 		'EM',
@@ -152,7 +151,7 @@
 		'TD',
 	];
 
-	var ALLOWED_ATTRS = {
+	const ALLOWED_ATTRS = {
 		A: ['href', 'title', 'target', 'rel'],
 		TD: ['colspan', 'rowspan'],
 		TH: ['scope', 'colspan', 'rowspan'],
@@ -160,45 +159,45 @@
 		'*': [],
 	};
 
-	var ALLOWED_HREF_SCHEMES = /^(https?:\/\/|mailto:|tel:|\/|#)/i;
+	const ALLOWED_HREF_SCHEMES = /^(https?:\/\/|mailto:|tel:|\/|#)/i;
 
 	function sanitizeBotHtml(html) {
-		var parser = new DOMParser();
-		var doc = parser.parseFromString('<body>' + html + '</body>', 'text/html');
+		const parser = new DOMParser();
+		const doc = parser.parseFromString(`<body>${html}</body>`, 'text/html');
 		sanitizeNode(doc.body);
 		return doc.body.innerHTML;
 	}
 
 	function sanitizeNode(node) {
-		var children = Array.prototype.slice.call(node.childNodes);
-		children.forEach(function (child) {
+		const children = Array.prototype.slice.call(node.childNodes);
+		children.forEach((child) => {
 			if (child.nodeType === 1) {
 				// Element node.
-				var tag = child.tagName.toUpperCase();
+				const tag = child.tagName.toUpperCase();
 				if (ALLOWED_TAGS.indexOf(tag) === -1) {
 					// Replace disallowed element with its text content.
-					var text = document.createTextNode(child.textContent || '');
+					const text = document.createTextNode(child.textContent || '');
 					node.replaceChild(text, child);
 					return;
 				}
 
 				// Strip disallowed attributes.
-				var attrsToRemove = [];
-				var allowedForTag = ALLOWED_ATTRS[tag] || ALLOWED_ATTRS['*'];
-				var globalAllowed = ['class']; // class is always allowed for styling
-				Array.prototype.slice.call(child.attributes).forEach(function (attr) {
-					var name = attr.name.toLowerCase();
+				const attrsToRemove = [];
+				const allowedForTag = ALLOWED_ATTRS[tag] || ALLOWED_ATTRS['*'];
+				const globalAllowed = ['class']; // class is always allowed for styling
+				Array.prototype.slice.call(child.attributes).forEach((attr) => {
+					const name = attr.name.toLowerCase();
 					if (allowedForTag.indexOf(name) === -1 && globalAllowed.indexOf(name) === -1) {
 						attrsToRemove.push(name);
 					}
 				});
-				attrsToRemove.forEach(function (a) {
+				attrsToRemove.forEach((a) => {
 					child.removeAttribute(a);
 				});
 
 				// Enforce safe link attributes.
 				if (tag === 'A') {
-					var href = child.getAttribute('href') || '';
+					const href = child.getAttribute('href') || '';
 					if (href && !ALLOWED_HREF_SCHEMES.test(href)) {
 						child.setAttribute('href', '#');
 					}
@@ -228,14 +227,14 @@
 	// =========================================================================
 
 	function buildFormData(instance, message) {
-		var data = new FormData();
+		const data = new FormData();
 		data.append('action', 'wpaic_chat');
 		data.append('nonce', wpaicChatData.nonce);
 		data.append('message', message);
 		data.append('bot_slug', instance.botSlug);
 		data.append('session_token', instance.sessionToken || '');
 
-		var ctx = extractPageContext();
+		const ctx = extractPageContext();
 		data.append('page_url', ctx.url);
 		data.append('page_title', ctx.title);
 
@@ -250,7 +249,7 @@
 	}
 
 	function sendMessage(instance, message, callbacks) {
-		var url = wpaicChatData.ajaxUrl;
+		const url = wpaicChatData.ajaxUrl;
 
 		if (wpaicChatData.streamEnabled) {
 			// SSE streaming via fetch + ReadableStream.
@@ -262,12 +261,12 @@
 	}
 
 	function sendAjax(instance, message, url, callbacks) {
-		var xhr = new XMLHttpRequest();
+		const xhr = new XMLHttpRequest();
 		xhr.open('POST', url, true);
-		xhr.onload = function () {
+		xhr.onload = () => {
 			// Parse WP JSON body for both success (2xx) and error (4xx/5xx) responses.
 			try {
-				var data = JSON.parse(xhr.responseText);
+				const data = JSON.parse(xhr.responseText);
 				if (data.success) {
 					if (data.data.session_token) {
 						instance.sessionToken = data.data.session_token;
@@ -275,50 +274,50 @@
 					}
 					callbacks.onDone(data.data.html || '', data.data.suggestions || []);
 				} else {
-					var errPayload = data.data && typeof data.data === 'object' ? data.data : {};
+					const errPayload = data.data && typeof data.data === 'object' ? data.data : {};
 					callbacks.onError(errPayload.message || wpaicChatData.i18n.error_generic, errPayload);
 				}
-			} catch (e) {
+			} catch (_e) {
 				callbacks.onError(wpaicChatData.i18n.error_generic, {});
 			}
 		};
-		xhr.onerror = function () {
+		xhr.onerror = () => {
 			callbacks.onError(wpaicChatData.i18n.error_network, {});
 		};
 		xhr.send(buildFormData(instance, message));
 	}
 
 	function sendStream(instance, message, url, callbacks) {
-		var body = buildFormData(instance, message);
-		var buffer = '';
+		const body = buildFormData(instance, message);
+		let buffer = '';
 
 		fetch(url, { method: 'POST', body: body })
-			.then(function (response) {
+			.then((response) => {
 				if (!response.ok) {
-					throw new Error('HTTP ' + response.status);
+					throw new Error(`HTTP ${response.status}`);
 				}
-				var reader = response.body.getReader();
-				var decoder = new TextDecoder();
+				const reader = response.body.getReader();
+				const decoder = new TextDecoder();
 
 				function readChunk() {
-					return reader.read().then(function (result) {
+					return reader.read().then((result) => {
 						if (result.done) {
 							return;
 						}
 						buffer += decoder.decode(result.value, { stream: true });
 
 						// Process complete SSE lines.
-						var lines = buffer.split('\n');
+						const lines = buffer.split('\n');
 						buffer = lines.pop(); // keep incomplete last line
 
-						lines.forEach(function (line) {
+						lines.forEach((line) => {
 							if (line.indexOf('data: ') === 0) {
-								var payload = line.slice(6).trim();
+								const payload = line.slice(6).trim();
 								if (payload === '[DONE]') {
 									return;
 								}
 								try {
-									var chunk = JSON.parse(payload);
+									const chunk = JSON.parse(payload);
 									if (chunk.type === 'delta' && chunk.text) {
 										callbacks.onChunk(chunk.text);
 									} else if (chunk.type === 'done') {
@@ -330,7 +329,7 @@
 									} else if (chunk.error) {
 										callbacks.onError(chunk.error);
 									}
-								} catch (e) {
+								} catch (_e) {
 									// Malformed chunk — skip.
 								}
 							}
@@ -342,7 +341,7 @@
 
 				return readChunk();
 			})
-			.catch(function () {
+			.catch(() => {
 				// Fallback: try sync AJAX.
 				sendAjax(instance, message, url, callbacks);
 			});
@@ -352,7 +351,7 @@
 	// Focus trap helpers
 	// =========================================================================
 
-	var FOCUSABLE_SELECTOR =
+	const FOCUSABLE_SELECTOR =
 		'a[href], button:not([disabled]):not([tabindex="-1"]), ' +
 		'input:not([disabled]):not([tabindex="-1"]), ' +
 		'select:not([disabled]):not([tabindex="-1"]), ' +
@@ -369,11 +368,11 @@
 	function trapFocus(container) {
 		function handler(e) {
 			if (e.key !== 'Tab') return;
-			var focusable = Array.prototype.slice.call(container.querySelectorAll(FOCUSABLE_SELECTOR));
+			const focusable = Array.prototype.slice.call(container.querySelectorAll(FOCUSABLE_SELECTOR));
 			if (focusable.length === 0) return;
 
-			var first = focusable[0];
-			var last = focusable[focusable.length - 1];
+			const first = focusable[0];
+			const last = focusable[focusable.length - 1];
 
 			if (e.shiftKey) {
 				if (document.activeElement === first) {
@@ -401,20 +400,18 @@
 	// States: 'idle' | 'open' | 'typing' | 'streaming'
 
 	function addMessage(instance, role, htmlOrText, isHtml) {
-		var transcript = qs('.wpaic-transcript', instance.panel);
+		const transcript = qs('.wpaic-transcript', instance.panel);
 		if (!transcript) return;
 
-		var row = ce('div', { className: 'wpaic-message wpaic-message--' + role });
-		var bubble = ce('div', { className: 'wpaic-bubble' });
+		const row = ce('div', { className: `wpaic-message wpaic-message--${role}` });
+		const bubble = ce('div', { className: 'wpaic-bubble' });
 
 		if (role === 'user') {
 			// User messages: always plain text to prevent DOM XSS.
 			bubble.textContent = htmlOrText;
 		} else {
 			// Bot messages: sanitized HTML.
-			var safeHtml = isHtml
-				? sanitizeBotHtml(htmlOrText)
-				: sanitizeBotHtml('<p>' + escapeHtml(htmlOrText) + '</p>');
+			const safeHtml = isHtml ? sanitizeBotHtml(htmlOrText) : sanitizeBotHtml(`<p>${escapeHtml(htmlOrText)}</p>`);
 			bubble.innerHTML = safeHtml;
 		}
 
@@ -426,11 +423,11 @@
 	}
 
 	function addTypingIndicator(instance) {
-		var transcript = qs('.wpaic-transcript', instance.panel);
+		const transcript = qs('.wpaic-transcript', instance.panel);
 		if (!transcript) return null;
 
-		var row = ce('div', { className: 'wpaic-message wpaic-message--bot wpaic-message--typing' });
-		var bubble = ce('div', { className: 'wpaic-bubble', 'aria-label': wpaicChatData.i18n.typing || 'Typing…' });
+		const row = ce('div', { className: 'wpaic-message wpaic-message--bot wpaic-message--typing' });
+		const bubble = ce('div', { className: 'wpaic-bubble', 'aria-label': wpaicChatData.i18n.typing || 'Typing…' });
 		// Animated dots: aria-hidden so AT reads the bubble label instead.
 		bubble.innerHTML =
 			'<span class="wpaic-dot" aria-hidden="true"></span>' +
@@ -444,13 +441,13 @@
 	}
 
 	function removeTypingIndicator(typingEl) {
-		if (typingEl && typingEl.parentNode) {
+		if (typingEl?.parentNode) {
 			typingEl.parentNode.removeChild(typingEl);
 		}
 	}
 
 	function showSuggestions(instance, suggestions) {
-		var container = qs('.wpaic-suggestions', instance.panel);
+		const container = qs('.wpaic-suggestions', instance.panel);
 		if (!container) return;
 
 		container.innerHTML = '';
@@ -461,13 +458,13 @@
 		}
 
 		container.style.display = 'flex';
-		suggestions.slice(0, MAX_SUGGESTIONS).forEach(function (text) {
-			var chip = ce('button', {
+		suggestions.slice(0, MAX_SUGGESTIONS).forEach((text) => {
+			const chip = ce('button', {
 				className: 'wpaic-suggestion-chip',
 				type: 'button',
 				textContent: text,
 			});
-			chip.addEventListener('click', function () {
+			chip.addEventListener('click', () => {
 				if (instance.state !== 'idle' && instance.state !== 'open') return;
 				container.style.display = 'none';
 				submitMessage(instance, text);
@@ -477,8 +474,8 @@
 	}
 
 	function setInputDisabled(instance, disabled) {
-		var input = qs('.wpaic-input', instance.panel);
-		var btn = qs('.wpaic-send-btn', instance.panel);
+		const input = qs('.wpaic-input', instance.panel);
+		const btn = qs('.wpaic-send-btn', instance.panel);
 		if (input) {
 			input.disabled = disabled;
 			// aria-disabled mirrors the disabled state for AT that may ignore native disabled.
@@ -499,11 +496,11 @@
 	}
 
 	function showError(instance, message) {
-		var transcript = qs('.wpaic-transcript', instance.panel);
+		const transcript = qs('.wpaic-transcript', instance.panel);
 		if (!transcript) return;
 
-		var row = ce('div', { className: 'wpaic-message wpaic-message--error' });
-		var bubble = ce('div', { className: 'wpaic-bubble' });
+		const row = ce('div', { className: 'wpaic-message wpaic-message--error' });
+		const bubble = ce('div', { className: 'wpaic-bubble' });
 		bubble.textContent = message;
 		row.appendChild(bubble);
 		transcript.appendChild(row);
@@ -518,25 +515,25 @@
 	 * @param {object} errData   Error payload {fallback_email, fallback_phone, fallback_url}.
 	 */
 	function showRateLimitFallback(instance, errData) {
-		var email = errData.fallback_email || '';
-		var phone = errData.fallback_phone || '';
-		var url = errData.fallback_url || '';
+		const email = errData.fallback_email || '';
+		const phone = errData.fallback_phone || '';
+		const url = errData.fallback_url || '';
 
 		if (!email && !phone && !url) {
 			return; // No fallback configured — nothing to show.
 		}
 
-		var transcript = qs('.wpaic-transcript', instance.panel);
+		const transcript = qs('.wpaic-transcript', instance.panel);
 		if (!transcript) return;
 
-		var row = ce('div', { className: 'wpaic-message wpaic-message--fallback' });
-		var bubble = ce('div', { className: 'wpaic-bubble' });
-		var links = [];
+		const row = ce('div', { className: 'wpaic-message wpaic-message--fallback' });
+		const bubble = ce('div', { className: 'wpaic-bubble' });
+		const links = [];
 
 		if (email) {
 			links.push(
 				ce('a', {
-					href: 'mailto:' + email,
+					href: `mailto:${email}`,
 					target: '_blank',
 					rel: 'noopener noreferrer',
 					textContent: email,
@@ -546,7 +543,7 @@
 		if (phone) {
 			links.push(
 				ce('a', {
-					href: 'tel:' + phone.replace(/\s/g, ''),
+					href: `tel:${phone.replace(/\s/g, '')}`,
 					textContent: phone,
 				}),
 			);
@@ -562,7 +559,7 @@
 			);
 		}
 
-		links.forEach(function (link, idx) {
+		links.forEach((link, idx) => {
 			bubble.appendChild(link);
 			if (idx < links.length - 1) {
 				bubble.appendChild(document.createTextNode(' · '));
@@ -575,7 +572,7 @@
 	}
 
 	function escapeHtml(str) {
-		var d = document.createElement('div');
+		const d = document.createElement('div');
 		d.textContent = str;
 		return d.innerHTML;
 	}
@@ -585,11 +582,11 @@
 	// =========================================================================
 
 	function createStreamBubble(instance) {
-		var transcript = qs('.wpaic-transcript', instance.panel);
+		const transcript = qs('.wpaic-transcript', instance.panel);
 		if (!transcript) return null;
 
-		var row = ce('div', { className: 'wpaic-message wpaic-message--bot wpaic-message--streaming' });
-		var bubble = ce('div', { className: 'wpaic-bubble' });
+		const row = ce('div', { className: 'wpaic-message wpaic-message--bot wpaic-message--streaming' });
+		const bubble = ce('div', { className: 'wpaic-bubble' });
 		row.appendChild(bubble);
 		transcript.appendChild(row);
 		transcript.scrollTop = transcript.scrollHeight;
@@ -614,16 +611,16 @@
 		addMessage(instance, 'user', message, false);
 
 		// Clear input field.
-		var input = qs('.wpaic-input', instance.panel);
+		const input = qs('.wpaic-input', instance.panel);
 		if (input) input.value = '';
 
 		// Show typing indicator.
-		var typingEl = addTypingIndicator(instance);
+		let typingEl = addTypingIndicator(instance);
 
-		var streamBubble = null;
+		let streamBubble = null;
 
-		var callbacks = {
-			onChunk: function (text) {
+		const callbacks = {
+			onChunk: (text) => {
 				if (!streamBubble) {
 					// First chunk: remove typing indicator, create stream bubble.
 					removeTypingIndicator(typingEl);
@@ -635,11 +632,11 @@
 					streamBubble.text += text;
 					// During streaming, render as plain text (safety).
 					streamBubble.bubble.textContent = streamBubble.text;
-					var transcript = qs('.wpaic-transcript', instance.panel);
+					const transcript = qs('.wpaic-transcript', instance.panel);
 					if (transcript) transcript.scrollTop = transcript.scrollHeight;
 				}
 			},
-			onDone: function (html, suggestions) {
+			onDone: (html, suggestions) => {
 				removeTypingIndicator(typingEl);
 				typingEl = null;
 
@@ -658,18 +655,18 @@
 				setInputDisabled(instance, false);
 
 				// Focus input.
-				var inp = qs('.wpaic-input', instance.panel);
+				const inp = qs('.wpaic-input', instance.panel);
 				if (inp) inp.focus();
 			},
-			onError: function (msg, errData) {
+			onError: (msg, errData) => {
 				removeTypingIndicator(typingEl);
 				typingEl = null;
-				if (streamBubble && streamBubble.row.parentNode) {
+				if (streamBubble?.row.parentNode) {
 					streamBubble.row.parentNode.removeChild(streamBubble.row);
 					streamBubble = null;
 				}
 
-				var isRateLimit = errData && errData.code === 'wpaic_rate_limit';
+				const isRateLimit = errData && errData.code === 'wpaic_rate_limit';
 
 				showError(instance, msg || wpaicChatData.i18n.error_generic);
 
@@ -693,21 +690,21 @@
 	// =========================================================================
 
 	function initGdprConsent(instance) {
-		var consentBanner = qs('.wpaic-consent', instance.panel);
+		const consentBanner = qs('.wpaic-consent', instance.panel);
 		if (!consentBanner) {
 			instance.gdprAccepted = true;
 			return;
 		}
 
 		// Check if already accepted (stored in localStorage).
-		var storageKey = 'wpaic_gdpr_' + instance.botSlug;
+		const storageKey = `wpaic_gdpr_${instance.botSlug}`;
 		try {
 			if (localStorage.getItem(storageKey) === '1') {
 				instance.gdprAccepted = true;
 				consentBanner.style.display = 'none';
 				return;
 			}
-		} catch (e) {
+		} catch (_e) {
 			// ignore
 		}
 
@@ -715,16 +712,16 @@
 		setInputDisabled(instance, true);
 		instance.gdprAccepted = false;
 
-		var acceptBtn = qs('.wpaic-consent__accept', consentBanner);
+		const acceptBtn = qs('.wpaic-consent__accept', consentBanner);
 		if (acceptBtn) {
-			acceptBtn.addEventListener('click', function () {
+			acceptBtn.addEventListener('click', () => {
 				instance.gdprAccepted = true;
 				try {
 					localStorage.setItem(storageKey, '1');
-				} catch (e) {}
+				} catch (_e) {}
 				consentBanner.style.display = 'none';
 				setInputDisabled(instance, false);
-				var inp = qs('.wpaic-input', instance.panel);
+				const inp = qs('.wpaic-input', instance.panel);
 				if (inp) inp.focus();
 			});
 		}
@@ -747,10 +744,10 @@
 		instance.focusTrapCleanup = trapFocus(instance.panel);
 
 		// Focus first interactive element.
-		setTimeout(function () {
-			var inp = qs('.wpaic-input', instance.panel);
+		setTimeout(() => {
+			const inp = qs('.wpaic-input', instance.panel);
 			if (!instance.gdprAccepted) {
-				var btn = qs('.wpaic-consent__accept', instance.panel);
+				const btn = qs('.wpaic-consent__accept', instance.panel);
 				if (btn) btn.focus();
 			} else if (inp) {
 				inp.focus();
@@ -787,21 +784,21 @@
 	// =========================================================================
 
 	function initWidget(widgetEl) {
-		var instanceId = widgetEl.getAttribute(INSTANCE_ATTR);
+		const instanceId = widgetEl.getAttribute(INSTANCE_ATTR);
 		if (!instanceId || instances[instanceId]) return; // already initted
 
-		var launcher = qs('.wpaic-launcher', widgetEl);
-		var panel = qs('.wpaic-panel', widgetEl);
-		var form = qs('.wpaic-form', widgetEl);
-		var input = qs('.wpaic-input', widgetEl);
+		const launcher = qs('.wpaic-launcher', widgetEl);
+		const panel = qs('.wpaic-panel', widgetEl);
+		const form = qs('.wpaic-form', widgetEl);
+		const input = qs('.wpaic-input', widgetEl);
 
 		if (!launcher || !panel || !form || !input) {
 			return; // malformed widget HTML
 		}
 
-		var botSlug = widgetEl.getAttribute('data-bot-slug') || 'default';
+		const botSlug = widgetEl.getAttribute('data-bot-slug') || 'default';
 
-		var instance = {
+		const instance = {
 			id: instanceId,
 			widgetEl: widgetEl,
 			launcher: launcher,
@@ -819,7 +816,7 @@
 		initGdprConsent(instance);
 
 		// Launcher toggle.
-		launcher.addEventListener('click', function () {
+		launcher.addEventListener('click', () => {
 			if (instance.state === 'idle') {
 				openWidget(instance);
 			} else {
@@ -828,23 +825,23 @@
 		});
 
 		// Close button inside panel.
-		var closeBtn = qs('.wpaic-close-btn', panel);
+		const closeBtn = qs('.wpaic-close-btn', panel);
 		if (closeBtn) {
-			closeBtn.addEventListener('click', function () {
+			closeBtn.addEventListener('click', () => {
 				closeWidget(instance);
 			});
 		}
 
 		// Form submission.
-		form.addEventListener('submit', function (e) {
+		form.addEventListener('submit', (e) => {
 			e.preventDefault();
 			if (!instance.gdprAccepted) return;
-			var msg = input.value;
+			const msg = input.value;
 			submitMessage(instance, msg);
 		});
 
 		// Enter key (no shift) submits.
-		input.addEventListener('keydown', function (e) {
+		input.addEventListener('keydown', (e) => {
 			if (e.key === 'Enter' && !e.shiftKey) {
 				e.preventDefault();
 				if (!instance.gdprAccepted) return;
@@ -853,7 +850,7 @@
 		});
 
 		// Keyboard trap: Escape closes the panel.
-		panel.addEventListener('keydown', function (e) {
+		panel.addEventListener('keydown', (e) => {
 			if (e.key === 'Escape') {
 				closeWidget(instance);
 			}
@@ -870,7 +867,7 @@
 	// =========================================================================
 
 	function initInlineWidgets() {
-		qsa('[' + INSTANCE_ATTR + ']').forEach(function (el) {
+		qsa(`[${INSTANCE_ATTR}]`).forEach((el) => {
 			initWidget(el);
 		});
 	}
@@ -879,7 +876,7 @@
 	// Public API (window.WPAICChat)
 	// =========================================================================
 
-	var WPAICChat = {
+	const WPAICChat = {
 		version: VERSION,
 		instances: instances,
 
@@ -888,11 +885,11 @@
 		 *
 		 * @param {Element|string} target Widget element or INSTANCE_ATTR value.
 		 */
-		init: function (target) {
+		init: (target) => {
 			if (typeof target === 'string') {
-				var el = qs('[' + INSTANCE_ATTR + '="' + target + '"]');
+				const el = qs(`[${INSTANCE_ATTR}="${target}"]`);
 				if (el) initWidget(el);
-			} else if (target && target.nodeType) {
+			} else if (target?.nodeType) {
 				initWidget(target);
 			}
 		},
@@ -902,8 +899,8 @@
 		 *
 		 * @param {string} instanceId
 		 */
-		open: function (instanceId) {
-			var inst = instances[instanceId];
+		open: (instanceId) => {
+			const inst = instances[instanceId];
 			if (inst) openWidget(inst);
 		},
 
@@ -912,8 +909,8 @@
 		 *
 		 * @param {string} instanceId
 		 */
-		close: function (instanceId) {
-			var inst = instances[instanceId];
+		close: (instanceId) => {
+			const inst = instances[instanceId];
 			if (inst) closeWidget(inst);
 		},
 
@@ -922,7 +919,7 @@
 		 *
 		 * @param {string} botSlug
 		 */
-		clearSession: function (botSlug) {
+		clearSession: (botSlug) => {
 			clearSessionToken(botSlug);
 		},
 	};

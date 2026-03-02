@@ -4,11 +4,11 @@
  * Plugin Name:       WP AI Chatbot
  * Plugin URI:        https://github.com/aiwithapex/wp-ai-chatbot
  * Description:       Ultimate AI chatbot plugin for WordPress — provider-agnostic, RAG-enabled, streaming-capable.
- * Version:           1.0.2
+ * Version:           1.0.3
  * Requires at least: 5.0
  * Requires PHP:      7.4
  * Author:            aiwithapex
- * License:           GPL-2.0-or-later
+ * License:           MIT
  * Text Domain:       wp-ai-chatbot
  * Domain Path:       /languages
  */
@@ -22,7 +22,7 @@ if (! defined('ABSPATH')) {
 // Version must match the Plugin Name header — enforced by release workflow.
 // =============================================================================
 
-define('WPAIC_VERSION', '1.0.2');
+define('WPAIC_VERSION', '1.0.3');
 define('WPAIC_MIN_PHP', '7.4');
 define('WPAIC_MIN_WP', '5.0');
 define('WPAIC_TEXT_DOMAIN', 'wp-ai-chatbot');

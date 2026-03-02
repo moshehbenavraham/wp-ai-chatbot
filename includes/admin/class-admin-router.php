@@ -138,20 +138,24 @@ final class Admin_Router
 			return; // Not a plugin page.
 		}
 
+		$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
+		$version = defined('WPAIC_VERSION') ? WPAIC_VERSION : '1.0.0';
+		$admin_url = defined('WPAIC_ADMIN_URL') ? WPAIC_ADMIN_URL : '';
+
 		// Enqueue shared admin stylesheet.
 		wp_enqueue_style(
 			'wpaic-admin',
-			defined('WPAIC_ADMIN_URL') ? WPAIC_ADMIN_URL . 'css/admin.css' : '',
+			$admin_url . 'css/admin' . $suffix . '.css',
 			[],
-			defined('WPAIC_VERSION') ? WPAIC_VERSION : '1.0.0'
+			$version
 		);
 
 		// Enqueue shared admin JS.
 		wp_enqueue_script(
 			'wpaic-admin',
-			defined('WPAIC_ADMIN_URL') ? WPAIC_ADMIN_URL . 'js/admin.js' : '',
+			$admin_url . 'js/admin' . $suffix . '.js',
 			[],
-			defined('WPAIC_VERSION') ? WPAIC_VERSION : '1.0.0',
+			$version,
 			true
 		);
 

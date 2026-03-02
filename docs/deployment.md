@@ -24,6 +24,7 @@ npm test
 ```
 Push/PR --> Quality --> Test --> Security --> Integration
 Tag v* --> Build (rsync) --> ZIP --> GitHub Release
+Weekly  --> Operations (npm audit + composer audit)
 ```
 
 ### Quality Workflow
@@ -69,6 +70,15 @@ Triggered by tags matching `v*`:
 1. rsync build (excludes dev files per `.distignore`)
 2. ZIP artifact created
 3. Published as GitHub Release via `softprops/action-gh-release@v2`
+
+### Operations Workflow
+
+File: `.github/workflows/operations.yml`
+
+Runs every Monday at 08:00 UTC (and on manual dispatch):
+
+- npm audit (high + critical)
+- Composer audit
 
 ## Release Process
 

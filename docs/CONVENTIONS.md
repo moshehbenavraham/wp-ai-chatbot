@@ -117,7 +117,7 @@
 |---------|---------|-----------------|
 | PHP | >=7.4 (via Docker php:8.3-cli) | Composer (via Docker) |
 | JavaScript | Vanilla (no build) | npm (via nvm) |
-| Node.js | v22.22.0 | npm 10.9.4 |
+| Node.js | v25.6.1 | npm 10.5.1 |
 | Python | 3.12.3 | pip |
 
 ## Local Dev Tools
@@ -139,7 +139,7 @@
 | Build & Test | configured | .github/workflows/test.yml |
 | Security | configured | .github/workflows/security.yml |
 | Integration | configured | .github/workflows/integration.yml |
-| Operations | not configured | - |
+| Operations | configured | .github/workflows/operations.yml |
 
 Platform: GitHub Actions
 

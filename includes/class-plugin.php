@@ -434,9 +434,11 @@ final class Plugin
 			return;
 		}
 
+		$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
+
 		wp_enqueue_style(
 			'wpaic-chatbot',
-			WPAIC_ASSETS_URL . 'css/chatbot.css',
+			WPAIC_ASSETS_URL . 'css/chatbot' . $suffix . '.css',
 			[],
 			WPAIC_VERSION
 		);
@@ -453,7 +455,7 @@ final class Plugin
 
 		wp_enqueue_script(
 			'wpaic-chatbot',
-			WPAIC_ASSETS_URL . 'js/chatbot.js',
+			WPAIC_ASSETS_URL . 'js/chatbot' . $suffix . '.js',
 			[],
 			WPAIC_VERSION,
 			true
@@ -692,8 +694,9 @@ final class Plugin
 
 		// Enqueue assets if not already done (shortcode used inside content).
 		if (! wp_script_is('wpaic-chatbot', 'enqueued')) {
-			wp_enqueue_style('wpaic-chatbot', WPAIC_ASSETS_URL . 'css/chatbot.css', [], WPAIC_VERSION);
-			wp_enqueue_script('wpaic-chatbot', WPAIC_ASSETS_URL . 'js/chatbot.js', [], WPAIC_VERSION, true);
+			$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
+			wp_enqueue_style('wpaic-chatbot', WPAIC_ASSETS_URL . 'css/chatbot' . $suffix . '.css', [], WPAIC_VERSION);
+			wp_enqueue_script('wpaic-chatbot', WPAIC_ASSETS_URL . 'js/chatbot' . $suffix . '.js', [], WPAIC_VERSION, true);
 			wp_localize_script('wpaic-chatbot', 'wpaicChatData', $this->get_frontend_script_data());
 		}
 
