@@ -43,7 +43,7 @@
 		"@vitest/coverage-v8": "^4.0.18",
 		"happy-dom": "^20.7.0",
 		"husky": "^9.1.7",
-		"lint-staged": "^16.3.0",
+		"lint-staged": "^16.3.1",
 		"vitest": "^4.0.18"
 	}
 }
