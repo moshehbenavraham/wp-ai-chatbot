@@ -50,7 +50,7 @@ jobs:
           zip -r "../wp-ai-chatbot-${{ steps.version.outputs.version }}.zip" wp-ai-chatbot/
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           files: wp-ai-chatbot-${{ steps.version.outputs.version }}.zip
           generate_release_notes: true
