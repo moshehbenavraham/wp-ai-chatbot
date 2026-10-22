@@ -41,7 +41,7 @@
 	"devDependencies": {
 		"@biomejs/biome": "^2.4.4",
 		"@vitest/coverage-v8": "^4.0.18",
-		"happy-dom": "^20.7.0",
+		"happy-dom": "^20.8.4",
 		"husky": "^9.1.7",
 		"lint-staged": "^16.4.0",
 		"vitest": "^4.0.18"
